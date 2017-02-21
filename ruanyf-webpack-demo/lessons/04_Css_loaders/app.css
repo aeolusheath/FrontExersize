@@ -1,0 +1,9 @@
+body {
+    background-color: lightblue
+}
+.special {
+    background-color: indianred
+}
+:local(.spanTip){
+    background-color: orangered
+}

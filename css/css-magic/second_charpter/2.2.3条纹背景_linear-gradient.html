@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        .spec-bg {
+            background: linear-gradient( 0deg, blue, green 40%, red );
+            width: 100px;
+            height: 60px;
+            margin-bottom: 30px;
+        }
+        div.showcase {
+            width: 300px;
+            height: 120px;
+            margin: 40px auto;
+        }
+        div.first-div {
+            background: linear-gradient(#fb3 20%, #58a 80%);
+            /*background-size: 100% 20px;*/
+        }        
+        div.second-div {
+            background: linear-gradient(#fb3 50%, #58a 50%);
+            /*background-size: 100% 20px;*/
+        }
+        div.third-div {
+            background: linear-gradient(#fb3 50%, #58a 50%);
+            background-size: 100% 40px;
+        }        
+        div.fouth-div {
+            background: linear-gradient(#fb3 60%, #58a 60%);
+            background-size: 100% 40px;
+        }    
+        div.fifth-div {
+            background: linear-gradient(#fb3 33.3%, #58a 0, #58a 66.6%, greenyellow 0);
+            background-size: 100% 40px;
+        }              
+        h1,h2,h3,h4,h5 {
+            text-align: center;
+        }
+        .emphersize {
+            color: lightseagreen
+        }
+        .bold {
+          font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div>
+
+    </div>
+    <h3>
+        利用linear-graident 生成条纹背景
+    </h3>
+    <div>
+          second-div 的这个 linear-gradient值省略了第一个默认值,实际上是这样的
+            <code>
+                background: linear-gradient(to bottom ,#fb3 50%, #58a 50%);
+            </code>
+        <br>
+        <br>
+         很简单就是理解成从上到下的颜色渐变，开始的颜色是 #fb3也就是橙色，结束的颜色是 #58a 
+         <br>
+         看下面第一个图,他的开始和结束颜色设置的值是20%, 80%， 而第二个图 都是50%，这样理解 ，第一个值是过渡范围的起点，第二个值是过渡范围的终点，
+         那既然起点和终点都是50%，那过渡效果就趋近于无穷小，那就形成了两个颜色条纹了！
+    </div>
+
+
+
+    <div class="first-div showcase">
+
+    </div>
+
+    <div class="second-div showcase">
+
+    </div>
+
+    <p>如果我们要使他重复怎么办 ，可以使用background-size 来调整尺寸</p>
+    <p>
+    div.third-div {
+            background: linear-gradient(#fb3 50%, #58a 50%);
+            background-size: 100% 20px;
+        }
+    </p>
+    <div class="third-div showcase"></div>
+
+    
+
+    <p>当然我们可以控制两个条纹的宽度,比如要使得橙色占60%,那将两个值都调整为60%</p>
+    <p>
+    div.fouth-div {
+            background: linear-gradient(#fb3 60%, #58a 60%);
+            background-size: 100% 20px;
+        }
+    </p>
+    <div class="fouth-div showcase"></div>
+
+    <p> 下面w3c的规范来了： </p>
+    <p class="emphersize">
+      如果某个色标的位置值比整个列表中它之前的色标的位置值都要 <span class="bold">小</span>， 则该色标的位置值会被设置为它前面所有色标位置值得最大值。
+    </p>
+    <p>上面 fouth-div 可以改成这样： </p>
+    <p> 
+      div.fouth-div { background: linear-gradient(#fb3 60%, #58a 0); background-size: 100% 20px; }
+    </p>
+
+
+
+    <p>实际上我们可以创建超过两种颜色的条纹</p>
+    <p> 
+        background: linear-gradient(#fb3 33.3%, #58a 0, #58a 66.6%, greenyellow 0);
+        
+    </p>
+    <div class="fifth-div showcase">
+
+    </div>
+</body>
+</html>

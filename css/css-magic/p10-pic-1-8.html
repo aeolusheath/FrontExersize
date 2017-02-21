@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <style>
+            .rectangle {
+                border : 1px solid #ddd;
+                background-color: white;
+                height: 300px;
+                margin-top: 30px;
+
+                position: relative;
+                margin-bottom: 30px;
+            }
+            .rectangle:before {
+                position: absolute;
+                content: '';
+                border: inherit;
+                padding: 10px;
+                border-right: 0;
+                border-bottom: 0;
+                transform: rotate(45deg);
+                top: -11px;
+                background: inherit;
+                left: 45px;
+            }
+            .test {
+                display: block;
+                width: 0;
+                height: 0;
+                border-width: 0 10px 10px;
+                border-style: solid;
+                border-color: transparent transparent #e8eff2;                
+            }
+        </style>
+    </head>
+    <body>
+        <div class="rectangle">
+            hello it's  me  I was wandering about me 
+            <!--<div class="triangle">
+
+            </div>-->
+        </div>
+
+        <div class="test">
+
+        </div>
+    </body>
+</html>

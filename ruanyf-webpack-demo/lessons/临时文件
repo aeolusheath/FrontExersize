@@ -1,0 +1,415 @@
+# Webpack2 起步
+
+标签（空格分隔）： webpack
+
+---
+![webpack-logo][1]
+
+当相应文档完成的时候,webpack2也就测试完毕,但是这并不意味着现在你不能使用webpack2,如果你知道如何配置它。
+
+##What is webpack
+简而言之，webpack是一个javascript模块打包工具。但是它可以用来托管并且管理你所有的前端代码（至少它被开发出来的目的或者说社区希望达到的目标是这样的）
+
+![old-task-runner][2]
+
+The old task runner way: your markup, styles, and JavaScript are isolated. You must manage each separately, and it’s your job to make sure everything gets to production properly.
+一些先出来的构建工具执行任务的方式是： 你的标记语言， 样式  以及javascipt是分离的。你必须分开的去管理他们，并且你要确保每一项在生产环境中都是合适的状态。
+
+A task runner such as Gulp can handle many different preprocessers and transpilers, but in all cases, it will take a source input and crunch it into a compiled output. However, it does this on a case-by-case basis with no concern for the system at large. That is the burden of the developer: to pick up where the task runner left off and find the proper way for all these moving parts to mesh together in production.
+比如gulp可以担当预处理器和转换器的角色，但是每一个场景下，它都会有源输入(目录或者文件)和一个编译打包后的目标输出(目录或者文件)。但是它仅仅是按照这个规则一个接着一个的执行却没有在宏观上去考虑如何和整个应用更好的结合。这会给开发者带来一些负担：如何选择以及怎样筛选合适的任务处理器；在生产环境中去将这些分离的部件很好的啮合到一起。
+
+
+Webpack attempts to lighten the developer load a bit by asking a bold question: what if there were a part of the development process that handled dependencies on its own? What if we could simply write code in such a way that the build process managed itself, based on only what was necessary in the end?
+Webpck抛出一些问题： 如果在开发的过程中某一个工具会自行帮我们处理应用中模块之间的依赖，如果我们基于这样一个目的： 构建基于特定且重要的输出结果的自我管理 来编写简单的代码  会给开发者带来什么？
+
+![这里写图片描述](https://cdn-images-1.medium.com/max/800/1*TOFfoH0cXTc8G3Y_F6j3Jg.png)
+
+The webpack way: if webpack knows about it, it bundles only what you’re *actually* using to production.
+webpack的方式： 如果webpack知道你想要什么,他只会打包生产环境中实际用得到的模块。
+
+If you’ve been a part of the web community for the past few years, you already know the preferred method of solving a problem: build this with JavaScript. And so webpack attempts to make the build process easier by passing dependencies through JavaScript. But the true power of its design isn’t simply the code management part; it’s that this management layer is 100% valid JavaScript (with Node features). Webpack gives you the ability to write valid JavaScript that has a better sense of the system at large.
+如果你在最近几年活跃在各大web社区，我想你已经知道了解决问题的办法了： 使用javascript来实现。  Webpack尝试去使用javascript来处理模块之间的依赖使构建过程更加简单。 但是这个设想强大的地方不是仅仅的模块管理，而是整个构建层面100%是由javascript来实现，伴随node的特性，它可以做的更多。Webpack让你能够写出更契合系统的有效的javascript代码。
+
+In other words: you don’t write code for webpack. You write code for your project. And webpack keeps up (with some config, of course).
+换句话说：你不必为webpack编写代码，单纯的for your project。
+但是webpack能够和你的项目完美共生（当然需要增加一些配置，如果你的项目有新的构建需求）
+
+In a nutshell, if you’ve ever struggled with any of the following:
+简而言之, 如果你曾经被下面的问题困扰过：
+Loading dependencies out of order
+Including unused CSS or JS in production
+Accidentally double-loading (or triple-loading) libraries
+Encountering scoping issues—both from CSS and JavaScript
+Finding a good system for using Node/Bower modules in your JavaScript, or relying on a crazy backend configuration to properly utilize those modules
+Needing to optimize asset delivery better but fearing you’ll break something
+
+ - 模块加载的顺序问题
+ - 在生产环境中引用了没有被使用的css和js
+ - 意外的加载了一些库多次
+ - 作用域引发的问题（css 和 js中都会遇到）
+ - 寻找一个好的工具以便更好使用node / bower  javascript 模块，如果它能通过配置去帮你优化这些模块就更棒了
+ - 优化项目的时候害怕对项目造成破坏
+
+
+
+…then you could benefit from webpack. It handles all the above effortlessly by letting JavaScript worry about your dependencies and load order instead of your developer brain. The best part? Webpack can even run purely on the server side, meaning you can still build progressively-enhanced websites using webpack.
+
+那么webpack应该会帮助到你，上面提到的问题，它都能通过javascript来解决。最棒的是什么？ Webpack可以纯粹的在服务端运行，这意味着你可以使用webpack来开发渐进增强(progressively-enhanced)的websites。
+
+##First Steps
+We’ll use Yarn (brew install yarn) in this tutorial instead of npm, but it’s totally up to you; they do the same thing. From our project folder, we’ll run the following in a terminal window to add webpack to both our global packages and our local project:
+我们使用的是Yarn(brew install yarn)，没有用npm，这不影响我们的后面的demo，他们达到的目的是一样的。我们在执行下面的命令，将webpack添加到全局module和本地项目中。
+```	
+yarn global add webpack@beta webpack-dev-server@beta
+yarn add --dev webpack@beta webpack-dev-server@beta
+```
+
+We’ll then declare a webpack configuration with a webpack.config.js file in the root of our project directory:
+
+我们新建一个webpack配置文件，在我们项目的根目录下面
+```
+const path = require('path');
+const webpack = require('webpack');
+module.exports = {
+  context: path.resolve(__dirname, './src'),
+  entry: {
+    app: './app.js',
+  },
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].bundle.js',
+  },
+};
+```
+
+Note:  `__dirname` 指向当前项目的根目录
+
+Remember that webpack “knows” what’s going in your project? It knows by reading your code (don’t worry; it signed an NDA). Webpack basically does the following:
+
+Webpack通过阅读你的代码 可以‘知道’项目中运行的内容（‘别担心，它签了保密协议的’），webpack做了下面几件事：
+
+ 1. Starting from the context folder, … 。 从`context`目录启动， ...
+ 2. … it looks for entry filenames …。 ...它通过entry去寻找入口文件(这里对应着是app.js这个文件)...
+ 3. … and reads the content. Every import (ES6) or require() (Node) dependency it finds as it parses the code, it bundles for the final build. It then searches those dependencies, and those dependencies’ dependencies, until it reaches the very end of the “tree”—only bundling what it needed to, and nothing else。 ... 读取内容，只要遇到import 和require 引入的依赖，它就会帮我们先转换，这一步是为绑定到最终的目标文件里面做准备。然后它会去寻找该模块的依赖，该模块的依赖的依赖包，依次往上知道达到没有依赖的位置，然后将所有使用到的依赖包绑定到目标文件。
+ 4. From there, webpack bundles everything to the output.path folder, naming it using the output.filename naming template ([name] gets replaced with the object key from entry) 到这一步，webpack将所有的文件都已经打包到了`output.path`目录下面，并且是以`output.filename`命名的（[name]将会被entry的key替换）。
+
+So if our src/app.js file looked something like this (assuming we ran yarn add moment beforehand):
+如果`src/app.js`如下，你需要添加moment到项目中(` yarn add moment`)
+```
+import moment from 'moment';
+var rightNow = moment().format('MMMM Do YYYY, h:mm:ss a');
+console.log(rightNow);
+// "October 23rd 2016, 9:30:24 pm"
+```
+
+然后运行
+
+```
+webpack -p
+```
+Note: The p flag is “production” mode and uglifies/minifies output. 这个-p参数 全名字是 production，它会帮我们压缩输出的文件。
+And it would output a dist/app.bundle.js that logged the current date & time to the console. Note that webpack automatically knew what 'moment' referred to (although if you had a moment.js file in your directory, by default webpack would have prioritized this over your moment Node module).
+你会看到在`dist/app.bundle.js` 里面记录了日期时间并且有console语句。注意到webpack自动将`moment`引入了，因为app.js文件里面require了这个包。（尽管如果你当前目录有一个moment.js的文件，然而webpack会优先引用Node Module里面的moment module）
+
+
+##Working with Multiple Files
+##多个入口文件
+You can specify any number of entry/output points you wish by modifying only the entry object.
+你可以修改entry对象来指定任意数量的入口/输出文件，entry的值可以是字符串，数组，对象。
+
+####多个文件，一起打包
+
+```
+const path = require('path');
+const webpack = require('webpack');
+module.exports = {
+  context: path.resolve(__dirname, './src'),
+  entry: {
+    app: ['./home.js', './events.js', './vendor.js'],
+  },
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].bundle.js',
+  },
+};
+```
+
+Will all be bundled together as one dist/app.bundle.js file, in array order. 最终会将这3个文件一起打包进`disa/app.bundle.js`文件，按照数组的索引来排序
+
+####Multiple files, multiple outputs
+####多个入口文件，多个输出文件
+```
+const path = require('path');
+const webpack = require('webpack');
+module.exports = {
+  context: path.resolve(__dirname, './src'),
+  entry: {
+    home: './home.js',
+    events: './events.js',
+    contact: './contact.js',
+  },
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].bundle.js',
+  },
+};
+```
+ 当然你也可以选择将多个js文件打包进你的app，在dist目录下会有三个文件 `home.bundle.js`, `events.bundle.js`，`contact.bundle.js`
+
+####Advanced auto-bundling
+####高级 自动绑定
+If you’re breaking up your application into multiple output bundles (useful if one part of your app has a ton of JS you don’t need to load up front), there’s a likelihood you may be duplicating code across those files, because it will resolve each dependency separately from one another. Fortunately, webpack has a built-in CommonsChunk plugin to handle this:
+
+如果你将你的应用分别打包，输出多个文件（如果你的app内部存在巨量的js，而这个js你不需要提前加载这就有必要了），有可能在打包之后的多个文件可能有重复的代码，因为webpack将多个文件内需要的依赖依次打包进了多个目标文件里面。幸运的是 webpack提供了内置的CommonsChunk插件来解决这个问题：
+
+```
+module.exports = {
+  // …
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons',
+      filename: 'commons.js',
+      minChunks: 2,
+    }),
+  ],
+// …
+};
+```
+Now, across your output files, if you have any modules that get loaded 2 or more times (set by minChunks), it will bundle that into a commons.js file which you can then cache on the client side. This will result in an additional header request, sure, but you prevent the client from downloading the same libraries more than once. So there are many scenarios where this is a net gain for speed.
+现在，在你的输出目标文件内，如果有任何模块被加载了2次（这个是由参数`minChunks`来决定的），那么这个模块将会被打包进一个名字为common.js(看上面代码由参数`filename`来决定)这个文件可以缓存到客户端，虽然多一次额外的网络请求，但是这也阻止了客户端多次下载重复的库。许多情况下都是这样网络换取速度。
+
+
+####Developing
+####开发
+Developing
+Webpack actually has its own development server, so whether you’re developing a static site or are just prototyping your front-end, it’s perfect for either. To get that running, just add a devServer object to 
+
+Webpack 实际上有它自己的开发服务器，因此无论你正在开发一个静态页面或者做前端原型，它都非常适合。你可以增加一个`devServer` 对象 在
+`webpack.config.js`
+
+```
+module.exports = {
+  context: path.resolve(__dirname, './src'),
+  entry: {
+    app: './app.js',
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, './dist/assets'),
+    publicPath: '/assets',                          // New
+  },
+  devServer: {
+    contentBase: path.resolve(__dirname, './src'),  // New
+  },
+};
+```
+
+在`src/index.html`增加下面代码：
+```
+<script src="/assets/app.bundle.js"></script>
+```
+
+终端里面运行
+```
+webpack-dev-server
+```你的服务器已经运行在8080端口上。请注意在scipt标签里面的 `/assets` ，它匹配的是output对象里面的publicPath（类似于express里面的静态目录），你可以任意命名，这一点在cdn加速的时候特别有用。
+Your server is now running at localhost:8080. Note how /assets in the script tag matches output.publicPath—you can name this whatever you want (useful if you need a CDN).
+
+
+####Globally-accessible methods
+#### 暴露全局对象的方法
+
+Need to use some of your functions from a global namespace? Simply set output.library within webpack.config.js:
+
+要用全局命名空间里面的特定函数？在`webpack.config.js`里面配置`output.library`
+
+```
+module.exports = {
+  output: {
+    library: 'myClassName',
+  }
+};
+```
+
+… and it will attach your bundle to a window.myClassName instance. So using that name scope, you could call methods available to that entry point (you can read more about this setting on the documentation).
+
+...这会在window对象上绑定一个myClassName的实例,现在在入口文件里面可以调用这个实例里面的方法，或者值。
+
+
+
+####Loaders
+####加载器
+Up until now, we’ve only covered working with JavaScript. It’s important to start with JavaScript because that’s the only language webpack speaks. We can work with virtually any file type, as long as we pass it into JavaScript. We do that with Loaders.
+到目前为止，我们用到的语言仅仅是javascript, 这是必要的因为Webpack使用的唯一语言就是它 webpack自身只能处理javascript模块。但是其他类型的模块和文件（比如sass，css）webpack自身没有办法处理，但是只要我们将它们经过javascript`处理`一次转换成我们需要的类型。我们就就它加载器或者转换器。
+
+
+A loader can refer to a preprocessor such as Sass, or a transpiler such as Babel. On NPM, they’re usually named *-loader such as sass-loader or babel-loader.
+
+加载器可以扮演预处理的角色（编译sass），或者转换角色（比如babel,将es6或者react 转换到es5），在npm上，通常他们以 `*-loader`的方式命名，比如前面的 `sass-loader` 和 `babel-loader`
+
+####Babel + ES6
+If we wanted to use ES6 via Babel in our project, we’d first install the appropriate loaders locally:
+由于现在es6兼容性问题，我们想使用es6的特性就得需要babel的转换了，首先我们要安装合适的加载(转换)器:
+
+```
+yarn add --dev babel-loader babel-core babel-preset-es2015
+```
+… and then add it to webpack.config.js so webpack knows where to use it.
+
+...然后在`webpack.config.js`下面配置
+
+```
+module.exports = {
+  // …
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: [{
+          loader: 'babel-loader',
+          options: { presets: ['es2015'] }
+        }],
+      },
+    
+      // Loaders for other file types can go here
+    ],
+  },
+  // …
+};
+```
+A note for webpack 1.x users: the core concept for Loaders remains the same, but the syntax has improved. Until they finish the docs this may/may not be the exact preferred syntax.
+对于`webpack 1.x`的用户来说， 加载器的核心概念和2.x来说是一致的。但是语法有一些变化（比如`1.x`中是loaders 而不是rules)，因为现在仍然处于发布候选版阶段，所以在正式版文档之前这些语法可能都不是最准确和合适的。
+
+This looks for the /\.js$/ RegEx search for any files that end in .js to be loaded via Babel. Webpack relies on RegEx tests to give you complete control—it doesn’t limit you to file extensions or assume your code must be organized in a certain way. For example: maybe your /my_legacy_code/ folder isn’t written in ES6. So you could modify the test above to be /^((?!my_legacy_code).)*\.js$/ which would exclude that specific folder, but process the rest with Babel.
+
+`test`的正则对象 ` /\.js$/` 的目的是去寻找babel-loder去加载的所有以.js结尾的文件。Webpack通过这个正则允许开发者去控制那些文件可以被转换或者编译，当然他不会强制你采用那些文件扩展名，只需要你以合适的方式组织你的文件，这个正则匹配到了就好。
+比如：在`/my_legacy_code/`这个目录下面，你没有使用es6，你可以修改上面test的值 `/^((?!my_legacy_code).)*\.js$/` ，babel-loader 会过滤掉这个特殊的文件夹，转换其他的文件。
+
+####CSS + Style Loader
+####css-loader 和 style-loader
+If we wanted to only load CSS as our application needed, we could do that as well. Let’s say we have an index.js file. We’ll import it from there:
+我们也可以通过css-loader引入css文件，比如我们当前项目目录有
+`index.js`文件，我们可以这样导入
+
+```
+import styles from './assets/stylesheets/application.css';
+```
+
+We’ll get the following error: You may need an appropriate loader to handle this file type. Remember that webpack can only understand JavaScript, so we’ll have to install the appropriate loader:
+当然直接这样一句代码是不行的,会报错：`You may need an appropriate loader to handle this file type`，记住webpack只能解析javascript，因此我们要安装合适的loader。
+
+```
+yarn add --dev css-loader style-loader
+```
+然后在webpack.config.js里面配置
+
+```
+module.exports = {
+  // …
+  module: {    rules: [
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      // …
+    ],
+  },
+};
+```
+
+Loaders are processed in reverse array order. That means css-loader will run before style-loader.
+
+加载器的执行顺序是数组索引的逆序，这意味着先会运行css-loader，然后再是style-loader.
+
+You may notice that even in production builds, this actually bundles your CSS in with your bundled JavaScript, and style-loader manually writes your styles to the <head>. At first glance it may seem a little kooky, but slowly starts to make more sense the more you think about it. You’ve saved a header request—saving valuable time on some connections—and if you’re loading your DOM with JavaScript anyway, this essentially eliminates FOUC on its own.
+
+你会注意到在生产环境下,webpack在打包css的同时也会将css同时打包，`style-loader`实际上做的实质性内容就是将你的css代码写入到html里面的`head`标签里面。虽然乍看一下觉得有点奇怪，但是慢慢的你会发现，那其实是合理的。 试想，你肯定做过这样的优化，少向服务端发送一个请求--就节约了网络请求的时间-如果你采用js加载dom的方式，本质上也就避免`Flash of unstyled content`。（参考地址：https://en.wikipedia.org/wiki/Flash_of_unstyled_content）
+
+You’ll also notice that—out of the box—webpack has automatically resolved all of your @import queries by packaging those files together as one (rather than relying on CSS’s default import which can result in gratuitious header requests and slow-loading assets).
+
+你也会注意到,webpack会自动的将@import 队列里面css文件打包成一个（并非像css默认的importy引入方式，它会增加更多的请求降低加载静态资源的速度）
+
+
+Loading CSS from your JS is pretty amazing, because you now can modularize your CSS in powerful new ways. Say you loaded button.css only through button.js. This would mean if button.js is never actually used, its CSS wouldn’t bloat out our production build. If you adhere to component-oriented CSS practices such as SMACSS or BEM, you see the value in pairing your CSS more closely with your markup + JavaScript.
+在js文件中加载css是非常棒的,因为你能以一种新的方式模块化你的css。你可以在button.js里面引用button.css,这意味着如果button.js没有被使用，那么button.css里面的样式永远不会出现在生产环境中。如果你非常推崇css组件模块化这一套体系比如 SMACSS 或者BEM（参考地址：https://smacss.com/book/categorizing），你在编写css与你和js的时候发现它的精妙所在。
+
+
+####Sass
+想使用sass，没问题
+```
+yarn add --dev sass-loader node-sass
+```
+
+增加如下规则:
+
+```
+module.exports = {
+  // …
+  module: {
+    rules: [
+      {
+        test: /\.(sass|scss)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ]
+      } 
+      // …
+    ],
+  },
+};
+```
+这样在js文件中可以通过import引入sass或者scss文件了。
+
+
+####CSS bundled separately
+####css分开打包
+Maybe you’re dealing with progressive enhancement; maybe you need a separate CSS file for some other reason. We can do that easily by swapping out style-loader with extract-text-webpack-plugin in our config without having to change any code. Take our example app.js file:
+如果你想将css打包进一个单独的文件，而不是依赖bundle将样式以style写入在`head`标签里面。我们可以使用webpack插件`extract-text-webpack-plugin`来实现，打开app.js
+
+```
+import styles from './assets/stylesheets/application.css';
+```
+安装这个插件到本地目录
+
+```
+yarn add --dev extract-text-webpack-plugin@2.0.0-beta.4
+```
+
+在`webpack.config.js`增加如下配置:
+
+```
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+module.exports = {
+  // …
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        loader:  ExtractTextPlugin.extract({
+          loader: 'css-loader?importLoaders=1',
+        }),
+      },
+    
+      // …
+    ]
+  },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: '[name].bundle.css',
+      allChunks: true,
+    }),
+  ],
+};
+```
+Now when running webpack -p you’ll also notice an app.bundle.css file in your output directory. Simply add a <link> tag to that file in your HTML as you would normally.
+在终端运行`webpack -p` 你会发现在output设置的目录里面生成了一个`app.bundle.css`文件，这时候在html文件里面增加link引入css文件，打开html，和预期的一样。
+
+
+你可能会注意到甚至在`production生产环境`的条件下，
+  [1]: https://cdn-images-1.medium.com/max/2000/1*yI44h8Df-l-2LUqvXIi8JQ.png
+   [2]: https://cdn-images-1.medium.com/max/800/1*yBt2rFj2DbckFliGE0LEyg.png
+
+
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+    .outline-character {
+        border: 10px solid #655;
+        outline:  dotted  5px deeppink; /**将solid 换成dotted */
+        background-color: yellowgreen;
+        width: 100px;
+        height: 80px;
+        margin: 30px auto;
+        outline-offset: 15px;
+    }
+    .heme {
+        outline:  dotted  1px white;
+        /*border: 10px solid #655;*/
+        background-color: #655;
+        width: 200px;
+        height: 140px;
+        margin: 30px auto;
+        outline-offset: -5px;
+        border-radius: 5px;
+        padding:20px;
+        text-align: center;
+    }
+    </style>
+</head>
+<body>
+    <div class="outline-character">
+
+    </div>
+    <h4>   
+        看上面第一个div 达到的效果 和前面2.2.1 box-shadow达到的是同样的效果,如果只是两层也可以这样做。
+
+        outline 比box-shadow 更加灵活，可以画虚线
+    </h4>
+    <div>
+        outline 的属性值： outline-width outline-style outline-color, 实际上这个三个属性值只要是正确的格式，顺序是随便更换的
+        <p>
+          MDN: Outlines do not take up space, they are drawn above the content.outline不会占据空间，
+          在chrome里面将outline-character的margin去掉查看它和下面h4 tag的距离，就明白了
+        </p>
+    </div>
+
+<div class="heme">
+    缝边效果
+</div>
+</body>
+</html>

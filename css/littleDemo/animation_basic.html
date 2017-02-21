@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style> 
+div.ref
+{
+width:100px;
+height:100px;
+background:red;
+animation:myfirst 5s;
+-moz-animation:myfirst 5s; /* Firefox */
+-webkit-animation:myfirst 5s; /* Safari and Chrome */
+-o-animation:myfirst 5s; /* Opera */
+}
+
+@keyframes myfirst
+{
+from {background:red;}
+to {background:yellow;}
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+from {background:red;}
+to {background:yellow;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+from {background:red;}
+to {background:yellow;}
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+from {background:red;}
+to {background:yellow;}
+}
+
+
+
+/** 位置变化*/
+
+div.location
+{
+margin-top: 40px;    
+width:100px;
+height:100px;
+background:red;
+position:relative;
+animation:mySecond 5s;
+-moz-animation:mySecond 5s; /* Firefox */
+-webkit-animation:mySecond 5s; /* Safari and Chrome */
+-o-animation:mySecond 5s; /* Opera */
+}
+
+@keyframes mySecond
+{
+0%   {background:red; left:0px; top:0px;}
+25%  {background:yellow; left:200px; top:0px;}
+50%  {background:blue; left:200px; top:200px;}
+75%  {background:green; left:0px; top:200px;}
+100% {background:red; left:0px; top:0px;}
+}
+
+
+/**------分割线-----**/
+@keyframes changeColor {
+    from {background-color:lightseagreen}
+    to {background-color:indianred}
+}
+ /*@keyframes changeColor {
+    0% {background-color:lightseagreen}
+    50% {background-color:indianred; border-radius: 0}
+    100% {background-color:lightseagreen;border-radius: 25px}
+}*/
+
+/*div.animation>div {
+    margin: 20px auto;
+}*/
+div.color-change-target {
+    background-color: lightseagreen;
+    width:50px;
+    height: 50px;
+    border-radius: 25px;
+    animation: changeColor 5s ease-in-out 2s infinite ;
+    margin: 10px auto;
+}
+div.color-change-target2 {
+    background-color: lightseagreen;
+    width:50px;
+    height: 50px;
+    border-radius: 25px;
+    /*animation: changeColor 5s ease-in-out 0s 1 ;*/
+    margin: 10px auto;
+}
+div.color-change-target2:hover {
+    background-color:indianred;
+    transition: background-color 5s
+}
+div.multiple-change {
+    width: 300px;
+    height: 50px;
+    border: 1px solid #ddd;
+    margin: 0 auto;
+}
+
+
+
+div.move-icon {
+    width: 4px;
+    height: 100%;
+    background-color: lightseagreen;
+    position: relative;
+    left:0;
+    animation: Move 3s ease-in-out 0s infinite;
+}
+@keyframes Move {
+    from { left:0}
+    to {left:296px;background-color: indianred}
+}
+
+</style>
+</head>
+<body>
+
+<div class="ref"></div>
+<div class="location"></div>
+<p><b>注释：</b>本例在 Internet Explorer 中无效。</p>
+
+
+<div>
+    <h1>下面是自己加的例子</h1>
+</div>
+
+<div class="anitation">
+    <div class="color-change-target"></div>
+    <div class="color-change-target2"></div>
+    <div class="multiple-change">
+        <div class="move-icon"></div>
+    </div>
+</div>
+
+</body>
+</html>

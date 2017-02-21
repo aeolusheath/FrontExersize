@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		 div[way]{
+		      background-color: lightseagreen;
+		 }
+		  .third_one[way]{
+		         background-color:aquamarine;
+		  }
+		  [way]{
+		         background-color: #ddd;
+		  }
+		  [way*=b] {
+		  	font-size:30px;
+		  }
+		  [way~=b] {
+		  	font-style: italic
+		  }
+
+
+		  /**empty 测试样式*/
+		  .box {
+			  background: red;
+			  height: 200px;
+			  width: 200px;
+			}
+
+		   .box:empty {
+			  background: lime;
+			}
+	</style>
+</head>
+<body>
+
+                  <div way="way_one"> to Heaven  </div>
+                  <span way="way_two"> to The World </span>
+                  <div way="way_three" class="seconed_div"> to The Hell </div>
+                  <div way="abc">[attribute*=val]</div>
+                  <div way="test b"> [attribute~=val] </div>
+
+                  <h4>分割线--------</h4>
+                  <div class="box"><!-- I will be lime --></div>
+				  <div class="box">I will be red</div>
+				  <div class="box">
+				    <!-- I will be red because of the whitespace around this comment -->
+				  </div>
+
+</body>
+</html>

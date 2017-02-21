@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <style>
+        * {
+    margin:0;
+    padding:0;
+}
+body{
+    overflow:hidden;
+}
+.content{
+    min-width: 400px;
+    display:block;
+}
+
+.main {
+    background: green;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 200px;
+    right: 0;
+    overflow: scroll;
+}
+
+.leftSidebar {
+    background: blue;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    width: 200px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+        </style>
+    </head>
+    <body>
+        <div class="leftSidebar">sidebarWithSomeExtraTextToDemonstrateTheScrollbarForTheIndividualDivThatIsntHappeningInMain</div>
+        <div class="main">
+            <span class="content">
+                Here is some text. A horizontal scrollbar should appear when this div's width becomes less than 400px</span>
+        </div>
+    </body>
+
+</html>

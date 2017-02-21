@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		
+.test_triangle_border{
+    width:200px; 
+    margin:0 auto 20px;
+    position:relative;
+}
+.test_triangle_border a{
+    color:#333;
+    font-weight:bold; 
+    text-decoration:none;
+}
+.test_triangle_border .popup{
+    width:100px;
+    background:#fc0; 
+    padding:10px 20px; 
+    color:#333;  
+    border-radius:4px;
+    position:absolute; 
+    top:30px; 
+    left:30px;
+    border:1px solid #333;
+}
+.test_triangle_border .popup span{
+    display:block; 
+    width:0; 
+    height:0; 
+    border-width:0 10px 10px; 
+    border-style:solid; 
+    border-color:transparent transparent #333; 
+    position:absolute; 
+    top:-10px; 
+    left:50%;/* 三角形居中显示 */
+    margin-left:-10px;/* 三角形居中显示 */
+}
+.test_triangle_border .popup em{
+    display:block; 
+    width:0; 
+    height:0; 
+    border-width:0 10px 10px; 
+    border-style:solid; 
+    border-color:transparent transparent #fc0; 
+    position:absolute; 
+    top:1px; 
+    left:-10px;
+}
+
+
+
+/**分割线－－>>>*/
+.second-triangle-wrapper {
+    border: 1px solid black;
+    width: 200px;
+    height:70px;
+    margin-top: 200px;
+    position: relative;
+    background: white;
+}
+.second-triangle-wrapper:before {
+    content: '';
+    border: inherit;
+    padding: 0.5em;
+    position: absolute;
+    background: inherit;/**不加这个的话你会发现 不会将底层的border－top给替换*/
+    left: 31px;
+    top: -9px;
+    transform: rotate(45deg);
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.second-triangle-wrapper > .second-triangle {
+    content: '';
+    border: inherit;
+    padding: 0.5em;
+    position: absolute;
+    background: inherit;/**不加这个的话你会发现 不会将底层的border－top给替换*/
+    left: 90px;
+    top: -9px;
+    transform: rotate(45deg);
+    border-right: 0;
+    border-bottom: 0;
+}
+
+
+/**分割线*/
+
+.third-triangle-wrapper {
+    border: 1px solid #ddd;
+    width: 200px;
+    height:70px;
+    margin-top: 200px;
+    position: relative;
+    background: white;
+    margin-bottom: 100px;
+}
+.third-triangle-wrapper > .third-triangle {
+    border: 10px solid transparent;
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid #ddd;
+}
+.third-triangle-wrapper > .third-triangle > em {
+    
+}
+	</style>
+</head>
+<body>
+
+<div class="test_triangle_border">
+    <a href="#">三角形</a>
+    <div class="popup">
+        <span><em></em></span>纯CSS写带边框的三角形
+    </div>
+
+
+    <div class="second-triangle-wrapper">
+            <span class="second-triangle">
+            </span>
+            it's the tip content
+    </div>
+
+    <div class="third-triangle-wrapper">
+            <span class="third-triangle">
+                <em></em>
+            </span>
+            <h1>3</h1>
+    </div>
+
+    <span style="width: 0 ; 
+    height: 0; 
+    border-bottom: 10px solid lawngreen;
+    border-top: 10px solid yellow;
+    border-left: 10px solid red;
+    border-right: 10px solid black;
+    ">
+
+    </span>
+
+</div>
+
+
+
+    <div style="
+        border-top:50px solid yellow;
+        border-bottom: 50px solid red;
+        border-right: 50px solid green;
+        border-left: 50px solid blue;
+        width: 0;
+        height: 0;
+    ">
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>菱形图片</title>
+  <link rel="stylesheet" href="../common.css">
+
+  <style>
+    .picture {
+
+
+      width: 200px;
+      height: 200px; /*只设置宽度 会有小的误差*/
+      transform: rotate(45deg);
+      border: 1px dotted lightgreen;
+      overflow: hidden;
+
+      margin-left: 400px;/**属性无关 只是为了好查看效果*/
+      margin-top: 100px;
+    }
+    .picture > img.rotate-i {
+      max-width: 100%;
+      transform: rotate(-45deg) scale(1.42);
+      z-index: -1;
+      position: relative;
+    }
+
+    .img.clip-path {
+      width: 200px;
+      height: 200px;
+      margin-top: 40px;
+      clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      transition: 1s clip-path
+    }
+    .img.clip-path:hover {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
+    }    
+  </style>
+</head>
+<body>
+  <h3>菱形图片 </h3>
+  <p>两个元素来实现</p>
+
+  <div class="picture">
+    <img  class="rotate-i" src="./cat.jpg" alt="">
+  </div>
+  <!--<script src="../strapdown/strapdown.js"></script>-->
+ 
+  <p class="mt50"> 一个元素img来实现,使用css中的clip-path属性</p>
+    <img class="img clip-path" src="./cat.jpg" style="" alt="">     
+
+
+  <p class="mt50"> 
+    兼容性仍然是大问题，目前ie 和firefox都不支持，看来还是得先采用第一种实现方式
+  </p>
+  <p>
+    一个专门的关于裁剪属性 clip-path 的参考资料: http://bennettfeely.com/clippy/
+  </p>
+</body>
+</html>

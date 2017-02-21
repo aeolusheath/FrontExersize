@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>切角</title>
+  <link rel="stylesheet" href="../common.css">
+  <style>
+    .bevel-corner{
+      width: 300px;
+      height: 150px;
+      background: #58a; /**回退机制*/
+      background: linear-gradient(-45deg, transparent 15px, #58a 0);
+    }
+  </style>
+</head>
+<body>
+  <h3>
+    使用line-gradients来实现 颜色渐变实现 切角效果
+  </h3>
+
+  <div class="bevel-corner mt20 p-xs"> 
+    this is content
+  </div>
+
+  <p>
+    我们想给两个对角用渐变来实现切角的效果，但是不行，因为会相互覆盖，就会造成下面的情况。
+  </p>
+  <div
+    style="
+    width: 300px;
+    height: 150px;
+    margin-top: 20px;
+    background: #58a;
+    background: linear-gradient(-45deg, transparent 15px, #58a 0), 
+     linear-gradient(45deg, transparent 15px, #655 0);
+    "
+  >
+ this is content
+  </div>
+
+  <p>我们改变一下策略，将背景的宽度设置50%，但是记得加上background-repeat:no-repeat，不然的话background会重复</p>
+
+  <div
+    style="
+      width: 300px;
+      height: 150px;
+      margin-top: 20px; 
+      background: #58a;
+      background: linear-gradient(-45deg, transparent 15px, #58a 0) right, 
+          linear-gradient(45deg, transparent 15px, #655 0) left;
+      background-size: 50% 100%;
+      background-repeat: no-repeat;
+      padding: 20px;
+    "
+  >
+
+    this is the div's content you should focus on the corner
+
+  </div>
+
+
+<p>然后我们再改，上面的已经是2个角了，我们改成4个角的。 第二个top right 角度可以改成-135deg； 这个角度请参考这个网址：
+
+  <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/angle" target="_blank">角度的起点</a>
+</p>
+
+<div 
+  style="
+    width: 300px;
+    height: 150px;
+    background-color: #58a;
+    background: linear-gradient(135deg, transparent 15px, #58a 0)top left, 
+          linear-gradient(225deg, transparent 15px, #58a 0)top right,  
+          linear-gradient(45deg, transparent 15px, #58a 0)bottom left, 
+          linear-gradient(-45deg, transparent 15px, #58a 0)bottom right;
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    padding: 20px;
+   "
+>
+    this is the div's content you should focus on the corner
+  
+</div>
+
+
+
+<p class="emphersize bold">
+  可以将这个类在scss中写成通用的宏给其他使用
+</p>
+
+<pre>
+  <code>
+    @mixin beveled-corners($bg, $tl:0 , $tr:$tl, $br:$tl, $bl: $tr) {
+      background: $bg;
+      background: 
+          linear-gradient(135deg, transparent $tl, $bg 0)top left, 
+          linear-gradient(225deg, transparent $tr, $bg 0)top right,  
+          linear-gradient(45deg, transparent $br, $bg 0)bottom left, 
+          linear-gradient(-45deg, transparent bl, $bg 0)bottom right;
+      background-size: 50% 50%;
+      background-repeat: no-repeat;
+    }
+  </code>
+</pre>
+<p>
+  弧形切角，实际上和上面一样只是，将颜色的<span class="emphersize">线性渐变</span>改为
+  <span class="emphersize">径向渐变</span>
+</p>
+
+
+<div 
+  style="
+    width: 300px;
+    height: 150px;
+    background-color: #58a;
+    background: radial-gradient(circle at top left, transparent 15px, #58a 0)top left, 
+          radial-gradient(circle at top right, transparent 15px, #58a 0)top right,  
+          radial-gradient(circle at bottom right, transparent 15px, #58a 0)bottom right, 
+          radial-gradient(circle at bottom left, transparent 15px, #58a 0)bottom left;
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    padding: 20px;
+   "
+>
+    this is the div's content you should focus on the corner
+  
+</div>
+
+</body>
+</html>

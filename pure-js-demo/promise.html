@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<div id="log"></div>
+<script>
+    'use strict';
+    var promiseCount = 0;
+    function testPromise() {
+        var thisPromiseCount = ++promiseCount;
+
+        var log = document.getElementById('log');
+        log.insertAdjacentHTML('beforeend', thisPromiseCount + ') 开始(同步代码开始)<br/>');
+
+        // 我们创建一个新的promise: 然后用'result'字符串完成这个promise (3秒后)
+        var p1 = new Promise(function (resolve, reject) {
+            // 完成函数带着完成（resolve）或拒绝（reject）promise的能力被执行
+            log.insertAdjacentHTML('beforeend', thisPromiseCount + ') Promise开始(异步代码开始)<br/>');
+
+            // 这只是个创建异步完成的示例
+            window.setTimeout(function () {
+                // 我们满足（fullfil）了这个promise!
+                resolve(thisPromiseCount)
+            }, Math.random() * 2000 + 1000);
+        });
+
+        // 定义当promise被满足时应做什么
+        p1.then(function (val) {
+            // 输出一段信息和一个值
+            log.insertAdjacentHTML('beforeend', val + ') Promise被满足了(异步代码结束)<br/>');
+        });
+
+        log.insertAdjacentHTML('beforeend', thisPromiseCount + ') 建立了Promise(同步代码结束)<br/><br/>');
+    }
+    testPromise()
+
+    console.log('即将初始化')
+    var test = new Promise(function(resolve, reject) {
+        console.log('test 构造函数 立即调用')
+        setTimeout(reject, 5000, 'faild')
+    })
+
+    console.log(test, 'test对象出来了')
+    // Promise.reject(new Error('fail')).then(function(){},function(err){
+    //     console.log(err)
+    // })
+    console.log(test.then(function(param){
+        console.log('成功了----->>>>>', param)
+        console.log('test对象的 then function第一个参数不为空，第二个为空')
+    }, function(param){
+        console.log('失败了----->>>>>', param)
+    }), '调用then方法')
+    setTimeout(()=>{
+        console.log('最后的test对象是什么--->', test)
+    }, 10000)
+
+
+    var  PromiseRejectObj_1 = new Promise(function(resolve, reject){
+        reject('Testing static reject')
+    })
+    var PromiseRejectObj_2 = Promise.reject("Testing static reject")
+
+    console.log('PromiseRejectObj_1', PromiseRejectObj_1)
+    console.log('PromiseRejectObj_2', PromiseRejectObj_2)
+
+
+
+var p1 = Promise.resolve(3);
+var p2 = 1337;
+var p3 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, "foo");
+}); 
+var p4 = new Error('kevin')
+var p5 = new Promise((resolve, reject) => {
+  reject(new Error('p5'))
+}); 
+Promise.all([p1, p2, p3, p4, p5]).then(values => { 
+  console.log(values); // [3, 1337, "foo"] 
+}).catch((err)=> {
+  console.log('有一个参数 解析时被 reject', err)
+});
+
+// var p = new Promise(function(resolve, reject) {
+//   resolve("hello world");
+// });
+
+// p.then(function(str) {
+//     return str
+// })
+// .then(function(str) {
+//   alert(str);
+// });
+
+var p = new Promise(function(resolve, reject) {
+  reject(new Error("pebkac"));
+});
+
+p.then(
+  undefined,
+  function(error) { }
+)
+.then(
+  function(str) {
+    alert("I am saved!", str);
+  },
+  function(error) {
+    alert("Bad computer!");
+  }
+);
+</script>
+</body>
+</html>

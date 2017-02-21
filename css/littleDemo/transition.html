@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body {
+			padding-top: 20px;
+		}
+		.orange {
+			width: 50px;
+			height: 50px;
+			background-color:orange;
+			margin-bottom:20px;
+			-webkit-transition: all 2s ease 0s;
+			margin: 0 auto;
+		}
+		.active {
+
+			-webkit-transition: all 2s ease 0s;
+		   -moz-transform:rotate(-50deg);
+           -webkit-transform:rotate(-50deg);
+           background-color: green;
+           width: 100px;
+           height: 100px;
+           border: 1px solid black;
+           /**transform: translate(100px,100px);*/
+		}
+
+
+		.green {
+			width: 5px;
+			height: 0;
+		}
+		.green-active {
+			transition:transform .2s cubic-bezier(.22,.61,.36,1);
+			transform: scaleY(0);
+		}
+	</style>
+</head>	
+<body>
+
+	<div class="orange">
+		
+	</div>
+
+	<div class="green"> </div>
+	<input type="button" value="按钮" id="Btn" name="">
+
+<script src="./jquery.js"></script>
+<script type="text/javascript">
+
+	
+	$('#Btn').on('click', function(){
+		if($('.orange').hasClass('active')) {
+			$('.orange').removeClass('active')
+		}
+		else {
+		$('.orange').addClass('active')
+		}
+		if($('.green').hasClass('green-active')) {
+			$('.green').removeClass('green-active')
+		}
+		else {
+		$('.green').addClass('green-active')
+		}
+
+
+	})
+</script>
+</body>
+</html>

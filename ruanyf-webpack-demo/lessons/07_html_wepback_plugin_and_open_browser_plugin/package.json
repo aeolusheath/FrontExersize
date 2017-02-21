@@ -1,0 +1,16 @@
+{
+  "name": "07_html_wepback_plugin_and_open_browser_plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "html-webpack-plugin": "^2.25.0",
+    "open-browser-webpack-plugin": "^0.0.3",
+    "webpack": "^1.14.0"
+  }
+}

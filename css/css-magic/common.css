@@ -1,0 +1,13 @@
+body {
+  padding: 0 35px;
+  font-size: 13px;
+}
+.mt50 {margin-top:50px;}
+.mt20 {margin-top:20px;}
+.p-xs {padding: 10px;}
+.emphersize {
+    color: lightseagreen
+}
+.bold {
+  font-weight: bold;
+}

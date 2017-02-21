@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>平行四边形</title>
+  <link rel="stylesheet" href="../common.css">
+  <style>
+    .button{
+      position: relative;
+      padding: 4px 8px;
+      display: inline-block;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+    .button::before {
+      position: absolute;
+      content: '';
+      top:0; right:0; bottom:0; left: 0;
+      background: #58a;
+      transform: skew(45deg);
+      z-index: -1;
+    }
+
+  </style>
+
+
+
+
+
+
+</head>
+<body>
+
+  <p> 这是其中一个版本，另外的解决方案是 父元素和子元素，父元素变形 skewX(-45deg) 子元素skewX(45deg) </p>
+  <p> 代码如下 </p>
+  <xmp theme="united" style="display:none;">
+
+  ```html
+    .button{
+        position: relative;
+        padding: 4px 8px;
+        display: inline-block;
+        margin-left: 20px;
+        cursor: pointer;
+      }
+      .button::before {
+        position: absolute;
+        content: '';
+        top:0; right:0; bottom:0; left: 0;
+        background: #58a;
+        transform: skew(45deg);
+        z-index: -1;
+      }
+  ```
+  </xmp>
+
+  <div class="button">
+    CLICK ME
+  </div>
+
+
+<script src="../strapdown/strapdown.js"></script>
+
+</body>
+</html>

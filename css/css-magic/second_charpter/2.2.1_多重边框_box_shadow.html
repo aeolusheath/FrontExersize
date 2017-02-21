@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style type="text/css">
+        .two-borders {
+            background-color: yellowgreen;
+            box-shadow: 0 0 0 10px #655, 0 0 0 15px deeppink;
+            width: 100px;
+            height: 80px;
+            margin: 30px auto;
+        }
+        .two-borders:hover {
+            background-color: white;
+        }
+        .three-borders {
+            background-color: yellowgreen;
+            box-shadow:inset 0 0 0 10px #655, inset 0 0 0 15px deeppink, inset 0 0 0 20px darkseagreen;
+            width: 100px;
+            height: 80px;
+            margin: 30px auto;
+            margin-top: 100px;
+        }
+        .three-borders:hover {
+            background-color: white;
+        }  
+    </style>
+</head>
+<body>
+    <div class="two-borders">
+
+    </div>
+
+    <div class="three-borders">
+
+    </div>
+
+    <h4>
+        实际上第一个多重边框 会影响鼠标事件，试想如果你有一个hover效果,改变div内层的背景颜色，看看上面两个hover效果的不同你就明白了
+    </h4>
+</body>
+</html>

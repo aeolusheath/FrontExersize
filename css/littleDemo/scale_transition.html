@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body {
+			padding-top: 20px;
+		}
+		.orange {
+			width: 50px;
+			height: 50px;
+			background-color:orange;
+			margin-bottom:20px;
+			-webkit-transition: all 2s ease 0s;
+			margin: 0 auto;
+		}
+		.active {
+
+			-webkit-transition: all 2s ease 0s;
+		   -moz-transform:rotate(-50deg);
+           -webkit-transform:rotate(-50deg);
+           background-color: green;
+           width: 100px;
+           height: 100px;
+           border: 1px solid black;
+           /**transform: translate(100px,100px);*/
+		}
+
+
+		.green {
+			width: 100px;
+			height: 10px;
+            transform-origin: left ;
+            transition:transform .2s cubic-bezier(.22,.61,.36,1);
+            background-color:bisque;
+            margin-bottom: 20px;
+		}
+		.green-active {
+			transition:transform .2s cubic-bezier(.22,.61,.36,1);
+			transform: scaleX(0);
+		}
+        .circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+            background-color:aquamarine;
+            margin-bottom: 30px;
+            margin-left: 30px;
+            animation:  twinkling 1s infinite ease-in-out;
+        }
+        /*.circle-active {
+            transform: scale(2,2);
+			transition:transform 1s cubic-bezier(.22,.61,.36,1);
+        }*/
+
+  @keyframes twinkling{
+    0%{
+      opacity:0.3;
+      transform: scale(1,1);
+      box-shadow: 0px 0px 0px mediumseagreen;
+    }
+    /*50%{
+      opacity:0.7;
+      transform: scale(1,1);
+	  background-color:indianred;
+      box-shadow: 0px 0px 5px mediumseagreen;
+    }	*/
+    100%{
+      opacity:1;
+      transform: scale(1.2,1.2);
+      box-shadow: 0px 0px 10px mediumseagreen;
+    }
+  }
+
+
+	</style>
+</head>	
+<body>
+
+	<div class="orange">
+		
+	</div>
+
+	<div class="green"> </div>
+
+    <div class="circle"> </div>
+	<input type="button" value="按钮" id="Btn" name="">
+
+<script src="./jquery.js"></script>
+<script type="text/javascript">
+
+	
+	$('#Btn').on('click', function(){
+		if($('.orange').hasClass('active')) {
+			$('.orange').removeClass('active')
+		}
+		else {
+		$('.orange').addClass('active')
+		}
+		if($('.green').hasClass('green-active')) {
+			$('.green').removeClass('green-active')
+		}
+		else {
+		$('.green').addClass('green-active')
+		}
+
+
+		if($('.circle').hasClass('circle-active')) {
+			$('.circle').removeClass('circle-active')
+		}
+		else {
+		$('.circle').addClass('circle-active')
+		}
+
+	})
+</script>
+</body>
+</html>

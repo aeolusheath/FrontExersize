@@ -1,0 +1,1 @@
+var data = 'Hello expose global_variable';
