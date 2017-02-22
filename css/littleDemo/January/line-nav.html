@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>简单的线性导航</title>
+  <style >
+    /*sass 代码**/
+    /*ul.line-nav {
+    list-style: none;
+    border-bottom: 1px solid  #ddd;
+    padding-left: 0px;
+    > li {
+      display:inline-block;
+      height: 40px;
+      line-height: 40px;
+    }
+    >li a {
+      display: inline-block;
+      min-width: 80px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 13.5px;
+      color: #555555;
+      width: 100%;
+      height:100%;
+    }
+    >li.active a, li:hover a {
+      color: #2196f3;
+      border-bottom: 2px solid #2196f3;
+    }
+    }*/
+    .line-nav li {
+      display:inline-block;
+      height: 40px;
+      line-height: 40px;
+    }
+    .line-nav li a {
+      display: inline-block;
+      min-width: 80px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 13.5px;
+      color: #555555;
+      width: 100%;
+      height:100%;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+
+    .line-nav li.active a,
+    .line-nav li:hover a {
+      color: #2196f3;
+      border-bottom: 2px solid #2196f3;
+    }
+  </style>
+</head>
+<body>
+    <div style="margi-top: 30px;"> 
+      <ul class="line-nav">
+        <li class="active">
+          <a href="">Dashboard</a>
+        </li>
+        <li>
+          <a href="">日志列表</a>
+        </li>
+        <li>
+          <a href="">Github</a>
+        </li>
+        <li>
+          <a href="">消息列表</a>
+        </li>
+      </ul>
+    </div>
+</body>
+<script type="text/javascript">
+  // window.onload=function(){
+  //   var liTags = document.getElementsByTagName('li')
+  //   var tagArr = []
+  //   tagArr.push(...liTags)
+  //   console.log(liTags, 'liTagsss---->>>>>', typeof(liTags))
+  //   console.log(tagArr, 'tagArr----->>>>', typeof(tagArr))
+  // }
+</script>
+</html>
