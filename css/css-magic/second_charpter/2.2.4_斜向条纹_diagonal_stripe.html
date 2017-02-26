@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>斜向条纹背景</title>
+</head>
+<body>
+  <p>
+    前面我们知道了 水平 的条纹背景 如何编写【垂直的同理，方向改为to right 或者设置角度为90deg 就可以了】
+  </p>
+  <p>
+    这个文档主要讲述的是斜着的条纹背景
+  </p>
+
+<h3 style="border: 1px solid #ddd;"></h3>
+<p>
+  下面代码这样写，看效果是怎样的。
+  <pre>
+    <code>
+      background: linear-gradient(45deg, #fb3 50%, #58a 0);
+      background-size: 30px 30px;
+    </code>
+  </pre>
+</p>
+
+
+  <div style="
+    padding: 30px; 
+    border: 1px solid #ddd;
+    width:  300px;
+    height: 120px;
+    margin: 10px auto;
+
+    background: linear-gradient(45deg, #fb3 50%, #58a 0);
+    background-size: 30px 30px;
+    ">
+  </div>
+
+  <p>
+    实际上我们没有将最小的重复单位给绘出来,实际上最小的重复单位是这样的
+  </p>
+
+  <div style="
+      width: 30px;
+      height: 30px;
+      margin: 0 auto;
+
+      background: linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0);
+      background-size: 30px 30px;">
+  </div>
+
+  <p>
+      咱们将代码修改一下：
+  </p>
+  <pre>
+    <code>
+      background: linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0);
+      background-size: 30px 30px;
+    </code>
+  </pre>
+
+  <div style="
+      padding: 30px; 
+      border: 1px solid #ddd;
+      width:  300px;
+      height: 120px;
+      margin: 10px auto;
+
+      background: linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0);
+      background-size: 30px 30px;
+  ">
+
+  </div>
+
+  <p>
+    但是这个宽度明显不对的。这个size 应该是 2 * 根号(30/2) ，最小单位的长度和宽度是30，根据勾股定理来算，这个宽度和长度不是30，是前面算出来的值
+  </p>
+
+  <div style="
+      padding: 30px; 
+      border: 1px solid #ddd;
+      width:  300px;
+      height: 120px;
+      margin: 10px auto;
+
+      background: linear-gradient(45deg, #fb3 25%, #58a 0, #58a 50%, #fb3 0, #fb3 75%, #58a 0);
+      background-size: 42.426406871px 42.426406871px;
+  ">
+
+
+
+</body>
+</html>

@@ -6,3 +6,7 @@
 /ruanyf-webpack-demo/lessons/*/node_modules/
 .DS_Store
 .git_bak/
+/python/
+/react-app/
+npm-debug.log
+*/bundle.js

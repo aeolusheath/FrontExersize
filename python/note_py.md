@@ -17,8 +17,11 @@ print('''kevin...are you OK?''')
 
 布尔值之间的计算直接使用  and or not 来计算
 python中表示空用 none 表示
-    
 
+```python
+    #变量赋值 也可以这样赋值
+    a, b, c = 1, 2, "john"
+```
 
 
 ```python
