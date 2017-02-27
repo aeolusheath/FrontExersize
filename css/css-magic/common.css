@@ -5,9 +5,15 @@ body {
 .mt50 {margin-top:50px;}
 .mt20 {margin-top:20px;}
 .p-xs {padding: 10px;}
+.pb-md {padding-bottom:20px;}
+.pb-lg {padding-bottom:50px;}
 .emphersize {
     color: lightseagreen
 }
 .bold {
   font-weight: bold;
+}
+
+.border-grey {
+  border: 1px solid #ddd;
 }

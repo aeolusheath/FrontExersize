@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>任意角度的斜向条纹</title>
+  <link rel="stylesheet" href="../common.css">
+</head>
+<body class="pb-lg">
+  <p>
+    其实有更好的办法来创建斜向条纹，linear-gradient(线性渐变) 和 radial-gradient(径向渐变) 还有一个循环式的加强版
+  </p>
+  <h3 class="border-grey"></h3>
+
+  <p> 
+    <pre>
+      代码：
+      <code>
+        background: repeating-linear-gradient(45deg, #fb3, #58a 30px);
+      </code>
+    </pre>
+  </p>
+
+  <div
+    style="
+      width: 300px;
+      height: 120px;
+      margin: 0 auto;
+      background: repeating-linear-gradient(45deg, #fb3, #58a 30px);
+    "
+  >
+  </div>
+
+  <p>
+    查看代码实际上重复的部分是一个纯渐进的部分，咱们把代码稍微做一下改动，让这个重复的模块是条纹
+  </p>
+  <p>
+    <pre>
+      代码：
+      <code>
+        background: repeating-linear-gradient(45deg, #fb3, #fb3 15px, #58a 0, #58a 30px)
+        可不能将这个0 写遗漏，写成这样：
+        background: repeating-linear-gradient(45deg, #fb3, #fb3 15px, #58a, #58a 30px)
+      </code> 
+    </pre>
+  </p>
+    <p class="emphersize">
+        如果某个色标的位置值比整个列表中在它之前的色标的位置都要笑，则该色标的位置值会被设置为它前面所有色标位置值得最大值
+    </p>
+    <div
+    style="
+      width: 300px;
+      height: 120px;
+      margin: 0 auto;
+      background: repeating-linear-gradient(45deg, #fb3, #fb3 15px, #58a 0, #58a 30px)
+    "
+  >
+  </div>
+
+
+  <p>
+    当然这个角度可以任意调整,咱们将角度改为70度<br>
+    background: repeating-linear-gradient(<span class="emphersize">70deg</span>, #fb3, #fb3 15px, #58a, #58a 30px)
+  </p>
+
+      <div
+    style="
+      width: 300px;
+      height: 120px;
+      margin: 0 auto;
+      background: repeating-linear-gradient(70deg, #fb3, #fb3 15px, #58a 0, #58a 30px)
+    "
+  >
+  </div>
+</body>
+</html>
