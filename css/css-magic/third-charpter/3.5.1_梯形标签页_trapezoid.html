@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>梯形标签页</title>
+  <link rel="stylesheet" href="../common.css">
+  <style>
+    /**w3c的例子*/
+        #div1
+      {
+      position: relative;
+      height: 150px;
+      width: 150px;
+      margin: 50px;
+      padding:10px;
+      border: 1px solid black;
+      perspective:150;
+      -webkit-perspective:150; /* Safari and Chrome */
+      }
+
+      #div2
+      {
+      padding:50px;
+      position: absolute;
+      border: 1px solid black;
+      background-color: yellow;
+      transform: rotateX(45deg);
+      -webkit-transform: rotateX(45deg); /* Safari and Chrome */
+      }
+  </style>
+</head>
+<body>
+
+  <p>
+    实现梯形标签页
+  </p>
+
+  <div style="
+    width: 100px;
+    transform: perspective(.5em) rotateX(5deg);
+    text-align: center;
+    background: #58a;
+  ">
+  TRAPEZOID
+  </div>
+
+</body>
+</html>

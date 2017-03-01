@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+<style >
+.bounce-enter-active {
+  animation: bounce-in .5s ease 0s 1;
+}
+.bounce-leave-active {
+  animation: bounce-out .5s ease 0s 1;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+    color: lightblue;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+    color: lightgreen;
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+</style>
+</head>
+<body>
+  
+<div>
+  <span style="display: inline-block" id="span" class="bounce-enter-active">
+    kevin
+  </span> 
+</div>
+<p>
+  <button id="btn" class="btn"> Click Me ! </button>
+</p>
+
+</body>
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementsByClassName('btn')[0].addEventListener('click',function(){
+    document.getElementById('span').className="bounce-leave-active"
+  })
+}
+</script>
+</html>
