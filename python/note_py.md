@@ -4,8 +4,8 @@ python 里面求余
 python 打印字符串，查看两句话的区别，加了r之后
 
 ```python
-print('I \'m OK, god')   
-
+print('I \'m OK, god') 
+  
 print(r'I \'m OK, god')
 ```
 

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>关于css的特殊性（权重）</title>
+  <link rel="stylesheet" href="../css-magic/common.css">
+  <style>
+      ul > li {
+        margin-top: 5px;
+      }
+
+      h1 {color: red;}
+      body h1 {color: green;}
+
+      h2.grade {color: purple;}
+      h2 {color: silver}
+
+      /*然后是特别长的一个选择器*/
+      html > body table tr[id="totals"] td ul > li {color: marron} 
+      li#answer {color: lightblue}
+
+  </style>
+</head>
+<body>
+  <p class="comment">注：文章来源：《css权威指南》 第三章。 部分未予记录</p>
+  <p>
+    css选择器可以用多种方式去选择元素，实际上一个元素可以由使用两个或者多个规则来匹配，每个规则都有各自的选择器。请看例子
+  </p>
+ CSS:
+  <pre>
+    <code>
+      h1 {color: red;}
+      body h1 {color: green;}
+
+      h2.grade {color: purple;}
+      h2 {color: silver}
+
+      然后是特别长的一个选择器
+      html > body table tr[id="totals"] td ul > li {color: marron}
+      li#answer {color: lightblue}
+    </code>
+  </pre>
+
+      各自的效果：
+
+  <h1>
+    这是h1标签下的内容
+  </h1>
+
+  <h2 class="grade">
+    这是h2标签下的内容
+  </h2>
+
+  <table>
+    <tr id="totals">
+      <td>
+        <ul>
+          <li id="answer">
+            li的Content
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+      
+  <p>
+    这时候你可以根据样式定义去查看上面的效果
+    <strong>这时候，就引出一个话题</strong>，css特殊性(权重)，大白话就是根据某一种规则，谁的优先级高谁就能够决定选中元素的样式显示。<br>
+    <strong class="emphersize mt-sm dib">但是这并不是解决冲突的全部，实际上所有样式冲突的解决都有层叠来决定（后续）。</strong>
+  </p>
+
+  <h3 class="border-grey"></h3>
+
+
+  <p>
+    选择器的特殊性是由选择器本身的<strong class="emphersize">构成[css权威指南写作组件]</strong>来确定，特殊值由四个组成部分，如 0，0，0，0，一个选择器的具体特殊性或者权重的计算
+    如下：<br>
+  </p>
+
+  <ul>
+    <li>
+      对于选择器中给定的各个<strong class="emphersize">ID属性值</strong>，加 0, 1, 0, 0 <br>
+      <span class="dib mt5">
+        -----什么意思 就比如说上面的例子:  <strong> li#answer 就符合规则， li[id="answer"] 不符合规则 </strong>
+      </span>
+    </li>
+    <li>
+      对于选择其中给定的各个 <strong class="emphersize">类属性值，属性选择 或者 伪类</strong>, 加 0, 0, 1, 0<br> 
+      <span class="dib mt5">
+      -----还是拿上面的例子：<strong> tr[id="totals"] 符合了属性选择 这一项 ;   类属性值长这样 selector.className ; 伪类自行脑补 </strong>
+      </span>
+    </li>
+    <li>
+      对于选择器中给定的 <strong class="emphersize"> 各个元素 和 伪元素</strong>, 加 0，0，0，1 <br`>
+      <span class="dib mt5">
+        -----依旧使用上面的例子: 
+        <strong>
+          html > body table tr[id="totals"] td ul > li {color: marron} 一共7个元素，并且没有伪元素，所以符合规则，加 0, 0, 0, 7
+        </strong>
+      </span>
+    </li>
+    <li>
+      最后一点：结合符和通配选择器 对特殊性没有任何效果。 <br>
+      <span class="dib mt5"> 
+        -----
+        <strong>
+          + > 以及* 对特殊性没有作用
+        </strong>
+      </span>
+    </li>
+  </ul>
+
+<h3 class="border-grey mb30"></h3>
+
+<p>
+  这时候我们来计算上面的几个的选择器的权重值
+    <pre>
+    <code>
+      h1 {color: red;}          0, 0, 0, 1
+      body h1 {color: green;}   0, 0, 0, 2
+
+      h2.grade {color: purple;} 0, 0, 1, 1 
+      h2 {color: silver}        0, 0, 0, 1
+
+      然后是特别长的一个选择器
+      html > body table tr[id="totals"] td ul > li {color: marron}  0, 0, 1, 7
+      li#answer {color: lightblue}                                  0, 1, 0, 1 
+    </code>
+  </pre>
+</p>
+
+<h3 class="border-grey mb30 mt20"></h3>
+
+<p>
+  你可能会奇怪，计算这个特殊性（权重）的时候为什么 第一个位置的值始终为0呢 ？
+  <strong class="emphersize dib mt5">一般情况下，第一个0是为内联样式声明保留的，它比所有其他声明的特殊性都高。</strong>
+  
+  <strong class="emphersize dib mt5">但是请注意关键字!important，它的优先级甚至 高于 内联样式</strong>
+</p>
+
+<h3 class="border-grey mt20"></h3>
+
+<p>
+  <strong class="emphersize dib mt5">但是如果特殊性相等的两个规则同时应用到一个元素会怎么样。那么后面的一个有更高的优先级。</strong> <br>
+  <strong class="emphersize dib mt5">如果样式表中有导入的样式表，一般认为出现在导入样式表中的声明在前，主样式表中的所有声明在后面。</strong>
+</p>
+</body>
+</html>

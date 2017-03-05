@@ -1,12 +1,20 @@
 body {
   padding: 0 35px;
   font-size: 13px;
+  padding-bottom: 35px;
 }
-.mt50 {margin-top:50px;}
-.mt20 {margin-top:20px;}
+.mb30 {margin-bottom: 30px;}
+.mt50 {margin-top: 50px;}
+.mt20 {margin-top: 20px;}
+.mt5 {margin-top: 5px;}
 .p-xs {padding: 10px;}
-.pb-md {padding-bottom:20px;}
-.pb-lg {padding-bottom:50px;}
+.pb-md {padding-bottom: 20px;}
+.pb-lg {padding-bottom: 50px;}
+.mt-sm {margin-top: 5px;}
+.dn{display:none;}
+.di{display:inline;}
+.db{display:block;}
+.dib{display:inline-block;}
 .emphersize {
     color: lightseagreen
 }
@@ -16,4 +24,8 @@ body {
 
 .border-grey {
   border: 1px solid #ddd;
+}
+
+.comment {
+  color: #cac2c2
 }
