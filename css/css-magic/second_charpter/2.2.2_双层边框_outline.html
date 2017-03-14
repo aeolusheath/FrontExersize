@@ -11,7 +11,7 @@
         width: 100px;
         height: 80px;
         margin: 30px auto;
-        outline-offset: 15px;
+        outline-offset: 15px; /*设置偏移距离*/
     }
     .heme {
         outline:  dotted  1px white;
@@ -24,6 +24,21 @@
         border-radius: 5px;
         padding:20px;
         text-align: center;
+    }
+    .box-shadow {
+        width:500px;
+        margin: 0 auto;
+        height: 200px;
+        box-shadow:  0 0 0 10px lightblue;
+        border-radius: 0.8em;
+    }
+    .outline {
+        width:500px;
+        margin: 0 auto;
+        height: 200px;
+        margin-top: 30px;
+        border-radius: 0.8em;        
+        outline:  10px solid lightblue;
     }
     </style>
 </head>
@@ -47,5 +62,15 @@
 <div class="heme">
     缝边效果
 </div>
+    
+
+<div class="box-shadow">                   
+    box-shadow 的圆边  是跟着元素一起走的
+</div>
+
+<div class="outline">
+   描边的 但是却不会
+</div>
+
 </body>
 </html>
