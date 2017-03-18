@@ -110,6 +110,18 @@ p.then(
     alert("Bad computer!");
   }
 );
+
+const output = (name)=>{
+  console.log(`your name is ${name}`)
+  // console.log(Array.prototype.splice.call(arguments) + ' current params')
+  var args = Array.prototype.slice.call(arguments); 
+  console.log(args, 'kevinnnnn')
+  console.log('Yunlong')
+}
+
+const copyFunc = output.bind(null, 'Kevin')
+
+copyFunc('KaiYue')
 </script>
 </body>
 </html>
