@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style >
+    body{
+      background-color: white;
+      font-size: 24px;
+    }
+
+    #user-list{
+      line-height: 1.5em;
+    }
+
+    #user-list input{
+      display: none;
+    }
+
+    #user-list label{
+      display: block;
+    }
+
+    #user-list > li:hover{
+      background-color: rgba(0,0,0,0.3);
+    }
+
+    #user-list input:checked+label{
+      background-color: black;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <ul id="user-list">
+    <li><input name="items" id="item0" type="radio" value="张三" /><label for="item0">张三</label></li>
+    <li><input name="items" id="item1" type="radio" value="李四" /><label for="item1">李四</label></li>
+    <li><input name="items" id="item2" type="radio" value="王五" /><label for="item2">王五</label></li>
+    <li><input name="items" id="item3" type="radio" value="赵六" /><label for="item3">赵六</label></li>
+  </ul>
+</body>
+<script>
+  window.onload=function(){
+    let list = document.querySelector('#user-list');
+
+list.addEventListener('click', function(e){
+	if(e.target.tagName === 'INPUT'){
+		let checkedItem = list.querySelector('input:checked');
+		console.log(checkedItem.value);
+	}
+});
+  }
+</script>
+</html>

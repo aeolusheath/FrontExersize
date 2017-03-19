@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    dt::after {
+  content: ": ";
+}
+  </style>
+</head>
+<body>
+
+  <figure>
+    <figcaption>Get browser details using navigator</figcaption>
+    <pre>
+      function NavigatorExample() {
+        var txt;
+        txt = "Browser CodeName: " + navigator.appCodeName;
+        txt+= "Browser Name: " + navigator.appName;
+        txt+= "Browser Version: " + navigator.appVersion ;
+        txt+= "Cookies Enabled: " + navigator.cookieEnabled;
+        txt+= "Platform: " + navigator.platform;
+        txt+= "User-agent header: " + navigator.userAgent;
+      }            
+    </pre>
+  </figure>
+    
+
+    <address style="margin: 0 auto;">
+    You can contact author at <a href="http://www.somedomain.com/contact">www.somedomain.com</a>.<br>
+    If you see any bugs, please <a href="mailto:webmaster@somedomain.com">contact webmaster</a>.<br>
+    You may also want to visit us:<br>
+    Mozilla Foundation<br>
+    1981 Landings Drive<br>
+    Building K<br>
+    Mountain View, CA 94043-0801<br>
+    USA
+  </address>
+
+  <article>
+  <p>
+    The Disney movie <em>The Little Mermaid</em> was
+    first released to theatres in 1989.
+  </p>
+  <aside>
+    The movie earned $87 million during its initial release.
+  </aside>
+  <p>
+    More info about the movie...
+  </p>
+</article>
+
+
+<blockquote cite="http://developer.mozilla.org">
+  <p>This is a quotation taken from the Mozilla Developer Center.</p>
+</blockquote>
+<dl>
+  <dt>Firefox</dt>
+  <dd>
+    A free, open source, cross-platform,
+    graphical web browser developed by the
+    Mozilla Corporation and hundreds of
+    volunteers.
+  </dd>
+
+  <!-- Other terms and descriptions -->
+</dl>
+
+<dl>
+  <div>
+    <dt>Name</dt>
+    <dd>Godzilla</dd>
+  </div>
+  <div>
+    <dt>Born</dt>
+    <dd>1952</dd>
+  </div>
+  <div>
+    <dt>Birthplace</dt>
+    <dd>Japan</dd>
+  </div>
+  <div>
+    <dt>Color</dt>
+    <dd>Green</dd>
+  </div>
+</dl>
+
+</body>
+</html>
