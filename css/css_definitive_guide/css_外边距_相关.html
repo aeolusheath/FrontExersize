@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="../css-magic/common.css">
+</head>
+<body>
+  
+  <h2 class="title">
+    垂直相邻的两个块级元素的外边距会合并，查看下面的情况
+  </h2>
+
+<div style="border: 1px solid lightcoral; width: 100%; height: 100px; margin-bottom:50px;">
+</div>
+<div style="width: 50%; height: 50px; margin-top: 25px; border: 1px solid lightblue;">
+</div>
+
+
+  <h2>
+    负外边距的情况
+  </h2>
+
+<div style="padding-top: 20px; padding-bottom: 20px; height: 100px">
+    <div style="height: 10px; border: 1px solid lightcoral; margin-bottom: -20px;">
+
+    </div>
+    <div style="height: 10px; margin-top: -30px;  border: 1px solid lightblue" >
+
+    </div>
+    <!--<div>-->
+
+    <!--</div>-->
+</div>
+  <h2>负外边距</h2>
+    <div style="width: 420px; background: silver; padding: 10px; margin-top:50px; border: 1px solid;">
+      <p style="margin-top: -50px; margin-right: 10px; margin-left: 10px; margin-bottom:0; border: 3px solid gray">
+        a paragraph
+      </p>
+      a div
+    </div>
+
+    <h2>
+      负外边距另外一个例子
+    </h2>
+
+    <ul style="margin-bottom: -15px;">
+      <li style="margin-bottom:20px;">first one</li>
+      <li style="margin-bottom:20px;">second one</li>
+    </ul>
+
+    <h1 style="margin-top: -18px;">HEADEING content</h1>
+</body>
+</html>
