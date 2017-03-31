@@ -22,8 +22,16 @@
   <div style="column-count: 2; column-gap: 2em; column-width: 200px; margin: 20px auto; ">
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+    dolor in <strong style="border-left: 10px solid lightblue; background: silver"> reprehenderit in voluptate velit  </strong>esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
     non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+  </div>
+
+  <div style="border: solid">
+    test current style border: solid  or border-style: solid
+  </div>
+  <div style="color: lightblue; border: solid; margin-top: 20px;">
+
+    tips: border-width 的默认值是 medium border-style 的默认值是 none border-color的默认值没有，但是他如果不设置则是集成自父亲的默认前景色。比如父元素设置的color为red，这里border就是red
   </div>
 </body>
 </html>
