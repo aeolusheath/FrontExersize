@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      padding: 2em;
+    }
+    .clearfix::before, .clearfix::after {
+      content: '';
+      display: table
+    }
+    .clearfix::after {
+      clear: both;
+    }
+  </style>
+</head>
+<body>
+    <h4>
+      如果子元素为浮动元素，父元素的高度会塌陷，因为子元素设置为浮动，则他已经脱离了正常的文档流
+    </h4>
+
+    <div style="border:3px double lightblue; margin-bottom: 4em">
+
+        <div style="float: left; border: 1px dotted lightcoral">
+            float box 1
+        </div>
+
+        <div style="float: left; border: 1px groove lightgreen">
+            float box 2
+        </div>
+
+    </div>
+    <h4>
+      解决办法1, 为父元素overflow: auto or hidden
+    </h4>
+
+    <div style="border:3px double lightblue; overflow: auto; margin-bottom: 4em">
+
+        <div style="float: left; border: 1px dotted lightcoral">
+            float box 1
+        </div>
+
+        <div style="float: left; border: 1px groove lightgreen">
+            float box 2
+        </div>
+
+    </div>
+
+    <h4>
+      解决办法2,增加额外的标签比如 div 或者br 作为父元素最后的子元素 并且增加属性 clear: both
+    </h4>
+
+    <div style="border:3px double lightblue; overflow: auto">
+
+        <div style="float: left; border: 1px dotted lightcoral">
+            float box 1
+        </div>
+
+        <div style="float: left; border: 1px groove lightgreen; Height: 50px;">
+            float box 2
+        </div>
+
+        <br style="clear: both">
+
+    </div>
+
+    <h4>解决办法3， 最好的方法，使用伪元素来实现, 请查看.clearfix的样式</h4>
+
+    <div class="clearfix" style="border:3px double lightblue; margin-bottom: 4em;">
+
+        <div style="float: left; border: 1px dotted lightcoral">
+            float box 1
+        </div>
+
+        <div style="float: left; border: 1px groove lightgreen; Height: 50px;">
+            float box 2
+        </div>
+
+        <br style="clear: both">
+
+    </div>
+
+    参考资源查看博客记录
+</body>
+</html>
