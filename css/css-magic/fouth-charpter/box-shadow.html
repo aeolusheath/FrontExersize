@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>about box-shadow</title>
+  <link rel="stylesheet" href="../common.css">
+</head>
+<body>
+  <h4>最简单的box-shadow</h4>
+
+  <div class="mt20 mb20"
+    style="width: 200px; height: 160px;
+    background-color: yellow;
+    box-shadow: 2px 3px 4px rgba(0,0,0,.5)
+    "
+  >
+
+  </div>
+
+
+
+    <h4>单边的投影</h4>
+
+  <div class="mt20 mb20"
+    style="width: 200px; height: 160px;
+    background-color: yellow;
+    box-shadow: 0px 4px 7px -4px  black
+    "
+  >
+  </div>
+
+
+    <div class="mt20 mb20"
+    style="width: 200px; height: 160px;
+    background-color: yellow;
+    box-shadow: 0px 5px 4px -4px  black
+    "
+  >
+  </div>
+
+
+
+  <h4>较好的邻边双侧投影： 1，我们不应该把投影缩的太小，而是只需要把阴影藏进一侧，另一侧自然露出来就好。 因此 <span class="emphersize">
+      扩张半径不应该设置为模糊半径的相反值，应该设置为他的一半。
+    </span> 2，需要指定两个偏移量，两个方向需要同时移动。他们的值需要大于或者等于模糊半径的一般，因为我们希望把投影藏进另外两条边之内。</h4>
+    
+  <div class="mt20 mb20"
+    style="width: 200px; height: 160px;
+    background-color: yellow;
+    box-shadow: 3px 3px 6px -3px  black
+    ">
+  </div>
+
+
+
+  <h4>双侧投影</h4>
+    <div class="mt20 mb20"
+    style="width: 200px; height: 160px;
+    background-color: yellow;
+    box-shadow: 0 5px 5px -5px black , 0 -5px 5px -5px black;
+    ">
+  </div>
+</body>
+</html>

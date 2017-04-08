@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <div style="
+    background-image:url('./background.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position:center;
+    width: 100%;
+    height: 1000px;
+  "> 
+    <span style="
+      background-color:#ddd;
+      margin: 10px  40px;
+    ">
+      background-attachment: fixed 这里的fixed是相对于视窗的。          修改行内元素的margin-top或者margin-bottom不会影响行高，现在这个元素有margin-top和margin-bootom 但是下方仍然和下面的元素相邻.
+      解决方案： 1， 设置line—height  2，将这个元素display方式设置为inline-block
+    </span>
+        <span style="
+      background-color:#ddd;
+      display:table;
+      margin: 0 auto;
+    ">
+      行内元素使用 margin: 0 auto ; 是无法居中的。 请直接改变行内元素的display方式配合margin: 0 auto; 或者给父元素增加text-align: center;
+    </span>
+  </div>
+</body>
+</html>
