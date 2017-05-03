@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    p.hidden {
+      visibility: hidden;
+      background: lightblue;
+    }
+  </style>
+</head>
+<body>
+
+    <p  class="hidden">
+        hello 没有做完
+    </p>
+
+    <div style="border: 1px solid black">
+      <input type="text" style="margin-bottom: 10px;"> this is the text this is the text this is the text this is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the textthis is the text
+    </div>
+     
+
+     <style>
+       /**cotent: quote*/
+       h2:before {
+         content: "wwe insert this text before all H2 elements because \A it is a good idea to show how these things work . It maybe a bit long \ but the point should be clearly made";
+         color: gray
+       }
+       q::before {
+         content: open-quote;
+       }
+       q {
+         quotes:'"' '"' "'" "'";
+       }
+     </style>
+
+     <h2></h2>
+
+
+
+     <p>
+       <q>
+         <q>飘</q> this is the text 
+       </q>
+     </p>
+
+
+     <style>
+      /**content： counter*/
+        body { counter-reset: charpter 0 }
+        h1:before {
+          counter-increment: charpter 1;
+          content: counter(charpter) " "
+        }
+        ul.positive {
+          counter-reset: ordered;
+          list-style: none;
+        }
+        ul.positive li:before {
+          counter-increment: ordered;
+          content: counter(ordered)" "
+        }
+
+        ul.neg {
+          counter-reset: ordered 2;
+          list-style: none;
+        }
+        ul.neg li:before {
+          counter-increment: ordered -1;
+          content: counter(ordered)" "
+        }
+
+     </style>
+
+     <h1>one</h1>
+     <h1>two</h1>
+     <h1>three</h1>
+
+
+     <ul class="positive">
+      <li>item one</li>
+      <li>item two</li>
+      <li>item three</li>
+     </ul>
+
+     <ul class="neg">
+      <li>item one</li>
+      <li>item two</li>
+      <li>item three</li>
+     </ul>     
+
+
+     <h3>嵌套</h3>
+     <style>
+
+        ul.nest {
+          counter-reset: ordered;
+          list-style: none;
+        }
+        ul.nest li:before {
+          counter-increment: ordered;
+          content: counters(ordered, ".")" "
+        }
+     </style>
+
+
+     <ul class="nest">
+      <li>item one</li>
+      <li>item two</li>
+      <li>item three
+
+        <ul class="nest">
+          <li>item</li>
+        </ul>
+      </li>
+     </ul>
+
+     <h3>字母</h3>
+     <style>
+     ul.character {
+       counter-reset: chapter;
+       list-style: none;
+     }
+    ul.character li:before {
+        counter-increment: chapter;      
+        content: counter(chapter, upper-alpha)" ";
+    }
+     </style>
+     <ul class="character">
+      <li>item one</li>
+      <li>item two</li>
+      <li>item three</li>
+      </ul>
+
+</body>
+</html>
