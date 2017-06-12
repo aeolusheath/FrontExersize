@@ -10,3 +10,5 @@
 /react-app/
 npm-debug.log
 */bundle.js
+temp/
+/TypeScript

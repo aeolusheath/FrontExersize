@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>绝对布局元素的居中</title>
+  <style type="text/css">
+    .relative-container {
+      position: relative; width: 50em; height: 10em; border: solid red; font-size: 0.5em; margin-top: 2em;
+    }
+  </style>
+</head>
+<body>
+  <div style="
+  width: 100px;
+  height: 30px;
+  border: solid;
+  color: #ddd;
+  display: inline-block;
+  ">
+   float content
+  </div>
+    other's content is text , let's look at the result
+
+  <div>
+    <a href="" style="float: left">kevin</a>  texxxxxxttttttttttttttttttt 
+  </div>
+
+  <div class="relative-container">
+    <div style="position: absolute; width: 100%; background: #ccc; top: 0; height: 5em; bottom: 0; margin: auto 0">
+      绝对布局中，如果这个元素是绝对布局，要想在垂直方向居中可以将top 和 bottom 都设置为0，然后 margin-top 和 margin-bottom 都设置为auto
+    </div>
+  </div>
+
+ <div class="relative-container">
+    <div style="position: absolute ; width: 50%; background: #ccc; height: 5em; left:0; right: 0; margin: 0 auto">
+      绝对布局中，如果这个元素是绝对布局，要想在水平方向居中可以将left 和 right 都设置为0，然后 margin-left 和 margin-right 都设置为auto
+
+    </div>
+  </div>
+  
+   <div class="relative-container">
+    <div style="  width:50%; position: absolute; left:0;right:0; top: 0; bottom:0;  background: #ccc; height: 5em; margin: auto auto">
+      绝对布局中，如果这个元素是绝对布局，要想在水平和垂直同时居中，则left,right,top,bottom都设置为0，margin: auto auto 即可
+    </div>
+  </div>
+  
+
+ 关于居中的参考网址： http://howtocenterincss.com/
+
+</body>
+</html>
