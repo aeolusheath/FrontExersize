@@ -3,6 +3,7 @@ body {
   font-size: 13px;
   padding-bottom: 35px;
 }
+.ft13 {font-size: 13px;}
 .mb30 {margin-bottom: 30px;}
 .mt50 {margin-top: 50px;}
 .mt20 {margin-top: 20px;}
@@ -16,6 +17,7 @@ body {
 .di{display:inline;}
 .db{display:block;}
 .dib{display:inline-block;}
+.tm {text-align:center}
 .emphersize {
     color: lightseagreen
 }
@@ -26,10 +28,19 @@ body {
 .border-grey {
   border: 1px solid #ddd;
 }
+.color-white {
+  color: white;
+}
 
 .comment {
   color: #cac2c2
 }
 h2.title {
   /*font-size: 1em*/
+}
+.wba {
+  word-break: break-all
+}
+.font18 {
+  font-size: 18px;
 }

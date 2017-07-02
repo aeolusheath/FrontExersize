@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>about 毛玻璃效果</title>
+  <link rel="stylesheet" href="../common.css">
+  <style>
+    body, main::before {
+      background: url(./banner.jpg) 0 / cover fixed
+    }
+    body {
+      padding-top: 8em;
+      font: 150%/1.6 Baskerville, Palatino, serif;
+    }
+    main {
+      margin-top: 10em;
+      padding: 20px;
+      max-width: 700px;
+      height: 250px;
+      margin: 0 auto;
+      border-radius: 5px;
+      background: hsla(0, 0%, 100%,.3);
+      /*filter: blur(5px); //直接使用这个的话，整main内容都会是模糊的。*/ 
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px hsla(0,0%,100%,.3) inset  , 0 .5em 1em rgba(0, 0, 0, 0.6);
+      text-shadow: 0 1px 1px hsla(0,0%,100%,.3);
+    }
+    main::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      /*background: rgba(255, 0, 0, .5);*/
+      filter: blur(20px);
+      z-index: -1;
+      margin: -30px;
+    }
+    
+  </style>
+</head>
+<body>
+  <main>
+    <blockquote>
+      hello, this the the main content 
+      
+    </blockquote>
+  </main>
+
+  <h3 class="tm color-white wba font18" >
+    我们不能直接对main元素使用Blur滤镜，这样的话，整个main元素的内容都是模糊的了。1，关键点是我们将滤镜blur的应用对象，使用到了main的伪元素上面了。2，必须要将为元素的背景与body（或者是其他以此类推的父元素的）背景重合。
+    3，为什么要加margin: -30px; 因为模糊效果在接近边缘效果处会逐渐消退，所以我们要使这个伪元素的范围扩大（可以将上面注释的伪元素样式注释的background恢复，并且去掉margin在查看效果）。4， 因为我们使用了margin:-30px，这就使得main的伪元素面积大于main元素，这时候我们在main元素上
+    增加 overflow: hidden 达到目前这个效果。 
+  </h3>
+</body>
+</html>
