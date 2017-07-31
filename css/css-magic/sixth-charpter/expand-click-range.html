@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>扩大可点击区域</title>
+  <style type="text/css">
+    .button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: cornflowerblue;
+      cursor:pointer;
+      text-align: center;
+      color: white;
+      font-size: 20px;
+      line-height: 50px;
+      /*display: table-cell;*/
+      /*vertical-align: middle;*/
+      position: relative;
+    }
+    .button.border {
+      border: 10px solid transparent;
+      background-clip: content-box;
+      /*box-shadow: 0 0 0 1px rgba(0, 0, 0, .3) inset, 0 0, 1px 2px black*/
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, .3) inset;
+      
+    }
+    .button.expand::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      right: -10px;
+      top: -10px;
+      bottom: -10px;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="button">
+      +
+  </div>
+    <div class="button border">
+      +
+  </div>
+  <div class="button expand">
+    +
+  </div>
+</body>
+</html>
