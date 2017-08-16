@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>事件模型</title>
+</head>
+<body id="body">
+  <content id="content">
+    <div id="div">
+      <span id="span">span-context</span>
+    </div>
+  </content>
+  <div style="height:1200px">
+
+  </div>
+  <script type="text/javascript">
+    window.onload = function() {
+      ["body", "content", "div", "span"].forEach(function(item){
+        document.getElementById(item).addEventListener("click", function(e){
+          console.log('you are clicking item which id is '+ item, this)
+        }, false)
+      })
+      // addEventListen 方法 第三个参数可以指定 userCapture ，默认是false，就是说默认是事件冒泡，若设置为true 则是事件捕获
+    }
+
+
+  </script>
+</body>
+</html>
