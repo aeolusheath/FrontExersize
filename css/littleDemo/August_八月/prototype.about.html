@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  asd
+
+  <script type="text/javascript">
+    //  let Animal = { 
+    //   smile: function(){ console.log('笑') },
+    //   name: 'animal'
+    //  }
+
+    //  //原型的动态性
+    //  function Person () {}
+    //  //step 1
+    //  Person.prototype.sayHi = function(){ console.log('你好') }
+    //  var person = new Person()
+    //  person.sayHi() // if error occur ?  what is sayHi 
+    //  //step2 
+    //  Person.prototype.sayJP = function(){ console.log('阿里嘎多') }
+    //  person.sayJP() // if error occur ?  what is sayJP
+
+
+    //  //重写（覆盖原型对象）
+    //  function Animal () {}
+    //  var ani = new Animal() //实例中的指针指向原型，在这里指向的原型是Object  key page 156-157
+
+    //  Animal.prototype = {
+    //   name: 'ANIMAL', 
+    //   sayName: function () { console.log(this.name) }
+    //  }
+    //  ani.sayName() // if error occur ?  
+
+    //  var ani2 =  new Animal() // 重新初始化
+    //  an2.sayName() // if error occur ?
+
+    // --------------------------------------------------------------------------------分隔符------------------------------------------------------------------------
+
+
+     // 实现继承，大白话，prototype是对象，我们基于这个来做
+
+     function Animal () {
+       this.cry = function() { console.log('crying') }
+     }
+
+     function Cat (name) { this.name = name }
+
+     Cat.prototype = new Animal()   
+     Cat.prototype.constructor = Cat // not so good
+     //Object.defineProperty(Cat.prototype, 'constructor', { enumarable: false, value: Cat }) better
+     
+     var katy =  new Cat()
+     cat.cry() // what is result 
+
+
+
+
+  </script>
+</body>
+</html>
