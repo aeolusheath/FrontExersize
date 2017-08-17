@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>自定义复选框</title>
+  <link rel="stylesheet" href="../common.css">
+  <style type="text/css">
+    input[type="checkbox"] + label::before {
+      content: '\a0';
+      display: inline-block;
+      vertical-align: .2em;
+      width: .8em;
+      height: .8em;
+      margin-right: .2em;
+      border-radius: .2em;
+      background: silver;
+      text-indent: .15em;
+      line-height: .65;
+    }
+    input[type="checkbox"]:checked + label::before {
+      content: '\2713';
+      background: yellowgreen;
+    }
+    input[type="checkbox"] {
+      position: absolute;
+      clip: rect(0,0,0,0)
+    }
+  </style>
+</head>
+<body>
+  
+  <input type="checkbox" id="awesome"> 
+  <label for="awesome">Awesome !</label>
+
+</body>
+</html>

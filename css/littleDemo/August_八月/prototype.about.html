@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  asd
+
+  <script type="text/javascript">
+    //  let Animal = { 
+    //   smile: function(){ console.log('笑') },
+    //   name: 'animal'
+    //  }
+
+    //  //原型的动态性
+    //  function Person () {}
+    //  //step 1
+    //  Person.prototype.sayHi = function(){ console.log('你好') }
+    //  var person = new Person()
+    //  person.sayHi() // if error occur ?  what is sayHi 
+    //  //step2 
+    //  Person.prototype.sayJP = function(){ console.log('阿里嘎多') }
+    //  person.sayJP() // if error occur ?  what is sayJP
+
+
+    //  //重写（覆盖原型对象）
+    //  function Animal () {}
+    //  var ani = new Animal() //实例中的指针指向原型，在这里指向的原型是Object  key page 156-157
+
+    //  Animal.prototype = {
+    //   name: 'ANIMAL', 
+    //   sayName: function () { console.log(this.name) }
+    //  }
+    //  ani.sayName() // if error occur ?  
+
+    //  var ani2 =  new Animal() // 重新初始化
+    //  an2.sayName() // if error occur ?
+
+    // --------------------------------------------------------------------------------分隔符------------------------------------------------------------------------
+
+
+     // 实现继承  
+     
+     //方式一 原型链->大白话 key，prototype是对象，我们基于这个来做
+
+     function Animal () {
+       this.cry = function() { console.log('crying') }
+     }
+
+     function Cat (name) { this.name = name }
+     
+     //原型链核心 
+     Cat.prototype = new Animal()   
+     
+     //关键为什么加下面的代码
+     Cat.prototype.constructor = Cat // not so good 
+     //Object.defineProperty(Cat.prototype, 'constructor', { enumarable: false, value: Cat }) better why?
+
+     // 优先级
+     Cat.prototype.cry = function () { console.log('%\>_\<%') }
+
+     var katy =  new Cat('kesha')
+     katy.cry() // what is result 
+     console.log(katy)
+
+     //方式二 借用构造函数
+     function Person(name, age) { 
+        this.name= name;
+        this.age = age
+      }
+
+     function Employee(name, age, phone) {
+       Person.call(this, name, age)
+       this.phone = phone
+     }
+
+     var em = new Employee('kevin', 20, 15196634249)
+     console.log(em, 'kevinn')
+
+     //这种有什么问题，方法不能共用，Person原型定义的属性，Employee访问不到
+
+     //方式三 组合继承，怎么组合继承 ok 将前两种方式结合起来
+     function Person(name, age) { 
+        this.name= name;
+        this.age = age;
+        this.isAlive = true
+        // this.breath = function() {
+        //   console.log('呼吸 呼吸 呼吸')
+        // }
+      }
+     Person.prototype.breath = function() {
+       console.log('呼吸 呼吸 呼吸 呼吸')
+     }
+
+     function Employee(name, age, phone) {
+       Person.call(this, name, age)
+       this.phone = phone
+     }
+     Employee.prototype = new Person() //这里没有传参数，我们只需要原型上面的数据
+
+     var em1  = new Employee('kevin', 20, 178)
+     var em2  = new Employee('kaiqiang', 20, 178)     
+     console.log(em1, em2, em1.breath === em2.breath, 'result')
+     em1.breath()
+
+
+
+     //方式4 原型式继承，基于已存在的对象创建新对象。
+     
+     //Object.create() 方法  var x = Object.create(obj)  x 的原型是 obj
+     /**
+     var x = {name: 'x'}
+     var y =  Object.create(x)
+     y.__proto__ === x  what's this result
+     */
+
+
+     var person = {
+       name: 'kevin',
+       colors: ['blue', 'red', 'kevin']
+     }
+     var p1 = Object.create(person)
+     p1.name = 'kevin1'
+     p1.colors.push('lightblue')
+
+     console.log(person.name, person.colors.join(',')) // result
+
+     var p2 = Object.create(person)
+     p2.name = 'kevin2'
+     p2.colors.push('lightblue2')
+
+     console.log(person.name, person.colors.join(','))   //result
+
+  </script>
+</body>
+</html>
