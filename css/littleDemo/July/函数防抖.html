@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div style="height: 1000px">
+
+  </div>
+
+  <!--<script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.core.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script type="text/javascript">
+
+  /**滚动条防抖动一**/
+  // function debounce(method, context) {
+  //   // console.log(method.tId, 'method---->>>>>>>>>')
+  //   clearTimeout(method.tId); 
+  //   method.tId = setTimeout(function () { method.call(context); }, 100);
+  // }
+
+  // // function print() { console.log('hello world'); }
+  // // window.onscroll = function () {
+  // //   console.log('正在调用函数')
+  // //   debounce(print)
+  // // }
+
+  /**滚动条防抖动二*/
+
+  // var processor = {
+  //   timeoutId: null,
+  //   performProcessing: function(){
+  //     //实际执行的代码
+  //     console.log('performProcessing 方法')
+  //     console.log('hello word')
+  //   },
+  //   //初始处理调用的方法
+  //   process: function() {
+  //     console.log('process 方法')
+  //     clearTimeout(this.timeoutId)
+  //     var that = this
+  //     this.timeoutId = setTimeout(function(){
+  //       that.performProcessing()
+  //     }, 100)
+  //   }
+  // }
+
+  // window.onscroll = function(){
+  //   processor.process()
+  // }
+
+  /**滚动条防抖 三 采用lodash的封装好的方法*/
+  window.onscroll = _.debounce(function(){console.log('kevinnnnnn')}, 300)  
+  </script>
+  
+</body>
+</html>
