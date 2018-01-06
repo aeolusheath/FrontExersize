@@ -1,0 +1,59 @@
+JS 中的继承
+
+1，从何说起， 继承->引用类型。 
+
+	基本类型 Number String Boolean Undefined Null Symbol（ES6）新增
+	对象（引用类型 可能不准确） Object Function Array Date Function （https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects）
+
+	实际上 所有的引用类型都有一个基类，就是Object。
+
+例子：  var x = 'str'
+
+	str.toString() // [object String] //参考lodash的源码 isString方法就调用了这个 
+	
+	x.__proto__ === String.prototype // true 字符串是对象String的实例
+
+	String.prototype._proto_ === Object.prototype //true 字符串继承自Object
+
+	Object.getPrototypeOf(p) === p.__proto__  //true,获取对象原型,浏览器中直接使用_proto_ 
+
+	String 全局对象是一个用于字符串或一个字符序列的构造函数(MDN) ---->直接在chrome里面 输入 String 出来一个function()
+ 
+	https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/toString
+
+2, 对象 才会存在继承
+	
+	怎么创建对象？ 1) var a  = { name: ‘kevin’ } 字面量形式
+		       2）new 构造函数创建
+
+	声明函数同时，函数会同时被附加一个prototype的属性，这个属性指向函数的原型对象。
+
+	每个对象的实例有一个内部属性，也是指向原型对象。
+
+
+	原型应该设置为对象，我们做一个实验 :
+		
+		function Person () {} Person.prototype = 'xx'
+		var p = new Person()  p._proto_ //? p 的原型是什么 
+		p.__proto__ === Object.prototype // 值是什么
+		
+		var m = {}, m._proto_ ='xx'
+		m._proto_ //m的原型 是什么
+		
+
+
+
+	重要的一点： 而且所有函数创建初时候的这个原型对象都是Object的实例。
+	
+ 	function Person() {}  Person.prototype._proto_ === Object.prototype	
+
+
+
+关键文档:  https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+
+	   https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain#使用_class_关键字
+
+           https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Inheritance_Revisited
+	
+
+	 
