@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>自定义复选框</title>
+  <link rel="stylesheet" href="../common.css">
+  <style type="text/css">
+    input[type="checkbox"] + label::before {
+      content: '\a0';
+      display: inline-block;
+      vertical-align: .2em;
+      width: .8em;
+      height: .8em;
+      margin-right: .2em;
+      border-radius: .2em;
+      background: silver;
+      text-indent: .15em;
+      line-height: .65;
+    }
+    input[type="checkbox"]:checked + label::before {
+      content: '\2713';
+      background: yellowgreen;
+    }
+    input[type="checkbox"] {
+      position: absolute;
+      clip: rect(0,0,0,0)
+    }
+  </style>
+</head>
+<body>
+  
+  <input type="checkbox" id="awesome"> 
+  <label for="awesome">Awesome !</label>
+  <script type="text/javascript">
+    /**
+     js 声明提升
+    
+    */
+    //函数 变量提升， 声明提升，赋值也是提升
+    console.log(sayHello)
+    sayHello()
+    function sayHello() {
+      console.log('hello')
+    }
+    // 但是以字面量的形式声明函数， 声明提升，但是赋值不会提升。
+    console.log(sayHello2) // 这里是undefined 说明已经声明了这个变量， 如果没有声明 会报错误  xx is not defined
+    // sayHello2()
+    var sayHello2 = function() {
+      console.log('hello2')
+    }
+
+    // 非函数
+    // console.log(a)
+    a = 5  //不会声明提升 hoisting
+
+    console.log(b)
+    var b  //声明提升 ，会
+
+    console.log(c) 
+    var c = 'kevin' //声明提升 ，会, 赋值不会
+
+    console.log(z)
+    let z 
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>second charpter -1</title>
+
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.4/jquery.fullpage.css" />
+  <!--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>-->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.4/vendors/jquery.easings.min.js"></script>-->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.4/jquery.fullpage.js"></script>
+  <style type="text/css">
+    .text-center{
+      text-align:center
+    }
+  </style>
+</head>
+<body>
+  <div id="fullpage">
+    <div class="section">
+      <input type="button" onclick="">
+      <!--Some section1-->
+      <div class="slide text-center" >
+          <h1> 关于 this </h1>
+          <h3>1, 为什么单独讨论 this</h3>
+          <h3>2, 什么地方用到了 this</h3>
+          <h3>3, 在不同的情况下 this 有什么表现</h3>
+      </div>
+      <div class="slide text-center" >
+          <div style="padding-left:140px; text-align:left">
+            1, 项目 Vue组件里面，常用的 methods: {login(){ this.xxxx }} </br></br>
+            2, 构造函数里面的this, 例子： 
+            function Person(name, age) {
+              this.name = name
+              this.age = age
+              this.getName = function(){
+                return this.name
+              }
+            } </br></br>
+            3, 变量里面的this:  var temp = {i:1, j:2, k: this.i + this.j}  这个例子可以演变出其他的对象 </br> </br>
+            4, 事件处理函数里面的this: document.getEelementById('element').addEventListner('click', function(){
+              console.log(this)
+            })
+          </div>
+
+
+      </div>
+      <div class="slide text-center" >
+          <div style="text-align: left;
+    margin: 0 auto;
+    width: 34%">
+            我们对上面，第三点,进行一个变形 </br> </br>
+             var temp = {i:1, j:2, k: this.i + this.j}  </br> </br>
+            var temp = {i:1, j:2, k: { k-inner: this.i + this.j  }}   </br></br>  
+            var temp = {i:1, j:2, k: function(){ return  this.i + this.j }} </br></br>  
+            var temp = {i:1, j:2, k: ()=>{ return this.i + this.j}} </br></br>  
+          </div>
+      </div> 
+
+      <div class="slide text-center" >
+        <div>
+            <h1> summary：</h1>
+            js 没有块级作用域（不考虑let的情况下），只有函数作用域和全局作用域。我们上面讨论的this,恰好可以按照这两个作用域来区分。 </br></br>
+            1，处于函数内部的，可理解为在函数作用域。 </br></br>
+            2，没有处于函数内部的，可以理解为在全局作用域里面。 </br></br>
+        </div>
+      </div>   
+      <div class="slide text-center"  >
+        <div>
+          1，处于函数上下文里面的this,简单的来说，就是哪个对象调用了这个函数，this 就指向哪个对象。但是里面有特殊情况，构造函数的情况</br></br>
+          特殊情况： 一个函数，作为构造函数(使用new)，这个this 指向 new的对象。</br></br> 
+          若是事件处理函数，里面的this指向的是触发该事件的元素   </br></br> 
+          箭头函数不绑定this，它会捕获其所在上下文的this值</br></br>      
+          2，处于全局上下文里面的this,指的是全局对象。 browser里面全局对象指的是window. node 里面指的是global对象。</br></br>
+        </div>
+      </div>
+
+    </div>
+    <div class="section">
+      <div class="slide text-center" >
+        <h1>事件模型</h1>
+        <h4>HTML 与 JS 交互通过事件实现</h4>
+        <h3>1,事件流</h3>
+        <h3>2,事件处理</h3>
+      </div>
+      <div class="slide text-center">
+        关于事件流，什么是事件流？ 页面中的元素不是单独存在，一定存在层级关系。事件流描述各个层级接受事件的顺序。</br> </br>
+        最早的IE浏览器和NETSCAPE浏览器提出了完全相反的概念</br> </br>
+        IE 的事件流是 事件冒泡(event bubbling), 事件一开始是由最底层（文档中嵌套最深的节点）接收，然后逐级向上传播。</br></br>
+        网景 的事件流是 事件捕获， 就是一开始由最外层的元素接受事件，然后逐步传递到最底层最详细的元素。
+      </div>
+      <div class="slide text-center">
+        <div>最后W3C定义了标准的dom事件流，可以理解将两者统一起来</div>
+        <img src="https://www.w3.org/TR/DOM-Level-3-Events/images/eventflow.svg" alt="" style="height: 95%">
+      </div>
+      <div class="slide text-center">
+        <div>
+          <h2>事件处理</h2>
+          <h3>知道了事件如何传递，我们来看看事件是如何处理的，</h3>
+          <div>
+            由处理程序来处理，事件就是用户 或者浏览器自身执行的某种动作，比如 click， load 和 mouseover 都是事件的名字。 响应某个事件的函数，就叫做事件处理程序。
+          </div>
+        </div>
+      </div>
+      <div class="slide text-center">
+          <div>
+            <h3>HTML事件处理程序</h3>
+            事件处理程序， 某个HTML元素支持的每种事件，都可以使用一个与相应事件处理程序同名的HTML特性来执行。这个特性的值是应该能够执行的javascript代码。
+            <pre>&lt;input type="button" vlaue="Click me" &gt;</pre> 
+            </br> </br>
+
+            <h3>DOM0级事件处理程序</h3> 
+            每个元素（包括window 和 document）都有自己的事件处理程序属性，这些属性通常小写。</br> 
+            代码张这样: var btn =  document.getElementById("myBtn") btn.onClick= function() { //do something } </br> </br>
+
+            <h3>DOM2事件处理程序</h3> 
+            dom2级事件定义了两个方法，用于处理指定和删除事件处理程序的操作： addEventListener() 和 removeEventListner() 方法。</br> </br>
+            就是上面我们指定的。第三个参数，就是上面说的一样，表示在捕获阶段调用事件处理顺序；如果是false，表示在冒泡阶段调用事件处理程序。</br> </br>
+            IE9以及更高级的IE才支持这两个方法 </br> </br>
+
+            IE 有两个类似的方法 attachEvent 和 detachEvent 当然这不是标准，所以不予讨论。 IE8 以及更早的版本只支持冒泡。 </br> </br>
+
+          </div>
+      </div>
+      <div class="slide text-center">
+        <h3>事件对象</h3>
+        在触发dom事件的时候，会产生一个事件对象，具有特殊性的需要提一下：
+        event.preventDefault() 以及 event.stopProgation()
+      </div>
+    </div>
+    <div class="section">Some section3</div>
+    <div class="section">Some section4</div>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#fullpage').fullpage({
+        // loopHorizontal: true
+        slidesNavigation: true,
+        // scrollingSpeed: 1000
+        // css3:true,
+        sectionsColor: ['#f2f2f2', '#4BBFC3', '#7BAABE', 'whitesmoke', '#000']
+      })
+    })
+  </script>
+</body>
+</html>
+
