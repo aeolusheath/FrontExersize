@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="../font-awesome/css/font-awesome.css">
+  <style type="text/css">
+  button {
+    outline: none;
+  }
+  .ns-wrapper{
+    height: 22px;
+    width: 22px;
+    padding: 0;
+    border-radius: 50%;
+    position: relative;
+  }
+  .ns-wrapper:not(:hover) div {
+      display: none;
+  }
+  .ns-wrapper div {
+    display: block;
+    border: 1px solid #ddd;
+    background-color: white;
+    position: absolute;
+    padding: 0px 12px;  
+    top: -6px;
+    left: 32px;
+    min-height: 47px;
+    z-index: 10;  
+  }
+  .ns-wrapper div .empty-tip{
+      line-height: 47px;
+    }  
+  .ns-wrapper div:before {
+    content: '';
+    border: inherit;
+    padding: 0.5em;
+    position: absolute;
+    background: inherit;
+    left: -8px;
+    top: 10px;
+    transform: rotate(-45deg);
+    border-right: 0;
+    border-bottom: 0; 
+    font-size: 13px;
+  }
+  .ns-wrapper div ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    padding-top: 7px;
+    padding-bottom: 6px;
+  }
+  .ns-wrapper div ul li {
+    padding-top: 6px;    
+    padding-bottom: 5px;
+  }
+  .ns-wrapper div ul li .copy-span {
+    margin-left:4px;
+    color: #79b4ed;
+  }
+  .ns-wrapper div ul li:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+  }   
+
+  </style>
+</head>
+<body>
+  <button class="ns-wrapper btn">
+     <i aria-hidden="true" class="fa fa-exclamation"></i>
+
+    <div style="min-height: 37px;">
+      <!--<i aria-hidden="true" class="fa fa-exclamation"></i>-->
+      <ul >
+        <li> 
+          ThisIsContent
+        <span class="help copy-span"  >
+          <i class="fa fa-files-o pointer "  aria-hidden="true"></i>
+        </span>
+      </li>
+      </ul>
+      <!--<span class="empty-tip" v-else> 暂时没有查询到数据 </span>-->
+    </div>    
+  </button>
+</body>
+</html>
