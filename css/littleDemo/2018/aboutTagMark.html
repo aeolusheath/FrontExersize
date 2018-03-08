@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./script.js"></script>
+  <!--<script>
+    console.log('excute this in head')
+    function outputInHead () {
+      console.log('outputInHead')
+    }
+    outputInHead()
+  </script>-->
+  <script type="text/javascript">
+    console.log(kevin)
+  </script>
+</head>
+<body>
+  hello from <mark> mark-content </mark> <br>
+  hi from <strong> strong-content </strong> <br>
+  highlight from <highlight> highlight-content，并没有highlight tag </highlight> <br>
+  ruby from <ruby> ruby tag content ? ? </ruby> 
+  <hr />
+  <div style="width: 200px; height: 100px;">
+    <span style="display:inline-block; height: 50px; width:100px"></span>
+  </div>
+
+  <p contextmenu="supermenu">本段落拥有一个名为 "supermenu" 的上下文菜单。这个菜单会在用户右键单击该段落时出现。</p>  
+
+  <menu id="supermenu">
+    <command label="Step 1: Write Tutorial" onclick="doSomething()">
+    <command label="Step 2: Edit Tutorial" onclick="doSomethingElse()">
+  </menu>
+
+  <p><b>注释：</b>目前只有 Firefox 支持 contextmenu 属性。</p> 
+ 
+
+ <div style="width: 100px; height: 100px; border: 5px;">
+
+ </div>
+</body>
+
+<script>
+function Foo () {
+  var i=0;
+  return function (){
+    document.write((i++)+'<br/>')
+  }
+}
+var f1 = Foo(),
+f2 = Foo(),
+f3 = Foo()
+f1();
+f1();
+f2();
+f3();
+
+var foo = 5
+function testRedeclare(foo) {
+  console.log(foo)
+  var foo = {a: 3}
+  console.log(foo)
+}
+testRedeclare(foo)
+console.log(foo)
+
+console.log(window, window.jack, 'kevin is what-------------')
+var jack = 5
+
+// console.log(l, 'lllllllllllllllllllll')
+// l=5   //不会声明提升
+
+// console.log(z)
+// let z  //let 不会声明提升
+
+
+let temp = [4,5,9,1]
+for(let prop in temp) {
+  console.log(prop, 'dd')
+  if(temp.hasOwnProperty(prop)) {
+    console.log('prop has property----->>>>>>>', prop)
+  }
+}
+</script>
+</html>
