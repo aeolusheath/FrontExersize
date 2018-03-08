@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>垂直居中</title>
+  <style text="text/css">
+    .dib {
+      display: inline-block;
+    }
+    .di {
+      display: inline;
+    }
+    .db {
+      display: block;
+    }
+    .mr-lg {
+      margin-right: 20px;
+    }
+    .container {
+      width: 300px;
+      height: 50px;
+      margin-bottom: 10px;
+      border: 1px solid grey;      
+    }
+    /* .container-border {
+      border: 1px solid grey;
+    } */
+    .item-border {
+      border: 1px solid greenyellow;
+    }
+    /**key code method 001*/
+    .container-1::after{
+      content: "";
+      height: 100%;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    hr {
+      margin-top: 48px;
+      border: 2px solid #2196F3;
+    }
+  </style>
+</head>
+<body>
+  
+  <mark> 1, inline-block元素的垂直居中 </mark> <br/><br/>
+  <strong> method -001 </strong> <br/>
+  <pre>
+     给父元素增加伪元素: after, 并且添加样式,长这样:
+     
+    .container-1::after {
+      content: '';
+      height: 100%;
+      vertical-align: middle;
+      display: inline: block;
+    }
+  </pre>
+  <div class=" container container-1">
+
+    <span class="dib item-border">
+      行内块级元素
+    </span>
+  </div>
+
+  <div class="container container-1">
+    <span class="item-border">
+      行内元素也适用于method1
+    </span>
+  </div>
+  inline-block的居中看这个：<a href="https://codepen.io/edge0703/pen/iHJuA" target="_blank">codepen</a> 
+  <hr> </hr>
+
+  <style type="text/css">
+    .container-2 {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+  </style>
+
+
+  <mark> 2，可以设置父元素dispaly为table-cell,然后text-align为center; vertical-align为middle  </mark> <br/><br/>
+
+    <div style="display: table">
+      <div class="container container-2 mr-lg">
+        <span class="di">content</span>
+      </div>
+
+      <div class="container container-2">
+        <span class="dib">content</span>
+      </div>
+    </div>
+
+    <table style="border: 1px solid #ddd; margin-top: 30px;">
+      <tr>
+        <td> <span> 1111 </span> </td>
+        <td> <span> 2222 </span> </td>
+      </tr>
+    </table>
+
+</body>
+</html>
