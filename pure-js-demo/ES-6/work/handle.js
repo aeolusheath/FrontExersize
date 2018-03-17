@@ -31,8 +31,9 @@ fs.readFile(testInputFile, 'utf8', (err, content)=>{
   let rawContent = content
   let lineArr = content.split('\n')
   console.log(lineArr)
-  var unitsMap = {},
-    unitsRomen = {}
+  var unitsMap = {}, //  { glob: 1, prok: 5, pish: 10,tegi: 50 }
+    unitsRomen = {}  //  { glob: I, prok: V, pish: X, tegi: L }
+    currencyMap = {} //  { silver: 17, gold: 144500, iron: some number }
   lineArr.forEach(item=> {
     // if(item.match('/^[a-zA-Z]+ is [IVXLCDM]$/')){
     //   console.log(item)
@@ -54,10 +55,22 @@ fs.readFile(testInputFile, 'utf8', (err, content)=>{
 
 
     //step 2 计算 货币的单位
-    var regCom = new RegExp('((glob|prok|pish|tegj)\\s+)+((Silver|Gold|Iron)\\s+){1}(is)(\\s+[1-9]\\d+)(\\s+Credits)')
+    var regCom = new RegExp('((glob|prok|pish|tegj)\\s+)+((Silver|Gold|Iron)\\s+){1}(is)(\\s+[1-9]\\d*)(\\s+Credits)')
     if(regCom.test(item)) {
-      console.log(item)
+      console.log(item, 'here')
+      let sArr = item.split(/\s+is\s+/) //不能直接用is
+      let currenyAndRomensArr = sArr[0].trim().split(' ')
+      console.log(sArr, currenyAndRomensArr)
+      let currency = currenyAndRomensArr.pop(), //IRON
+      romensArr = currenyAndRomensArr.slice(0, currenyAndRomensArr.length) //['pish pish']
      
+      console.log('当前的货币是: ' +currency, '当前的罗马数字是  ' + romensArr)
+      
+      let romensNumber = GetRomenNumber(romensArr, unitsRomen) //将['glob', '']
+
+      let decimals = getDecimalNumber2(romensNumber) 
+      console.log('转换罗马数字之后的结果是： '+  decimals)
+      // currencyMap[currency] = 
     }
   })
   console.log(unitsMap)
@@ -67,18 +80,16 @@ fs.readFile(testInputFile, 'utf8', (err, content)=>{
 //todo 获取数据 和 获取货币 的数据区分开
 /**
  * 
- * @param {string} str 'glob glob Silver'
+ * @param {arry} arry ['glob','glob','Silver']
  * @param {object} obj {glob: I, prok: V}
  * return II
  */
-function GetRomenNumber(str, obj) {
-  let arr = str.split(/\s+/)
-  let currency = arr.pop(),
-    romenNums = 0
+function GetRomenNumber(arr, obj) {
   let res = ''
   arr.forEach(item=>{
-    res+=obj[item]
+    res+=obj[item.trim()]
   })
+  return res
 /*  
  *  I 1
  *  V 5
@@ -97,6 +108,7 @@ function GetRomenNumber(str, obj) {
 
 }
 
+// wrong method
 function getDecimalNumber(romenNumber) {
   console.log('in here---->>>1111')
   let arr = romenNumber.split('') //get XXXI
@@ -123,20 +135,26 @@ function getDecimalNumber(romenNumber) {
   console.log(sum, 'result')
   return sum
 }
-getDecimalNumber('MCMIII')
-getDecimalNumber('MCMXLIV')
+// getDecimalNumber('MCMIII')
+// getDecimalNumber('MCMXLIV')
 function getDecimalNumber2 (romen) {
   let totalLength = romen.length
   let sum = 0
   for(let i=0; i< totalLength; i++) {
-    let first = romen.charAt(i) 
-    let second = romen.charAt(i+1)
-    console.log(i, ROMAN_NUM[first], ROMAN_NUM[second], 'process')
-    if (ROMAN_NUM[first] >= ROMAN_NUM[second]) {
-      sum+=ROMAN_NUM[first]
-    }
-    else {
-      sum += ROMAN_NUM[second] - ROMAN_NUM[first]
+    let first = ROMAN_NUM[romen.charAt(i)]||0
+    let second = ROMAN_NUM[romen.charAt(i+1)]||0
+    // console.log(i, ROMAN_NUM[first], ROMAN_NUM[second], 'process')
+    // if (ROMAN_NUM[first] >= ROMAN_NUM[second]) {
+    //   sum+=ROMAN_NUM[first]
+    // }
+    // else {
+    //   sum += ROMAN_NUM[second] - ROMAN_NUM[first]
+    //   i++
+    // }
+    if(first>=second) {
+      sum += first
+    }else{
+      sum += (second-first)
       i++
     }
   }
