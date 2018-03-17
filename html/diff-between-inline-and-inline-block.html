@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>inline-block 和 inline的区别</title>
+  <style type="text/css">
+    .container {
+      width: 500px;
+      height: 40px;
+      border: 1px solid green;
+      margin-bottom: 20px;
+    }
+    .dib {
+      display: inline-block; 
+    }
+    .di {
+      display: inline;
+    }
+    .mt-sm {
+      margin-top: 5px;
+    }
+    .mr-sm {
+      margin-right: 5px;
+    }
+    .span-wh {
+      width: 100px;
+      height: 20px;
+      background-color:antiquewhite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="dib mt-sm mr-sm span-wh">
+      inline-block
+    </span><span class="dib mt-sm mr-sm span-wh">
+      inline-block
+    </span>    
+  </div>
+
+  <div class="container">
+    <span style="height: 30px;" class="di mt-sm mr-sm span-wh">
+      inline
+    </span>
+    <span style="line-height: 30px;" class=" di mt-sm mr-sm span-wh">
+      inline
+    </span>    
+  </div>
+
+  <div>
+    inline 的水平padding 和 margin生效， 垂直方向的不会生效
+    inline 的transform: translate(X,Y) 如果是百分比不生效    
+  </div>
+</body>
+</html>
