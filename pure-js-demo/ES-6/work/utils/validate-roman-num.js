@@ -1,3 +1,5 @@
+const ROMAN_ARABIC_MAP = require('../const')
+
 /**
  * //todo Check is valid roman number
  * @param {String} romanNum
@@ -24,7 +26,7 @@
  *  C 只能被 D 和 M 减， 所以只能出现CD 和 CM
  *  V L D 不能被减去 不能出现VX VL VC VD VM   LC LD LM  DM 
  */
-module.exports = validateRomanNum = (romanNum, romanArabicMap) =>{
+const validateRomanNum = (romanNum) =>{
   let regFirst = /([IXCM])\1{3,}|([DLV])\2{1,}/
   if(regFirst.test(romanNum)) return false
   let regSecond = /IL|IC|ID|IM|XD|XM|VX|VL|VC|VD|VM|LC|LC|LM|DM/             //参考IVL  IVX   MVX 1045 是不对的 应该分解为1000+ 40+5 MXLV
@@ -32,8 +34,7 @@ module.exports = validateRomanNum = (romanNum, romanArabicMap) =>{
 
   // special condition: IXC .etc
   // roman number 分解成十进制 必须是分解之后的数字 A+B+C+D  A>=B>=C>=D  A B C D 有可能是单个罗马数字 有可能是通过减法运算而来的
-  let isValidRomanNum = true,
-    ROMAN_ARABIC_MAP = romanArabicMap
+  let isValidRomanNum = true
   let pre = 0,
     sum = 0
   for(let i=0; i<romanNum.length; i++) {
@@ -63,3 +64,5 @@ validateRomanNum('MCMXLIV', {
   D: 500,
   M: 1000
 })
+
+module.exports = validateRomanNum

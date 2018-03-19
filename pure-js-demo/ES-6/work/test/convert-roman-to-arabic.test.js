@@ -1,7 +1,6 @@
 var convertRomanNumToArabicNum = require('../utils/convert-roman-to-arabic')
-const ROMAN_NUM_DECIMAL_MAP = require('../const')
-var mocha = require('mocha')
-var assert = require('assert')
+const ROMAN_ARABIC_MAP = require('../const')
+
 
 var romanNums = [
   'XVIII',
@@ -15,9 +14,12 @@ var romanNums = [
   'MCDXCIX'
 ]
 romanNums.forEach(item=>{
-  console.log(`${item} is ${convertRomanNumToArabicNum(item, ROMAN_NUM_DECIMAL_MAP)}`)
+  console.log(`${item} is ${convertRomanNumToArabicNum(item, ROMAN_ARABIC_MAP)}`)
 })
 
+
+var mocha = require('mocha')
+var assert = require('assert')
 
 //test convert function 
 let romanArabicMap = {
@@ -35,7 +37,7 @@ describe('Validate convert roman num to arabic num', ()=>{
   describe(`'method: convertRomanNumToArabicNum, test parameters: ${Object.keys(romanArabicMap)}'`, ()=>{
     it('should return true if all arabic numerals what is converted to are right arabic numerals', ()=>{
       Object.keys(romanArabicMap).every(key=>{
-        assert.equal(convertRomanNumToArabicNum(key, ROMAN_NUM_DECIMAL_MAP), romanArabicMap[key]);
+        assert.equal(convertRomanNumToArabicNum(key, ROMAN_ARABIC_MAP), romanArabicMap[key]);
       })
     })
   })

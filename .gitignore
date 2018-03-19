@@ -12,3 +12,4 @@ npm-debug.log
 */bundle.js
 temp/
 /TypeScript
+/pure-js-demo/ES-6/work/node_modules
