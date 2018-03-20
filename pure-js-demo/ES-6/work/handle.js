@@ -1,3 +1,4 @@
+
 var path = require('path')
 var fs = require('fs')
 const ROMAN_ARABIC_MAP = require('./const') // get map roman numerals to arabric 
@@ -94,7 +95,6 @@ fs.readFile(testInputFile, 'utf8', (err, content)=>{
     regFouth += `((${allGalaticNotations.join('|')})\\s+)+` // pish tegj glob glob
     regFouth += `(${Object.keys(goodsPrice).join('|')})\\s*\\?\\s*`  // Silver?
     regFouth += `\$` 
-    // console.log(regFouth, 'dddddddd')
     // var fouthReg = new RegExp(/^\s*how\s+many\s+Credits\s+is\s+((glob|prok|pish|tegj)\s+)+[Silver|Gold|Iron]\s*\?\s*$/)
     if(new RegExp(regFouth).test(item)) {
       isNotMatched = false      
@@ -104,7 +104,7 @@ fs.readFile(testInputFile, 'utf8', (err, content)=>{
       //todo check roman numeral is valid or not       
       let decimals = convertRomanToDecimal(getRomanNum(romanArr, unitsRomen)) //convert 'glob prok' to 4
       let good = valueArr.match(`\\s+(${Object.keys(goodsPrice).join('|')})\\s*`)[1]
-      console.log(valueArr.replace(/\s*\?\s*/, '') + ' is ' + decimals*goodsPrice[good] + ' Credits ')
+      console.log(valueArr.replace(/\s*\?\s*/, '') + 'is ' + decimals*goodsPrice[good] + ' Credits ')
       
     }
 
@@ -117,6 +117,7 @@ fs.readFile(testInputFile, 'utf8', (err, content)=>{
 
 
 /**
+ * step 1
  * 计算获取:
  * (银河系的) 计量符号 和 罗马数字之间的关系 { glob : I, prok: V, pish: X, tegi: J } 
  * @param {Array} lineArr 
@@ -142,6 +143,7 @@ function getInterGalaticNotationToRoman (lineArr) {
 
 
 /**
+ * step 2
  * 
  */
 function getGoodPrice(lineArr, galacticNotations, unitsRomen) {
