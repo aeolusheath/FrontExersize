@@ -1,19 +1,19 @@
-const ROMAN_ARABIC_MAP = require('./const/roman-numeral-arabic')
-// get map roman numerals to arabric
+const ROMAN_ARABIC_MAP = require('./const/roman-numeral-arabic') // get map roman numerals to arabric
 const ROMAN_NUM_ENUM = Object.keys(ROMAN_ARABIC_MAP) //get all roman notation ['I', 'V', 'X', 'L', 'C', 'D', 'M']
 var convertRomanNumToArabicNum = require('./utils/convert-roman-to-arabic')
 var validateRomanNum  = require( './utils/validate-roman-num' )
 
 
 var utilMethos = require('./utils/string-utils')
-let { formatStrBlank, splitByRegExp, splitByIs, formatConent, getRomanNum} = utilMethos
+let { formatStrBlank, splitByRegExp, splitByIs, formatConent } = utilMethos
 
 function Line (line) {
   this.text = line
   this.isValid = false
 }
 
-function Parser (content) {
+function Parser (content, diaplayUnrecognizable = false) {
+  this.diaplayUnrecognizable = diaplayUnrecognizable
   this.lines = formatConent(content)
   this.galacticNotationsToRoman = {} //{glob: I}
   this.allGalaticNotations = []//[glob, pish]
@@ -21,9 +21,9 @@ function Parser (content) {
   this.allGoods = [] //[silver]
 
   this.prepareData = ()=> {
-    this.galacticNotationsToRoman = this._getGalacticNotationsToRoman() //{glob: I}
-    this.allGalaticNotations = this._getAllGalacticNotations() //[glob, pish]
-    this.goodsPrice = this._getGoodsPrice() //{silver: 100}
+    this.galacticNotationsToRoman = this._getGalacticNotationsToRoman()
+    this.allGalaticNotations = this._getAllGalacticNotations()
+    this.goodsPrice = this._getGoodsPrice()
     this.allGoods = this._getAllGoods()
   }
   this.analysize = () => {
@@ -31,10 +31,17 @@ function Parser (content) {
       var line = new Line(item)
       this._handleLineObj(line)
       if(!line.isValid) {
-        console.log(line.text +' --------> '+ 'I have no idea what you are talking about')
+        let result = this.diaplayUnrecognizable ? (line.text +' --------> ') : ''
+        result += 'I have no idea what you are talking about'
+        console.log(result)
       }
     })
   }
+  this.getRomanNum = (arr, obj)=> {
+    let res = ''
+    arr.forEach( item => res+=obj[item] )
+    return res
+  } 
   this._handleLineObj= (line)=> {
     this._handleNotationSwitch(line)
     this._handlePriceDeclare(line)
@@ -77,7 +84,7 @@ function Parser (content) {
       let numberAndGoods = splitByRegExp(sArr[0].trim(), /\s+/)
       let good = numberAndGoods.pop(), //IRON
         romansArr = numberAndGoods.slice(0, numberAndGoods.length), //['pish pish']
-        romanNumber = getRomanNum(romansArr, this.galacticNotationsToRoman) //convert ['glob', 'glob'] to II
+        romanNumber = this.getRomanNum(romansArr, this.galacticNotationsToRoman) //convert ['glob', 'glob'] to II
       if(!validateRomanNum(romanNumber)) {
         return
       }
@@ -113,7 +120,7 @@ function Parser (content) {
       let sArr = splitByIs(item) 
       let numberAndGoods = splitByRegExp(sArr[0].trim(), /\s+/)
       let romansArr = numberAndGoods.slice(0, numberAndGoods.length-1) //['pish pish']
-      let  romanNumber = getRomanNum(romansArr, this.galacticNotationsToRoman) //convert ['glob', 'glob'] to II
+      let  romanNumber = this.getRomanNum(romansArr, this.galacticNotationsToRoman) //convert ['glob', 'glob'] to II
       if(!validateRomanNum(romanNumber)) {
         return console.log(`${item} --------> ${romanNumber} which is result of converting ${romansArr.join(' ')} is not a valid roman numeral `)
       }
@@ -130,7 +137,7 @@ function Parser (content) {
       line.isValid = true
       let romansStr = splitByIs(item)[1].trim(),
       romansArr = romansStr.replace(/\?|\？/g, '').trim().split(/\s+/),
-      romanNumber = getRomanNum(romansArr, this.galacticNotationsToRoman)
+      romanNumber = this.getRomanNum(romansArr, this.galacticNotationsToRoman)
       if(!validateRomanNum(romanNumber)) {
         return console.log(`${item} --------> ${romanNumber} which is result of converting ${romansArr.join(' ')} is not a valid roman numeral `)
       }
@@ -151,7 +158,7 @@ function Parser (content) {
       let valueArr = splitByIs(item)[1].replace(/\?/, '') // get 'glob prok Silver '
       let romanStr = valueArr.replace(new RegExp(`\\s+(${this.allGoods.join('|')})\\s*`), '') //get 'glob prok'
       let romanArr = splitByRegExp(romanStr.trim(), /\s+/) // get ['glob', 'prok']
-      let romanNumber = getRomanNum(romanArr, this.galacticNotationsToRoman)
+      let romanNumber = this.getRomanNum(romanArr, this.galacticNotationsToRoman)
       if(!validateRomanNum(romanNumber)) {
         return console.log(`${item} --------> ${romanNumber} which is result of converting ${romanArr.join(' ')} is not a valid roman numeral `)        
       }

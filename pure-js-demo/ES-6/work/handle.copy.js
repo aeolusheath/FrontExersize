@@ -26,7 +26,7 @@ readFile(filePath, (content)=>{
   parser.analysize()
 })
 
-function formatLines (content) {
+function formatConent (content) {
   return content.split(/\n/).filter(item=>{
     return !(item.replace(/\s/, '').length=== 0 || item.trim().charAt(0)=== '#')
   })
@@ -39,8 +39,8 @@ function Line (line) {
 
 
 function Parser (content) {
-    
-    this.lines = formatLines(content)
+  
+    this.lines = formatConent(content)
     this.galacticNotationsToRoman = {} //{glob: I}
     this.allGalaticNotations = []//[glob, pish]
     this.goodsPrice = {} //{silver: 100}

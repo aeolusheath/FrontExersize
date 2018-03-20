@@ -1,5 +1,5 @@
 var convertRomanNumToArabicNum = require('../utils/convert-roman-to-arabic')
-const ROMAN_ARABIC_MAP = require('../const')
+const ROMAN_ARABIC_MAP = require('../const/roman-numeral-arabic')
 
 
 var romanNums = [

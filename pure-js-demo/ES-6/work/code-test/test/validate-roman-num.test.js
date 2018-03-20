@@ -1,5 +1,5 @@
 var validateRomanNum  = require( '../utils/validate-roman-num' )
-const ROMAN_ARABIC_MAP = require('../const')
+const ROMAN_ARABIC_MAP = require('../const/roman-numeral-arabic')
 var mocha = require('mocha')
 var assert = require('assert')
 
