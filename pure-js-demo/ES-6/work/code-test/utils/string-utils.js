@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
   /**
    * 将多余的空格字符转换为1个

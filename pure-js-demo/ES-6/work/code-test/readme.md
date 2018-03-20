@@ -10,6 +10,8 @@
 > if you wanna watch the line which can not be recognized in the output, you can add a boolean true on the initial of Parser instance
 
 ``` bash
+# node version > =6.9.1
+
 #install dependencies mocha
 npm install
 

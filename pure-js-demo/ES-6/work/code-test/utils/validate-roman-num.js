@@ -1,3 +1,4 @@
+"use strict";
 const ROMAN_ARABIC_MAP = require('../const/roman-numeral-arabic')
 
 /**

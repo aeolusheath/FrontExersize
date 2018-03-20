@@ -1,3 +1,4 @@
+"use strict";
 const ROMAN_ARABIC_MAP = require('./const/roman-numeral-arabic') // get map roman numerals to arabric
 const ROMAN_NUM_ENUM = Object.keys(ROMAN_ARABIC_MAP) //get all roman notation ['I', 'V', 'X', 'L', 'C', 'D', 'M']
 var convertRomanNumToArabicNum = require('./utils/convert-roman-to-arabic')

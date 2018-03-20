@@ -13,5 +13,6 @@
     "mocha": "5.0.4"
   },
   "author": "kevin",
-  "license": "ISC"
+  "license": "ISC",
+  "engines" : { "node" : ">=6.9.1"}
 }
