@@ -26,6 +26,11 @@ readFile(filePath, (content)=>{
   parser.analysize()
 })
 
+function Line (line) {
+  this.text = line
+  this.isValid = false
+}
+
 function Parser (content) {
     
     this.lines = content.split(/\n/)
@@ -48,11 +53,18 @@ function Parser (content) {
     }
     this.analysize = () => {
       this.lines.forEach(item=>{
-        this._handleNotationSwitch(item)
-        this._handlePriceDeclare(item)
-        this._handleTotalNumber(item)
-        this._handleGoodsTotalPrice(item)
+        var line = new Line(item)
+        this._handleLineObj(line)
+        if(!line.isValid) {
+          console.log(line.text +' --------> '+ 'I have no idea what you are talking about')
+        }
       })
+    }
+    this._handleLineObj= (line)=> {
+      this._handleNotationSwitch(line)
+      this._handlePriceDeclare(line)
+      this._handleTotalNumber(line)
+      this._handleGoodsTotalPrice(line)
     }
     this._getAllGoods = () =>{
       return Object.keys(this.goodsPrice)
@@ -119,9 +131,11 @@ function Parser (content) {
       })
       return goodsPrice
     }
-    this._handleNotationSwitch = (item) => {
+    this._handleNotationSwitch = (line) => {
+      let item = line.text
       let regExp = RegExp(/^\s*[a-zA-Z]+\s+is\s+[A-Za-z]\s*$/)
       if(regExp.test(item)) {
+        line.isValid = true
         let romanNumNotation = splitByIs(item)[1].trim()
         // // jacu is P appears, but p is not a standard roman numeral notation
         if(!ROMAN_NUM_ENUM.includes(romanNumNotation)) {
@@ -129,8 +143,8 @@ function Parser (content) {
         }
       }
     }
-    this._handlePriceDeclare = (item) => {
-      // console.log(this.allGalaticNotations, 'ddd')
+    this._handlePriceDeclare = (line) => {
+      let item = line.text
       let regStr = `\^\\s*`  
       regStr += `((${this.allGalaticNotations.join('|')})\\s+)+` // intergalactic numer symbol
       regStr += `[a-zA-Z-_]+\\s+` // match good name
@@ -139,6 +153,7 @@ function Parser (content) {
       regStr += `Credits\\s*` // currency
       regStr += `\$`
       if(new RegExp(regStr).test(item)) {
+        line.isValid = true
         let sArr = splitByIs(item) 
         let numberAndGoods = splitByRegExp(sArr[0].trim(), /\s+/)
 
@@ -152,13 +167,17 @@ function Parser (content) {
         }
       }
     }
-    this._handleTotalNumber = (item)=> {
+    this._handleTotalNumber = (line)=> {
+      let item = line.text      
       let regThird = `\^\\s*`  
       regThird += `how\\s+much\\s+is\\s+` // how much is 
-      regThird += `((${this.allGalaticNotations.join('|')})\\s+)+` // pish tegj glob glob
-      regThird += `\\?\\s*`  // is 
+      regThird += `((${this.allGalaticNotations.join('|')})\\s+)+\\2\\s*` // pish tegj glob glob
+      
+      regThird += `\\?\\s*`  
       regThird += `\$`
+      // /^\s*how\s+much\s+is\s+((glob|prok|pish|tegj|xxx|kevin)\s+)+\2\s*\?\s*$/
       if(new RegExp(regThird).test(item)) {
+        line.isValid = true
         let romansStr = splitByIs(item)[1].trim(),
         romansArr = romansStr.replace(/\?|\？/g, '').trim().split(/\s+/), //去掉最后的问号
         romanNumber = getRomanNum(romansArr, this.galacticNotationsToRoman)
@@ -170,7 +189,8 @@ function Parser (content) {
         console.log(romansStr.replace(/\?|\？/g, '').trim() + ' is ' + decimals)
       }
     }
-    this._handleGoodsTotalPrice = (item)=> {
+    this._handleGoodsTotalPrice = (line)=> {
+      let item = line.text
       let regFouth = `\^\\s*`  
       regFouth += `how\\s+many\\s+Credits\\s+is\\s+` // how many Credits is
       regFouth += `((${this.allGalaticNotations.join('|')})\\s+)+` // pish tegj glob glob
@@ -179,7 +199,7 @@ function Parser (content) {
       // console.log(this.allGoods, 'allGoods')
       // var fouthReg = new RegExp(/^\s*how\s+many\s+Credits\s+is\s+((glob|prok|pish|tegj)\s+)+[Silver|Gold|Iron]\s*\?\s*$/)
       if(new RegExp(regFouth).test(item)) {
-        isNotMatched = false      
+        line.isValid = true
         let valueArr = splitByIs(item)[1].replace(/\?/, '') // get 'glob prok Silver '
         // console.log(valueArr,`\\s+(${this.allGoods.join('|')})\\s*`, 'dd')
         let romanStr = valueArr.replace(new RegExp(`\\s+(${this.allGoods.join('|')})\\s*`), '') //get 'glob prok'
@@ -271,7 +291,7 @@ function Parser (content) {
 //     }
 
 //     //step3 匹配 how much is pish tegj glob glob ?
-//     // var thirdReg = new RegExp(/^\s*how\s+much\s+is\s+((glob|prok|pish|tegj)\s+)+\s*\?\s*$/)
+//     // var thirdReg = new RegExp(/^\s*howw\s+much\s+is\s+((glob|prok|pish|tegj)\s+)+\s*\?\s*$/)
 //     let regThird = `\^\\s*`  
 //     regThird += `how\\s+much\\s+is\\s+` // how much is 
 //     regThird += `((${allGalaticNotations.join('|')})\\s+)+` // pish tegj glob glob

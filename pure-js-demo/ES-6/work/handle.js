@@ -72,7 +72,7 @@ fs.readFile(testInputFile, 'utf8', (err, content)=>{
     // var thirdReg = new RegExp(/^\s*how\s+much\s+is\s+((glob|prok|pish|tegj)\s+)+\s*\?\s*$/)
     let regThird = `\^\\s*`  
     regThird += `how\\s+much\\s+is\\s+` // how much is 
-    regThird += `((${allGalaticNotations.join('|')})\\s+)+` // pish tegj glob glob
+    regThird += `((${allGalaticNotations.join('|')})\\s+\\1\\s*)+` // pish tegj glob glob
     regThird += `\\?\\s*`  // is 
     regThird += `\$`
     if(new RegExp(regThird).test(item)) {
