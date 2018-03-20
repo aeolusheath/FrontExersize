@@ -44,13 +44,7 @@ function Parser (content) {
   this._getAllGoods = () =>{
     return Object.keys(this.goodsPrice)
   }
-  this._validateIsRomanNumeralNotation = (item) => {
-    let romanNumNotation = splitByIs(item)[1].trim()
-    // jacu is P appears, but p is not a standard roman numeral notation
-    if(!ROMAN_NUM_ENUM.includes(romanNumNotation)) {
-      return console.log(`${item} --------> \'${romanNumNotation}\' is not valid roman numeral notation `)
-    }
-  }
+
   this._getGalacticNotationsToRoman = ()=> {
     let regExp = RegExp(/^\s*[a-zA-Z]+\s+is\s+[A-Za-z]\s*$/)
     let galacticNotationsToRoman = {}
@@ -67,16 +61,7 @@ function Parser (content) {
   this._getAllGalacticNotations= ()=> {
     return Object.keys(this.galacticNotationsToRoman)
   }
-  this._validateIsRomanNumeralNotation2 = (item)=> {
-    let sArr = splitByIs(item) 
-    let numberAndGoods = splitByRegExp(sArr[0].trim(), /\s+/)
-    let good = numberAndGoods.pop(), //IRON
-      romansArr = numberAndGoods.slice(0, numberAndGoods.length), //['pish pish']
-      romanNumber = getRomanNum(romansArr, this.galacticNotationsToRoman) //convert ['glob', 'glob'] to II
-    if(!validateRomanNum(romanNumber)) {
-      return console.log(`${item} --------> ${romanNumber} which is result of converting ${romansArr.join(' ')} is not a valid roman numeral `)
-    }
-  }
+
   this._getGoodsPrice = ()=> {
     let regStr = `\^\\s*`  
     regStr += `((${this.allGalaticNotations.join('|')})\\s+)+` // intergalactic numer symbol
