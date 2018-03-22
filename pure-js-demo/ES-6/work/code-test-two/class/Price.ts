@@ -1,14 +1,14 @@
 export default class Price {
   num: number
   unit: string
-  constructor(num:number=0, unit:string) {
+  constructor(unit:string, num:number=0,) {
     this.unit = unit
     this.num = num 
   }
-  setPrice (num) {
+  setNum (num) {
     this.num = num
   }
-  getPrice() {
+  getNum() {
     return this.num
   }
   toString() {

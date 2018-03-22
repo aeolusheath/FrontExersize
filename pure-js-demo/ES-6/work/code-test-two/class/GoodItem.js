@@ -12,9 +12,10 @@ var GoodItem = /** @class */ (function () {
             return false;
         if (!goodsInStock.map(function (item) { return item.name; }).includes(this.good.name))
             return false;
+        return true;
     };
     GoodItem.prototype.getTotalPrice = function () {
-        this.totalPrice = this.good.price.num * this.notationNumber.getArabicTotalNumber();
+        this.totalPrice = this.good.price.num * this.notationNumber.getArabicNumber();
         return this.totalPrice;
     };
     GoodItem.prototype.getTotalCount = function () {

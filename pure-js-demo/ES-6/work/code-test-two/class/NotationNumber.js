@@ -13,13 +13,12 @@ var NotationNumber = /** @class */ (function () {
             this.notaitionToNumeral = notaitionToNumeral;
     }
     //how much is glob
-    NotationNumber.prototype.getArabicTotalNumber = function () {
+    NotationNumber.prototype.getArabicNumber = function () {
         var romanNum = this.getRomanNum(this.numSymbols, this.notaitionToNumeral);
         return convertRomanNumToArabicNum(romanNum);
     };
     //验证这个数字是否是合法的罗马数字
     NotationNumber.prototype.isValidNotationNumber = function () {
-        console.log(this.numSymbols, 'this.numSymbolsthis.numSymbols');
         var romanNum = this.getRomanNum(this.numSymbols, this.notaitionToNumeral);
         return validateRomanNum(romanNum);
     };

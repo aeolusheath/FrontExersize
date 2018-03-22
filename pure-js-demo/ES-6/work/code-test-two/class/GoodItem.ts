@@ -12,6 +12,7 @@ export default class GoodItem {
     if(!this.notationNumber.isValidNotationNumber()) return false
     if(!unitsArr.includes(this.good.price.unit)) return false
     if(!goodsInStock.map(item=>item.name).includes(this.good.name)) return false
+    return true
   }
   getTotalPrice () {
     this.totalPrice = this.good.price.num * this.notationNumber.getArabicNumber()

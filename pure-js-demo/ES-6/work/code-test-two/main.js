@@ -28,14 +28,10 @@ readFile(filePath, (content)=>{
   let questions = lines.filter(item=>isQuestion(item))
   //得到准备数据 Good【名字，单价】
   //step 1 get {glob : L, pish: X}
-  let galacticNotationRomanMap = getGalacticNotationRomanMap(statements)  
-  
-  //step2 get goods in Stock
+  let galacticNotationRomanMap = getGalacticNotationRomanMap(statements)
   let { allUnits, goodsInStock } = getGoodsInfo(statements, galacticNotationRomanMap)
-  console.log(galacticNotationRomanMap,allUnits,  goodsInStock)
   //step3 answer question
   handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInStock);
-
 })
 
 
@@ -77,7 +73,7 @@ function getGoodsInfo(statements, galacticNotationRomanMap) {
       if (!notationNumber.isValidNotationNumber()) return //不是合法的数字
       let totalPriceAndCurrency = splitByRegExp(arrItem[1], /\s+/)
       let totalPrice = totalPriceAndCurrency[0], currencyUnit = totalPriceAndCurrency[1]
-      obj.allUnits.push(currencyUnit)
+      if(!obj.allUnits.includes(currencyUnit)) obj.allUnits.push(currencyUnit)
       let good = new Good(goodName)
       good.setPrice(totalPrice, notationNumber, currencyUnit)
       obj.goodsInStock.push(good)
@@ -92,12 +88,8 @@ function handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInSt
     //构造 NotationNumber对象。。。 然后调用 getArabicTotalNumbers方法
     let regExp = /^\s*how\s+much\s+is\s+([a-zA-Z_-]+\s+)+\?\s*$/
     if (regExp.test(line)) {
-      // console.log('how much', line)
       let notationStr = splitByIs(line)[1] // glob abc ?
-      // console.log(notationStr, 'notationStr----------------ppppppp')
       let notationArr = notationStr.split(/\s*\?\s*/)[0].trim().split(/\s+/)
-      // console.log(notationArr, typeof notationArr, 'what is result -----------------------------')      
-      // console.log(notationArr.join(' '), 'kevinn999999999999999999999999')
       let notationNumber = new NotationNumber(notationArr, galacticNotationRomanMap)
       if (notationNumber.isValidNotationNumber()) {
         console.log(notationArr.join(' ') + ' is ' + notationNumber.getArabicNumber())
@@ -106,14 +98,20 @@ function handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInSt
         console.log('I have no idea what you are talking about')
       }
     }
-    let regExp2 = /^\s+how\s+many\s+[a-zA-Z-_]\s+is\s+([a-zA-Z_-]+\s+)+\?\s*$/;
+    let regExp2 = /^\s*how\s+many\s+([a-zA-Z-_]+\s+)is\s+([a-zA-Z_-]+\s+)+\?\s*$/;
     if (regExp2.test(line)) {
       let strArr = splitByIs(line);
-      let currencyUnit = strArr[0].replace('how many', '').trim(), notationsAndGoodName = splitByRegExp(strArr[1].replace('?', '').trim(), /\s+/), goodName = notationsAndGoodName.pop(), notaionArr = notationsAndGoodName, notationNumber = new NotationNumber(notaionArr, galacticNotationRomanMap);
-      good = new Good(goodName, new Price(currencyUnit)),
+      let currencyUnit = strArr[0].replace('how many', '').trim(),
+        notationsAndGoodName = splitByRegExp(strArr[1].replace('?', '').trim(), /\s+/),
+        goodName = notationsAndGoodName.pop(),
+        notaionArr = notationsAndGoodName,
+        notationNumber = new NotationNumber(notaionArr, galacticNotationRomanMap)
+      let goodAvailible = goodsInStock.find(item=>item.getName() === goodName)
+      let priceNum = goodAvailible ? goodAvailible.getPrice().getNum(): 0
+        good = new Good(goodName, new Price(currencyUnit, priceNum)),
         goodItem = new GoodItem(good, notationNumber)
       if (goodItem.isValidGoodItem(allUnits, goodsInStock)) {
-        console.log(notaionArr.join(' ') + goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit)
+        console.log(notaionArr.join(' ') + ' '+ goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit)
       }
     }
   })

@@ -6,11 +6,14 @@ var Good = /** @class */ (function () {
         this.name = name;
         this.price = price;
     }
+    Good.prototype.getName = function () {
+        return this.name;
+    };
     Good.prototype.getPrice = function (price) {
         return this.price;
     };
     Good.prototype.setPrice = function (total, notationNumber, unit) {
-        this.price = new Price_1["default"](total / notationNumber.getArabicTotalNumber(), unit);
+        this.price = new Price_1["default"](unit, total / notationNumber.getArabicNumber());
     };
     return Good;
 }());

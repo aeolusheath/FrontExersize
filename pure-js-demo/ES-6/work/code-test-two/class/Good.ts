@@ -7,10 +7,13 @@ export default class Good {
     this.name =  name
     this.price = price
   }
+  getName () {
+    return this.name
+  }
   getPrice (price) {
     return this.price
   }
   setPrice (total:number, notationNumber: NotationNumber, unit: string) {
-    this.price = new Price(total/notationNumber.getArabicNumber(), unit)
+    this.price = new Price(unit, total/notationNumber.getArabicNumber())
   }
 }
