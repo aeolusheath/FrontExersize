@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
-var validateRomanNum = require("../utils/validate-roman-num");
-var convertRomanNumToArabicNum = require("../utils/convert-roman-to-arabic");
+var validateRomanNum = require("../../utils/validate-roman-num");
+var convertRomanNumToArabicNum = require("../../utils/convert-roman-to-arabic");
 var NotationNumber = /** @class */ (function () {
     function NotationNumber(numSymbols, notaitionToNumeral) {
         this.getRomanNum = function (arr, obj) {

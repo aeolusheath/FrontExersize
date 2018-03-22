@@ -1,10 +1,9 @@
-var Good = require('./class/Good').default
-var GoodItem = require('./class/GoodItem').default
-var NotationNumber = require('./class/NotationNumber').default
-var Price = require('./class/Price').default
+var Good = require('./class/js/Good').default
+var GoodItem = require('./class/js/GoodItem').default
+var NotationNumber = require('./class/js/NotationNumber').default
+var Price = require('./class/js/Price').default
 
 var readFile = require('./read-file')
-var Parser = require('./parser')
 var path = require('path')
 
 var utilMethods = require('./utils/string-utils')
@@ -118,5 +117,6 @@ function handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInSt
         console.log('I have no idea what you are talking about')        
       }
     }
+    //todo 问号 语句没有匹配到的输出 不认识
   })
 }

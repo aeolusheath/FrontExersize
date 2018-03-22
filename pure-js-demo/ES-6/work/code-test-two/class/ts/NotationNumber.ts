@@ -1,6 +1,6 @@
 
-import validateRomanNum = require( '../utils/validate-roman-num' )
-import convertRomanNumToArabicNum = require('../utils/convert-roman-to-arabic')
+import validateRomanNum = require( '../../utils/validate-roman-num' )
+import convertRomanNumToArabicNum = require('../../utils/convert-roman-to-arabic')
 export default class NotationNumber {
   numSymbols: string[] // ['pish tegj glob glob']
   notaitionToNumeral: object // {glob: L}
