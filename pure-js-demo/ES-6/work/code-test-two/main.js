@@ -13,7 +13,7 @@ let { formatStrBlank, splitByRegExp, splitByIs, formatConent } = utilMethods
 const ROMAN_ARABIC_MAP = require('./const/roman-numeral-arabic') // get map roman numerals to arabric
 const ROMAN_NUM_ENUM = Object.keys(ROMAN_ARABIC_MAP) //get all roman notation ['I', 'V', 'X', 'L', 'C', 'D', 'M']
 
-var filePath = path.join(__dirname, 'test-input.txt')
+var filePath = path.join(__dirname, 'test-input.py')
 
 function isQuestion(line) {
   let pureStr = line.trim()
@@ -86,7 +86,7 @@ function handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInSt
   questions.forEach(item => {
     let line = item.trim();
     //构造 NotationNumber对象。。。 然后调用 getArabicTotalNumbers方法
-    let regExp = /^\s*how\s+much\s+is\s+([a-zA-Z_-]+\s+)+\?\s*$/
+    let regExp = /^\s*how\s+much\s+is\s+([a-zA-Z_-]+\s*)+\?\s*$/
     if (regExp.test(line)) {
       let notationStr = splitByIs(line)[1] // glob abc ?
       let notationArr = notationStr.split(/\s*\?\s*/)[0].trim().split(/\s+/)
@@ -98,7 +98,7 @@ function handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInSt
         console.log('I have no idea what you are talking about')
       }
     }
-    let regExp2 = /^\s*how\s+many\s+([a-zA-Z-_]+\s+)is\s+([a-zA-Z_-]+\s+)+\?\s*$/;
+    let regExp2 = /^\s*how\s+many\s+([a-zA-Z-_]+\s+)is\s+([a-zA-Z_-]+\s*)+\?\s*$/;
     if (regExp2.test(line)) {
       let strArr = splitByIs(line);
       let currencyUnit = strArr[0].replace('how many', '').trim(),
@@ -112,6 +112,8 @@ function handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInSt
         goodItem = new GoodItem(good, notationNumber)
       if (goodItem.isValidGoodItem(allUnits, goodsInStock)) {
         console.log(notaionArr.join(' ') + ' '+ goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit)
+      }else {
+        console.log('I have no idea what you are talking about')        
       }
     }
   })
