@@ -27,10 +27,11 @@ readFile(filePath, (content)=>{
   let statements = lines.filter(item=>!isQuestion(item))
   let questions = lines.filter(item=>isQuestion(item))
   //得到准备数据 Good【名字，单价】
-  //step 1 get {glob : L, pish: X}
+  // step 1 get {glob : L, pish: X}
   let galacticNotationRomanMap = getGalacticNotationRomanMap(statements)
+  // step 2 get 所有用到的单位，只有合法的语句才会记录； get 所有仓库里面的物品 Good类型Array
   let { allUnits, goodsInStock } = getGoodsInfo(statements, galacticNotationRomanMap)
-  //step3 answer question
+  // step 3 answer question 问题按照how much 和how many区分是NotationNumber 还是 GoodItem 货架里面的某一条数据记录
   handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInStock);
 })
 
@@ -98,6 +99,7 @@ function handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInSt
         console.log('I have no idea what you are talking about')
       }
     }
+    // 每一条how many 暂且理解为一个 goodItem 对象的求值【求单价 求总价 求数量（需要扩展）】
     let regExp2 = /^\s*how\s+many\s+([a-zA-Z-_]+\s+)is\s+([a-zA-Z_-]+\s*)+\?\s*$/;
     if (regExp2.test(line)) {
       let strArr = splitByIs(line);
