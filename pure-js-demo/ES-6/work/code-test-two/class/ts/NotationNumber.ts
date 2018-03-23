@@ -15,6 +15,7 @@ export default class NotationNumber {
   }
   //验证这个数字是否是合法的罗马数字
   isValidNotationNumber () {
+    // console.log( this.numSymbols, this.notaionToRomanNumeral, 'number 内部------》》》》')
     if(this.numSymbols.some(item=>!Object.keys(this.notaionToRomanNumeral).includes(item)))
       return false    
     let romanNum = this.getRomanNum(this.numSymbols, this.notaionToRomanNumeral)

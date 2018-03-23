@@ -10,7 +10,7 @@ export default class Good {
   getName () {
     return this.name
   }
-  getPrice (price) {
+  getPrice () {
     return this.price
   }
   setPrice (total:number, notationNumber: NotationNumber, unit: string) {
