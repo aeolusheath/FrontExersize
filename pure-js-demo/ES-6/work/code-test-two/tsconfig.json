@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "./class/js/"
+    "outDir": "./class/js/",
+    "lib":["es2016", "dom"]
   },
-  "include": ["./class/ts/*"]
+  "include": ["./class/ts/*"],
+  
 }

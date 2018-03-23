@@ -84,7 +84,9 @@ function getGoodsInfo(statements, galacticNotationRomanMap) {
 
 function handleQuestion(questions, galacticNotationRomanMap, allUnits, goodsInStock) {
   questions.forEach(item => {
-    let line = item.trim();
+    let line = item.trim()                           
+    // how much is glob glob
+    // confusion
     //构造 NotationNumber对象。。。 然后调用 getArabicTotalNumbers方法
     let regExp = /^\s*how\s+much\s+is\s+([a-zA-Z_-]+\s*)+\?\s*$/
     if (regExp.test(line)) {
