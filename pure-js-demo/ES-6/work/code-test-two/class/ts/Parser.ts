@@ -20,7 +20,8 @@ export default class Parser {
   allUnits: string[] //记录合法的单位
   goodsInStock: Good[] //模拟货架
   regExpMachines: any[]
-  constructor (content){
+  diaplayUnrecognizable: boolean //如果没有匹配到，是否显示出line
+  constructor (content, diaplayUnrecognizable = false){
     // this.content = content
     this.lines = formatConent(content)
     this.statements = this.lines
@@ -30,11 +31,20 @@ export default class Parser {
     this.allUnits = []
     this.goodsInStock = []
     this.regExpMachines = []
+    this.diaplayUnrecognizable = diaplayUnrecognizable
     //this.lines format todo 引入帮助方法
   }
   parse () {
     this._prepareData()
     this._handleLines()
+  }
+  _outputWarn (line) {
+    // console.log(this)
+    console.log(this.diaplayUnrecognizable, 'abcccccccccccccccccccccccccccccccccccccc')
+    console.log('line    '  + line)
+    let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
+    result = result + 'I have no idea what you are talking about'
+    console.log('result   ' + result)
   }
   _handleLines () {
     this.lines.forEach(line=>{
@@ -43,7 +53,10 @@ export default class Parser {
       }) 
       // console.log(index)
       if(index === -1) {
-        console.log('I have no idea what you are talking about')
+        // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
+        // result += 'I have no idea what you are talking about' 
+        // console.log(result)
+        this._outputWarn(line)
       }else{
         // console.log(this.regExpMachines[index].type, 'type---------------')
         // this.regExpMachines[index].type!=='statement' && this.regExpMachines[index].handleMethod(line)
@@ -128,7 +141,10 @@ export default class Parser {
       console.log(notationArr.join(' ') + ' is ' + notationNumber.getArabicNumber())
     }
     else {
-      console.log('I have no idea what you are talking about')
+      // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
+      // result += 'I have no idea what you are talking about' 
+      // console.log(result)
+      this._outputWarn(line)      
     }
   }
   _regExpOfGetTotalPriceHandle(line) {
@@ -146,7 +162,10 @@ export default class Parser {
     if (goodItem.isValidGoodItem(this.allUnits, this.goodsInStock)) {
       console.log(notaionArr.join(' ') + ' '+ goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit)
     }else {
-      console.log('I have no idea what you are talking about')        
+      // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
+      // result += 'I have no idea what you are talking about' 
+      // console.log(result)
+      this._outputWarn(line)      
     } 
   }
 }

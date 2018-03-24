@@ -1,10 +1,11 @@
 # you can add # ahead of on line to comment it, program will ignore it
+abcdedfg jklhjkl jkljkljkl
 glob is I
 prok is V
 pish is X
 tegj is L
 glob glob Silver is 34 Credits
-#glob glob Silve is 34 rmb
+glob glob Silve is 34 rmb
 glob prok Gold is 57800 Credits
 pish pish Iron is 3910 Credits
 #prok tegj XYZ is 100 Credits

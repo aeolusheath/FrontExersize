@@ -22,7 +22,7 @@ var filePath = path.join(__dirname, 'test-input.py')
 
 
 readFile(filePath, (content)=>{
-  var parser =  new Parser(content)
+  var parser =  new Parser(content, true)
   // console.log(parser)
   parser.parse()
   // lines = formatConent(content)
