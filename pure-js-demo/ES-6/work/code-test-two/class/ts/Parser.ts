@@ -1,7 +1,5 @@
 "use strict";
 import utilMethods = require('../../utils/string-utils')
-// import ROMAN_ARABIC_MAP = require('../../const/roman-numeral-arabic') // get map roman numerals to arabric
-// const ROMAN_NUM_ENUM = Object.keys(ROMAN_ARABIC_MAP) //get all roman notation ['I', 'V', 'X', 'L', 'C', 'D', 'M']
 import Good from './Good'
 import GoodItem  from './GoodItem'
 import NotationNumber from './NotationNumber'
@@ -50,16 +48,10 @@ export default class Parser {
     this.lines.forEach(line=>{
       let index = this.regExpMachines.findIndex(item=>{
        return item.regExp.test(line)
-      }) 
-      // console.log(index)
+      })
       if(index === -1) {
-        // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
-        // result += 'I have no idea what you are talking about' 
-        // console.log(result)
         this._outputWarn(line)
       }else{
-        // console.log(this.regExpMachines[index].type, 'type---------------')
-        // this.regExpMachines[index].type!=='statement' && this.regExpMachines[index].handleMethod(line)
         if(this.regExpMachines[index].type!=='statement' ) {
           let handleFunc = this.regExpMachines[index].handleMethod.bind(this, line)
           handleFunc(line)
