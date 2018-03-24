@@ -27,13 +27,13 @@ var Parser = /** @class */ (function () {
         this._prepareData();
         this._handleLines();
     };
+    Parser.prototype.addNewRegExpHandle = function (obj) {
+        this.regExpMachines.push(obj);
+    };
     Parser.prototype._outputWarn = function (line) {
-        // console.log(this)
-        console.log(this.diaplayUnrecognizable, 'abcccccccccccccccccccccccccccccccccccccc');
-        console.log('line    ' + line);
         var result = this.diaplayUnrecognizable ? (line + ' --------> ') : '';
-        // result = result + 'I have no idea what you are talking about' 
-        console.log('result   ' + result);
+        result = result + 'I have no idea what you are talking about';
+        console.log(result);
     };
     Parser.prototype._handleLines = function () {
         var _this = this;

@@ -1,5 +1,5 @@
 # you can add # ahead of on line to comment it, program will ignore it
-abcdedfg jklhjkl jkljkljkl
+# abcdedfg jklhjkl jkljkljkl
 glob is I
 prok is V
 pish is X

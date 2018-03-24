@@ -38,13 +38,13 @@ export default class Parser {
     this._prepareData()
     this._handleLines()
   }
-  _outputWarn (line) {
-    // console.log(this)
-    console.log(this.diaplayUnrecognizable, 'abcccccccccccccccccccccccccccccccccccccc')
-    console.log('line    '  + line)
+  addNewRegExpHandle (obj:object) {
+    this.regExpMachines.push(obj)
+  }
+  _outputWarn (line: string) {
     let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
     result = result + 'I have no idea what you are talking about'
-    console.log('result   ' + result)
+    console.log(result)
   }
   _handleLines () {
     this.lines.forEach(line=>{
