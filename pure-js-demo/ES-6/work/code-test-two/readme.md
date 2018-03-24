@@ -9,20 +9,20 @@
 
 
 ``` bash
-# node version > =6.9.1
-
-#install dependencies mocha
-npm install
-
-# test 
-npm run test
-
+# please be assure node version > =6.9.1
 
 #install typescript
 npm install -g typescript
 
 #then compile *.ts
 tsc
+
+
+#install dependencies mocha
+npm install
+
+# test 
+npm run test
 
 # run the app
 npm run build
