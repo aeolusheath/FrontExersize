@@ -6,6 +6,5 @@ function readFile(filePath, callback){
     callback(content)
   })
 }
-// promise
 
 module.exports = readFile

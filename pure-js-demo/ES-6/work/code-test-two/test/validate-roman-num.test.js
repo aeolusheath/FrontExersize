@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 var validateRomanNum  = require( '../utils/validate-roman-num' )
 var mocha = require('mocha')
 var assert = require('assert')

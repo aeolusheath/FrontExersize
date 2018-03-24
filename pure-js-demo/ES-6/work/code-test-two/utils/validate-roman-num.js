@@ -1,12 +1,10 @@
-"use strict";
+"use strict"
 const ROMAN_ARABIC_MAP = require('../const/roman-numeral-arabic')
 
 /**
  * 
  * @param {String} romanNum
  * @param {Object} romanArabicMap
- * wiki:https://zh.wikipedia.org/wiki/%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97
- * stackoverflow: https://stackoverflow.com/questions/267399/how-do-you-match-only-valid-roman-numerals-with-a-regular-expression
  * 
  *  I , X , C , M 可以连续重复三次，但是不能更多。  D L V 不能重复
  *  I 只能被 V 和 X 减， 所以只能出现IV 和 IX ；不能出现: IL ID ID IM 

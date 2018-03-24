@@ -9,14 +9,17 @@ import NotationNumberService from '../service/NotationNumberService'
 import utilMethods = require('../../utils/string-utils')
 let { splitByRegExp, splitByIs, formatConent, isQuestion } = utilMethods
 
+/**
+ * 工具类，用于处理context
+ */
 export default class Parser {
   lines: string[]
   statements: string[]
   questions: string[]
-  galacticNotationRomanMap: object //{glob : L, pish: X}
-  allUnits: string[] //记录合法的单位
-  goodsInStock: Good[] //模拟货架
-  regExpMachines: any[] //保存正则与处理器的映射，如果需要自定可以操纵这个对象
+  galacticNotationRomanMap: object
+  allUnits: string[]
+  goodsInStock: Good[]
+  regExpMachines: any[]
   constructor (content){
     this.lines = formatConent(content)
     this.statements = this.lines
@@ -27,10 +30,12 @@ export default class Parser {
     this.goodsInStock = []
     this.regExpMachines = []
   }
+  //解析现有需求的文本
   parse () {
     this._prepareData()
     this._handleLines()
   }
+  //添加新的规则
   addNewRegExpHandle (obj:object) {
     this.regExpMachines.push(obj)
   }

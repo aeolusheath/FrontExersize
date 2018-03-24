@@ -1,8 +1,12 @@
 import Price from './Price'
 import NotationNumber from './NotationNumber'
+
+/**
+ * 封装商品类，基本属性name 和 价格 Price对象
+ */
 export default class Good {
   name: string
-  price: Price //价格 和 单位
+  price: Price
   constructor (name: string, price: Price) {
     this.name =  name
     this.price = price

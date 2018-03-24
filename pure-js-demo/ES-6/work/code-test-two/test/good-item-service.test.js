@@ -1,8 +1,8 @@
+"use strict"
 var GoodItemService = require( '../src/service/GoodItemService').default
 var Good =require('../src/class/Good').default
 var Price=require('../src/class/Price').default
 
-// import GoodItemService from '../class/ts/GoodItemService'
 
 var mocha = require('mocha')
 var assert = require('assert')

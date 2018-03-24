@@ -1,7 +1,7 @@
-"use strict";
+"use strict"
 var convertRomanNumToArabicNum = require('../utils/convert-roman-to-arabic')
 
-//todo add test as the rules
+//add test as the rules
 var romanNums = [
   'XVIII',
   'MCMXLIV',

@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 module.exports = {
   console: (str) => {
     console.log(str, 'in module')
@@ -28,7 +28,7 @@ module.exports = {
   /**
    * 去掉测试文本的空行 和 以#开头的行数
    */
-  formatConent :(content)=> {
+  formatConent: (content)=> {
     return content.split(/\n/).filter(item=>{
       return !(item.replace(/\s/, '').length=== 0 || item.trim().charAt(0)=== '#')
     })
@@ -37,7 +37,7 @@ module.exports = {
    * 对line进行分类
    * @param {sting} line 
    */
-  isQuestion(line) {
+  isQuestion: (line)=> {
     let pureStr = line.trim()
     return ['?'].includes(pureStr.charAt(pureStr.length-1))
   }
