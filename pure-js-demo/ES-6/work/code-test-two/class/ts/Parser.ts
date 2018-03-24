@@ -11,16 +11,14 @@ import utilMethods = require('../../utils/string-utils')
 let { formatStrBlank, splitByRegExp, splitByIs, formatConent, isQuestion } = utilMethods
 
 export default class Parser {
-  // content: string //解析的字符串
   lines: string[]
   statements: string[]
   questions: string[]
   galacticNotationRomanMap: object //{glob : L, pish: X}
   allUnits: string[] //记录合法的单位
   goodsInStock: Good[] //模拟货架
-  regExpMachines: any[]
-  diaplayUnrecognizable: boolean //如果没有匹配到，是否显示出line
-  constructor (content, diaplayUnrecognizable = false){
+  regExpMachines: any[] //保存正则与处理器的映射，如果需要自定可以操纵这个对象
+  constructor (content){
     // this.content = content
     this.lines = formatConent(content)
     this.statements = this.lines
@@ -30,8 +28,6 @@ export default class Parser {
     this.allUnits = []
     this.goodsInStock = []
     this.regExpMachines = []
-    this.diaplayUnrecognizable = diaplayUnrecognizable
-    //this.lines format todo 引入帮助方法
   }
   parse () {
     this._prepareData()
@@ -40,10 +36,8 @@ export default class Parser {
   addNewRegExpHandle (obj:object) {
     this.regExpMachines.push(obj)
   }
-  _outputWarn (line: string) {
-    let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
-    result = result + 'I have no idea what you are talking about'
-    console.log(result)
+  _outputWarn () {
+    console.log('I have no idea what you are talking about')
   }
   _handleLines () {
     this.lines.forEach(line=>{
@@ -51,12 +45,11 @@ export default class Parser {
        return item.regExp.test(line)
       })
       if(index === -1) {
-        this._outputWarn(line)
-      }else{
-        if(this.regExpMachines[index].type!=='statement' ) {
-          let handleFunc = this.regExpMachines[index].handleMethod.bind(this, line)
-          handleFunc(line)
-        }
+        this._outputWarn()
+      }
+      if(index !== -1 && this.regExpMachines[index].type!=='statement' ) {
+        let handleFunc = this.regExpMachines[index].handleMethod.bind(this, line)
+        handleFunc(line)
       }
     })
   }
@@ -71,13 +64,11 @@ export default class Parser {
     this.regExpMachines.push({regExp: regExp, type: 'statement'})    
     this.lines.filter(item=>!isQuestion(item)).forEach(item => {
       let line = item.trim();
-      // first glob is L
       if (regExp.test(line)) {
         let notation = splitByIs(line)[0]; // get notation represent roman numeral
         galacticNotationRomanMap[notation] = splitByIs(line)[1];
       }
     })
-    // console.log(galacticNotationRomanMap, '________-galacticNotationRomanMap')
     this.galacticNotationRomanMap = galacticNotationRomanMap
   }
   _getGoodsInfo () {
@@ -129,7 +120,7 @@ export default class Parser {
     console.log(notationNumberService.analyse())
   }
   _regExpOfGetTotalPriceHandle(line) {
-    var goodItemService = new GoodItemService(line, this.galacticNotationRomanMap, this.goodsInStock,this.allUnits)
+    var goodItemService = new GoodItemService(line, this.galacticNotationRomanMap, this.goodsInStock, this.allUnits)
     console.log(goodItemService.analyse())
   }
 }

@@ -33,6 +33,10 @@ module.exports = {
       return !(item.replace(/\s/, '').length=== 0 || item.trim().charAt(0)=== '#')
     })
   },
+  /**
+   * 对line进行分类
+   * @param {sting} line 
+   */
   isQuestion(line) {
     let pureStr = line.trim()
     return ['?'].includes(pureStr.charAt(pureStr.length-1))

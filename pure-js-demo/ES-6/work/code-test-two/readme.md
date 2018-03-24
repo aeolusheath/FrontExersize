@@ -15,10 +15,17 @@
 npm install
 
 # test 
-npm test
+npm run test
+
+
+#install typescript
+npm install -g typescript
+
+#then compile *.ts
+tsc
 
 # run the app
-node main
+npm run build
 
 
 
