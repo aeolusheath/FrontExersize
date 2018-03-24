@@ -3,7 +3,8 @@ import GoodItem from '../class/GoodItem'
 import Good from '../class/Good'
 import Price from '../class/Price'
 import utilMethods = require('../../utils/string-utils')
-let { formatStrBlank, splitByRegExp, splitByIs, formatConent, isQuestion } = utilMethods
+let { splitByRegExp, splitByIs } = utilMethods
+
 export default class GoodItemService {
   line: string
   galacticNotationRomanMap: object
@@ -25,15 +26,12 @@ export default class GoodItemService {
     let goodAvailible = this.goodsInStock.find(item=>item.getName() === goodName)
     let priceNum = goodAvailible ? goodAvailible.getPrice().getNum(): 0,
       good = new Good(goodName, new Price(currencyUnit, priceNum)),
-      goodItem = new GoodItem(good, notationNumber)
-    let result = ''
+      goodItem = new GoodItem(good, notationNumber),
+      result = ''
     if (goodItem.isValidGoodItem(this.allUnits, this.goodsInStock)) {
       result = notaionArr.join(' ') + ' '+ goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit
-      // console.log(notaionArr.join(' ') + ' '+ goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit)
-    }else {
-      result = 'I have no idea what you are talking about'
-      // this._outputWarn(line)
-      // console.log('I have no idea what you are talking about')      
+    } else {
+      result = 'I have no idea what you are talking about' 
     }
     return result
   }

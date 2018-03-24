@@ -1,6 +1,6 @@
 
-import validateRomanNum = require( '../../../utils/validate-roman-num' )
-import convertRomanNumToArabicNum = require('../../../utils/convert-roman-to-arabic')
+import validateRomanNum = require( '../../utils/validate-roman-num' )
+import convertRomanNumToArabicNum = require('../../utils/convert-roman-to-arabic')
 export default class NotationNumber {
   numSymbols: string[] // ['pish tegj glob glob']
   notaionToRomanNumeral: object // {glob: L}
@@ -11,14 +11,11 @@ export default class NotationNumber {
   getNotations () {
     return this.numSymbols.join(' ')
   }
-  //how much is glob
   getArabicNumber () {
     let romanNum = this.getRomanNum(this.numSymbols, this.notaionToRomanNumeral)
     return convertRomanNumToArabicNum(romanNum)
   }
-  //验证这个数字是否是合法的罗马数字
   isValidNotationNumber () {
-    // console.log( this.numSymbols, this.notaionToRomanNumeral, 'number 内部------》》》》')
     if(this.numSymbols.some(item=>!Object.keys(this.notaionToRomanNumeral).includes(item)))
       return false    
     let romanNum = this.getRomanNum(this.numSymbols, this.notaionToRomanNumeral)

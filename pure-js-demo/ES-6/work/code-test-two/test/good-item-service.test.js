@@ -1,6 +1,6 @@
-var GoodItemService = require( '../class/js/GoodItemService').default
-var Good =require('../class/js/Good').default
-var Price=require('../class/js/Price').default
+var GoodItemService = require( '../src/service/GoodItemService').default
+var Good =require('../src/class/Good').default
+var Price=require('../src/class/Price').default
 
 // import GoodItemService from '../class/ts/GoodItemService'
 
@@ -38,13 +38,3 @@ describe('Validate GoodItemService', ()=>{
 
 })
 
-// describe('Validate goodItemService', ()=>{
-//   it('should return false if goodItemService compute the right total price', ()=>{
-//     let line = 'how many abc is glob prok Silver ?'
-//     let galacticNotationRomanMap = {'glob': 'L', 'prok': 'V'}
-//     let goodInStock = [new Good('Silver', new Price('Credits', 20))]
-//     let currencyUnits = ['Credits'],
-//       goodItemService= new GoodItemService(line, galacticNotationRomanMap,goodInStock, currencyUnits)
-//     assert.equal(goodItemService.analyse(true), 'I have no idea what you are talking about')
-//   })
-// })

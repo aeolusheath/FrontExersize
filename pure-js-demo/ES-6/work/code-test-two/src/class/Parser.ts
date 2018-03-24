@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 import Good from './Good'
 import GoodItem  from './GoodItem'
 import NotationNumber from './NotationNumber'
@@ -6,9 +6,8 @@ import Price from './Price'
 import GoodItemService from '../service/GoodItemService'
 import NotationNumberService from '../service/NotationNumberService'
 
-
 import utilMethods = require('../../utils/string-utils')
-let { formatStrBlank, splitByRegExp, splitByIs, formatConent, isQuestion } = utilMethods
+let { splitByRegExp, splitByIs, formatConent, isQuestion } = utilMethods
 
 export default class Parser {
   lines: string[]
@@ -19,7 +18,6 @@ export default class Parser {
   goodsInStock: Good[] //模拟货架
   regExpMachines: any[] //保存正则与处理器的映射，如果需要自定可以操纵这个对象
   constructor (content){
-    // this.content = content
     this.lines = formatConent(content)
     this.statements = this.lines
     this.questions = []
@@ -63,10 +61,10 @@ export default class Parser {
     let regExp = new RegExp(/^\s*[a-zA-Z_-]+\s+is\s+[IVXLCDM]\s*$/)
     this.regExpMachines.push({regExp: regExp, type: 'statement'})    
     this.lines.filter(item=>!isQuestion(item)).forEach(item => {
-      let line = item.trim();
+      let line = item.trim()
       if (regExp.test(line)) {
-        let notation = splitByIs(line)[0]; // get notation represent roman numeral
-        galacticNotationRomanMap[notation] = splitByIs(line)[1];
+        let notation = splitByIs(line)[0]
+        galacticNotationRomanMap[notation] = splitByIs(line)[1]
       }
     })
     this.galacticNotationRomanMap = galacticNotationRomanMap
@@ -74,25 +72,27 @@ export default class Parser {
   _getGoodsInfo () {
     let allUnits = [],
       goodsInStock= []
-    let regStr = `\^\\s*`;
-    regStr += `((${Object.keys(this.galacticNotationRomanMap).join('|')})\\s+)+`; // glob glob glob
-    regStr += `[a-zA-Z-_]+\\s+`; // silver
-    regStr += `is\\s+`; // is 
-    regStr += `[1-9]\\d*\\s+`; // 999 
-    regStr += `[a-zA-Z-_]+\\s*`; // Credits
-    regStr += `\$`;
-      this.regExpMachines.push({ regExp: new RegExp(regStr), type: 'statement' })      
+    let regStr = `\^\\s*`
+    regStr += `((${Object.keys(this.galacticNotationRomanMap).join('|')})\\s+)+` // glob glob glob
+    regStr += `[a-zA-Z-_]+\\s+` // silver
+    regStr += `is\\s+` // is 
+    regStr += `[1-9]\\d*\\s+` // 999 
+    regStr += `[a-zA-Z-_]+\\s*` // Credits
+    regStr += `\$`
+    this.regExpMachines.push({ regExp: new RegExp(regStr), type: 'statement' })      
     this.lines.filter(item=>!isQuestion(item)).forEach(item => {
-      let line = item.trim();
+      let line = item.trim()
       if (new RegExp(regStr).test(line)) {
         let arrItem = splitByIs(line)
         // glob glob Silver
         let numberNotationsAndGoodName = splitByRegExp(arrItem[0], /\s+/) // [glob glob Silver]
         let goodName = numberNotationsAndGoodName.pop(),
           notationNumber = new NotationNumber(numberNotationsAndGoodName, this.galacticNotationRomanMap)
-        if (!notationNumber.isValidNotationNumber()) return //不是合法的数字
+        if (!notationNumber.isValidNotationNumber()) return //not valid
+
         let totalPriceAndCurrency = splitByRegExp(arrItem[1], /\s+/)
-        let totalPrice = totalPriceAndCurrency[0], currencyUnit = totalPriceAndCurrency[1]
+        let totalPrice = totalPriceAndCurrency[0],
+          currencyUnit = totalPriceAndCurrency[1]
         if(!allUnits.includes(currencyUnit)) allUnits.push(currencyUnit)
         let good = new Good(goodName, null)
         good.setPrice(totalPrice, notationNumber, currencyUnit)

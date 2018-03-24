@@ -1,6 +1,6 @@
 var mocha = require('mocha')
 var assert = require('assert')
-var NotationNumberService = require('../class/js/NotationNumberService').default
+var NotationNumberService = require('../src/service/NotationNumberService').default
 var obj = {
   'pish': 'X',
   'tegj': 'L',
