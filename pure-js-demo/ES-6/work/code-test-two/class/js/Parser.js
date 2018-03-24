@@ -1,12 +1,10 @@
 "use strict";
 exports.__esModule = true;
-var utilMethods = require("../../utils/string-utils");
-// import ROMAN_ARABIC_MAP = require('../../const/roman-numeral-arabic') // get map roman numerals to arabric
-// const ROMAN_NUM_ENUM = Object.keys(ROMAN_ARABIC_MAP) //get all roman notation ['I', 'V', 'X', 'L', 'C', 'D', 'M']
 var Good_1 = require("./Good");
-var GoodItem_1 = require("./GoodItem");
 var NotationNumber_1 = require("./NotationNumber");
-var Price_1 = require("./Price");
+var GoodItemService_1 = require("./GoodItemService");
+var NotationNumberService_1 = require("./NotationNumberService");
+var utilMethods = require("../../utils/string-utils");
 var formatStrBlank = utilMethods.formatStrBlank, splitByRegExp = utilMethods.splitByRegExp, splitByIs = utilMethods.splitByIs, formatConent = utilMethods.formatConent, isQuestion = utilMethods.isQuestion;
 var Parser = /** @class */ (function () {
     function Parser(content, diaplayUnrecognizable) {
@@ -41,16 +39,10 @@ var Parser = /** @class */ (function () {
             var index = _this.regExpMachines.findIndex(function (item) {
                 return item.regExp.test(line);
             });
-            // console.log(index)
             if (index === -1) {
-                // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
-                // result += 'I have no idea what you are talking about' 
-                // console.log(result)
                 _this._outputWarn(line);
             }
             else {
-                // console.log(this.regExpMachines[index].type, 'type---------------')
-                // this.regExpMachines[index].type!=='statement' && this.regExpMachines[index].handleMethod(line)
                 if (_this.regExpMachines[index].type !== 'statement') {
                     var handleFunc = _this.regExpMachines[index].handleMethod.bind(_this, line);
                     handleFunc(line);
@@ -122,38 +114,14 @@ var Parser = /** @class */ (function () {
                 handleMethod: this["_" + key + "Handle"]
             });
         }
-        // console.log(this.regExpMachines, 'hereee')
     };
     Parser.prototype._regExpOfNotationToArabicHandle = function (line) {
-        // console.log(this, 'this is what')
-        var notationStr = splitByIs(line)[1]; // glob abc ?
-        var notationArr = notationStr.split(/\s*\?\s*/)[0].trim().split(/\s+/);
-        var notationNumber = new NotationNumber_1["default"](notationArr, this.galacticNotationRomanMap);
-        if (notationNumber.isValidNotationNumber()) {
-            console.log(notationArr.join(' ') + ' is ' + notationNumber.getArabicNumber());
-        }
-        else {
-            // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
-            // result += 'I have no idea what you are talking about' 
-            // console.log(result)
-            this._outputWarn(line);
-        }
+        var notationNumberService = new NotationNumberService_1["default"](line, this.galacticNotationRomanMap);
+        console.log(notationNumberService.analyse());
     };
     Parser.prototype._regExpOfGetTotalPriceHandle = function (line) {
-        // console.log(this, 'this2222222222222222')
-        var strArr = splitByIs(line);
-        var currencyUnit = strArr[0].replace('how many', '').trim(), notationsAndGoodName = splitByRegExp(strArr[1].replace('?', '').trim(), /\s+/), goodName = notationsAndGoodName.pop(), notaionArr = notationsAndGoodName, notationNumber = new NotationNumber_1["default"](notaionArr, this.galacticNotationRomanMap);
-        var goodAvailible = this.goodsInStock.find(function (item) { return item.getName() === goodName; });
-        var priceNum = goodAvailible ? goodAvailible.getPrice().getNum() : 0, good = new Good_1["default"](goodName, new Price_1["default"](currencyUnit, priceNum)), goodItem = new GoodItem_1["default"](good, notationNumber);
-        if (goodItem.isValidGoodItem(this.allUnits, this.goodsInStock)) {
-            console.log(notaionArr.join(' ') + ' ' + goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit);
-        }
-        else {
-            // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
-            // result += 'I have no idea what you are talking about' 
-            // console.log(result)
-            this._outputWarn(line);
-        }
+        var goodItemService = new GoodItemService_1["default"](line, this.galacticNotationRomanMap, this.goodsInStock, this.allUnits);
+        console.log(goodItemService.analyse());
     };
     return Parser;
 }());

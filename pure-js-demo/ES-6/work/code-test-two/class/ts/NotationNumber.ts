@@ -8,6 +8,9 @@ export default class NotationNumber {
     this.numSymbols = numSymbols,
     this.notaionToRomanNumeral = notaionToRomanNumeral
   }
+  getNotations () {
+    return this.numSymbols.join(' ')
+  }
   //how much is glob
   getArabicNumber () {
     let romanNum = this.getRomanNum(this.numSymbols, this.notaionToRomanNumeral)

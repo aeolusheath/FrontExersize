@@ -1,12 +1,13 @@
 "use strict";
-import utilMethods = require('../../utils/string-utils')
 import Good from './Good'
 import GoodItem  from './GoodItem'
 import NotationNumber from './NotationNumber'
 import Price from './Price'
+import GoodItemService from './GoodItemService'
+import NotationNumberService from './NotationNumberService'
 
 
-
+import utilMethods = require('../../utils/string-utils')
 let { formatStrBlank, splitByRegExp, splitByIs, formatConent, isQuestion } = utilMethods
 
 export default class Parser {
@@ -122,42 +123,13 @@ export default class Parser {
         handleMethod: this[`_${key}Handle`]
       })
     }
-    // console.log(this.regExpMachines, 'hereee')
   }
   _regExpOfNotationToArabicHandle (line) {
-    // console.log(this, 'this is what')
-    let notationStr = splitByIs(line)[1] // glob abc ?
-    let notationArr = notationStr.split(/\s*\?\s*/)[0].trim().split(/\s+/)
-    let notationNumber = new NotationNumber(notationArr, this.galacticNotationRomanMap)
-    if (notationNumber.isValidNotationNumber()) {
-      console.log(notationArr.join(' ') + ' is ' + notationNumber.getArabicNumber())
-    }
-    else {
-      // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
-      // result += 'I have no idea what you are talking about' 
-      // console.log(result)
-      this._outputWarn(line)      
-    }
+    var notationNumberService = new NotationNumberService(line, this.galacticNotationRomanMap)
+    console.log(notationNumberService.analyse())
   }
   _regExpOfGetTotalPriceHandle(line) {
-    // console.log(this, 'this2222222222222222')
-    let strArr = splitByIs(line);
-    let currencyUnit = strArr[0].replace('how many', '').trim(),
-      notationsAndGoodName = splitByRegExp(strArr[1].replace('?', '').trim(), /\s+/),
-      goodName = notationsAndGoodName.pop(),
-      notaionArr = notationsAndGoodName,
-      notationNumber = new NotationNumber(notaionArr, this.galacticNotationRomanMap)
-    let goodAvailible = this.goodsInStock.find(item=>item.getName() === goodName)
-    let priceNum = goodAvailible ? goodAvailible.getPrice().getNum(): 0,
-      good = new Good(goodName, new Price(currencyUnit, priceNum)),
-      goodItem = new GoodItem(good, notationNumber)
-    if (goodItem.isValidGoodItem(this.allUnits, this.goodsInStock)) {
-      console.log(notaionArr.join(' ') + ' '+ goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit)
-    }else {
-      // let result = this.diaplayUnrecognizable ? (line +' --------> ') : ''
-      // result += 'I have no idea what you are talking about' 
-      // console.log(result)
-      this._outputWarn(line)      
-    } 
+    var goodItemService = new GoodItemService(line, this.galacticNotationRomanMap, this.goodsInStock,this.allUnits)
+    console.log(goodItemService.analyse())
   }
 }

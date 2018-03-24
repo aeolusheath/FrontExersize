@@ -12,6 +12,9 @@ var NotationNumber = /** @class */ (function () {
         this.numSymbols = numSymbols,
             this.notaionToRomanNumeral = notaionToRomanNumeral;
     }
+    NotationNumber.prototype.getNotations = function () {
+        return this.numSymbols.join(' ');
+    };
     //how much is glob
     NotationNumber.prototype.getArabicNumber = function () {
         var romanNum = this.getRomanNum(this.numSymbols, this.notaionToRomanNumeral);
