@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 var mocha = require('mocha')
 var assert = require('assert')
 var NotationNumberService = require('../src/service/NotationNumberService').default

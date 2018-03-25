@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 var GoodItemService = require( '../src/service/GoodItemService').default
 var Good =require('../src/class/Good').default
 var Price=require('../src/class/Price').default
