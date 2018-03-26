@@ -29,6 +29,8 @@ export default class GoodItem {
   //获取该商品条目的总价格
   getTotalPrice () {
     this.totalPrice = this.good.price.num * this.notationNumber.getArabicNumber()
+    if (this.totalPrice % 1 !== 0)
+      this.totalPrice = Number(this.totalPrice.toFixed(2))
     return this.totalPrice
   }
 }

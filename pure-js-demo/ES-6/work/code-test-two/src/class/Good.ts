@@ -17,7 +17,7 @@ export default class Good {
   getPrice () {
     return this.price
   }
-  setPrice (total:number, notationNumber: NotationNumber, unit: string) {
+  setPrice (total: number, notationNumber: NotationNumber, unit: string) {
     this.price = new Price(unit, total/notationNumber.getArabicNumber())
   }
 }
