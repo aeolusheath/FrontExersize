@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>关于伪元素link visited hover active focus</title>
+  <style>
+      .btn{
+        border-radius: 5px;
+        padding: 5px 8px;
+        min-width: 80px;
+        cursor: pointer;
+      }
+
+
+      /* .btn:hover {
+        background-color: green;
+        border: 1px solid rgba(0, 0, 0, 0.3)
+      } */
+   
+      .btn:focus {
+        background-color: gray;
+        border: 1px solid rgba(0, 0, 0, 0.3)
+      }
+      /* .btn:active {
+        background-color: goldenrod;
+        border: 1px solid rgba(0, 0, 0, 0.3) 
+      }   
+      .btn:visited {
+        background-color: red;
+        border: 1px solid rgba(0, 0, 0, 0.3)        
+      } */
+
+
+      /* .a-tagg:hover {
+        background-color: #ddd;
+        border: 1px solid rgba(0, 0, 0, 0.3)
+      } */
+      .a-tagg:focus {
+        background-color: gray;
+        border: 1px solid rgba(0, 0, 0, 0.3)
+      }
+      /* .a-tagg:active {
+        background-color: goldenrod;
+        border: 1px solid rgba(0, 0, 0, 0.3) 
+      }
+      .a-tagg:visited {
+        background-color: red;
+        border: 1px solid rgba(0, 0, 0, 0.3)        
+      }       */
+  </style>
+</head>
+<body>
+
+<mark>
+   对于:link而言， 未访问的链接的样式是可以这样表示 a:link
+</mark>  
+
+<hr>
+<strong>
+  但是我们可以对非a<链接>tag去设置其他的 focus hover visited active 4种伪类
+</strong>
+
+<hr>
+  :link 和 visited的样式顺序并不重要。可以按LVHA 或者VLHA的顺序来指定样式。
+<hr>
+<button class="btn"> 确定 </button>
+<a href="http://www.baidu.cn" target="_blank" class="a-tagg">确定（这是一个a-tag）</a>
+</body>
+</html>
