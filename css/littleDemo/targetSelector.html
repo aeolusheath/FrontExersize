@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>MDN Example &ndash; CSS Lightbox</title>
+<title>伪类 target &ndash;  targetMDN Example &ndash; CSS Lightbox</title>
 <style type="text/css">
 div.lightbox {
   display: none;
@@ -108,6 +108,7 @@ div.lightbox figure .closemsg, div.lightbox figure figcaption {
 
 <div class="lightbox" id="example2">
   <figure>
+    <!--这里的锚点很关键，这样加一个默认锚点是为了改变lightbox的target状态,将它设置为page target 然后display的样式就为none了-->
     <a href="#" class="closemsg"></a>
     <figcaption>Cras risus odio, pharetra nec ultricies et, mollis ac augue. Nunc et diam quis sapien dignissim auctor. Quisque quis neque arcu, nec gravida magna. Etiam ullamcorper augue quis orci posuere et tincidunt augue semper. Maecenas varius augue eu orci auctor bibendum tristique ligula egestas. Morbi pharetra tortor iaculis erat porta id aliquam leo cursus. Ut nec elit vel mauris dapibus lacinia eget sed odio.</figcaption>
   </figure>
