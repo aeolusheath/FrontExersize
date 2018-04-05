@@ -23,6 +23,52 @@
 
 // var arr = [0,1,2,3,4,5]
 // exchange(arr, 0, 4)
+
+
+
+//读取文件的三种办法
+
+//第一种传统的回调
+var fs = require('fs')
+
+function readFileCallback(callback) {
+  fs.readFile('./work/test-input.txt', (content)=>{
+    callback(content)
+  })
+}
+
+
+//第二种用promise
+function readFilePromise() {
+  return new Promise((resolve, reject)=> {
+    fs.readFile('./work/test-input.txt', (err, content)=>{
+      if(err)
+        reject(err)
+      else
+        resolve(content)
+    })
+  })
+}
+
+//第三种用generator
+
+function* readFileGenerator () {
+
+}
+
+//---------------------------------------------------
+
+function * dataConsumer() {
+  console.log('started')
+  console.log(`1.${yield}`)
+  console.log(`2.${yield}`)  
+  return 'result'
+}
+
+let genObj = dataConsumer()
+console.log(genObj.next())
+
+
 // // let from = Number(el.getAttribute('index'))-1,
 // // index = Number(sibling.getAttribute('index'))-1
 // // // console.log(from, index, '拖拽结束了---->>>>>>')
@@ -68,3 +114,4 @@ function* parallelTask () {
   ]
   console.log(students, books)
 }
+

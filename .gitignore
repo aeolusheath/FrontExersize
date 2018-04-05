@@ -16,3 +16,4 @@ temp/
 /pure-js-demo/ES-6/work/code-test/node_modules
 /pure-js-demo/ES-6/work/code-test-two/node_modules
 *.zip
+/pure-js-demo/ES-6/work/*
