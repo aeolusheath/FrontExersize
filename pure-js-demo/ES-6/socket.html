@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>socket</title>
+</head>
+<body>
+  
+    <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.js"></script>
+    <script>
+        var socket = io('http://localhost:3000')
+        socket.on('connect', function(){
+          console.log('connnect---------------')
+          socket.on('event', function(data){
+            console.log(data, 'receive data----收到了服务的数据')
+          })
+          socket.emit('event', {name: 'kevinnnn'})
+        })
+
+        socket.on('disconnect', function(){})
+    </script>
+</body>
+</html>
