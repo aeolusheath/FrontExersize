@@ -31,8 +31,15 @@ export default class GoodItemService {
     if (goodItem.isValidGoodItem(this.allUnits, this.goodsInStock)) {
       result = notaionArr.join(' ') + ' '+ goodName + ' is ' + goodItem.getTotalPrice() + ' ' + currencyUnit
     } else {
-      result = 'I have no idea what you are talking about' 
+      result = 'I have no idea what you are talking about'
     }
     return result
+  }
+  calculateCounts (goodItemOne, goodItemTwo) {
+    //step 1
+    let goodTwoTotal = goodItemTwo.getTotalPrice(),
+      goodOnePrice = goodItemOne.getGood().getPrice().getNum()
+    //let unit = goodItemTwo.getGood().getPrice().getUnit()
+    console.log(goodTwoTotal/goodOnePrice, 'goodOnePrice----->>>>>>>>>>')
   }
 }

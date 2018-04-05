@@ -5,7 +5,10 @@ var obj = {
   'pish': 'X',
   'tegj': 'L',
   'glob': 'I',
-  'prok': 'V'
+  'prok': 'V',
+  'hnga': 'C',
+  'mpor': 'D',
+  'atre': 'M'
 }
 
 describe('Validate NotationNumberService', ()=>{
@@ -28,6 +31,12 @@ describe('Validate NotationNumberService', ()=>{
         let line = 'how much is glob prok pish ?'
         let notationNumberService = new NotationNumberService(line, obj)
         assert.equal(notationNumberService.analyse(), 'I have no idea what you are talking about')
+      })
+
+      it(`should return 400 when input line is hgga mpor`, () => {
+        const line = 'how much is hnga mpor ?';
+        const notationNumberService = new NotationNumberService(line, obj)
+        assert.equal(notationNumberService.analyse(), 'hnga mpor is 400');
       })
 
     })

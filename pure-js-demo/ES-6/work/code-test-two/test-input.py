@@ -8,6 +8,7 @@ glob glob Silver is 34 Credits
 glob glob Silve is 34 rmb
 glob prok Gold is 57800 Credits
 pish pish Iron is 3910 Credits
+
 #prok tegj XYZ is 100 Credits
 #glob glob glob Wood is 30 Credits
 # kevin kevin OO is 4000 Credits
@@ -18,6 +19,8 @@ how much is pish tegj glob glob?
 how many Credits is glob prok Silver ?
 how many Credits is glob prok Gold ?
 how many Credits is glob prok Iron ?
+how many Credits is glob Gold?
+how many Credits is glob Silver?
 # how many Credits is kevin kevin OO ?
 # how many rmb is kevin kevin OO ?
 #how many Credits is tegj prok glob Silver?

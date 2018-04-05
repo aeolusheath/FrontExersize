@@ -20,4 +20,7 @@ export default class GoodItem {
   }
   getTotalCount () {
   }
+  getGood () {
+    return this.good
+  }
 }
