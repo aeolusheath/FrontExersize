@@ -8,12 +8,31 @@
 </head>
 <body>
   <div style="height: 1000px">
-
+      <input type="text" id="input1">
+      <input type="text" oninput="getxx">
   </div>
 
   <!--<script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.core.js"></script>-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
   <script type="text/javascript">
+    function getxx(){
+      console.log('00ooooooo')
+    }
+    function debounce(method, context, interval = 1000) {
+      clearTimeout(method.tId)
+      method.tId = setTimeout(function(){
+        method.call(context)
+      }, interval)
+    }
+
+    function inputChange() {
+      console.log('request')
+    }
+    
+    document.getElementById('input1').oninput = function(){
+      debounce(inputChange, this, 3000)
+    }
+
 
   /**滚动条防抖动一**/
   // function debounce(method, context) {
