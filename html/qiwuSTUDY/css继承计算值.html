@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>css 继承</title>
+  <style>
+    body {
+      margin: 0;
+    }
+    article {
+      line-height: 150%;
+    }
+    h1{
+      font-size: 40px;
+    }
+    p {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+    继承的是父元素的 计算值
+    <hr>
+    <article>
+      <h1>卡尔斯巴德洞窟国家公园</h1>
+      <p>
+        卡尔斯巴德洞窟国家公园，位于美国西部的新墨西哥州，建立于1930年，占地面积约190平方公里。其各具特色的洞穴构成了一个多姿多彩的地下世界。1995年联合国教科文组织将卡尔斯巴德洞窟国家公园作为自然遗产，列入《世界遗产名录》。
+      </p>
+    </article>
+    <hr>
+    h1的行高是24px，为什么？<br> 
+    h1 没有设置行高， 会继承或者设置initial，父元素设置了150%，但是我们继承的是父元素的计算值，对于百分比会先计算成一个值（将相对值转换成绝对值），会先计算 1.5* article的font-size，但是article会往搜索到默认值16px，16*1.5计算成24，然后继承了24px<br>
+    如果我们设置为1.5的话，h1继承了这个计算值1.5,然后计算自己的resolve值： 1.5*40 为60
+    <hr>
+    <style>
+         .green {
+            line-height: 1.1;
+            border: solid limegreen;
+          }
+
+          .red {
+            line-height: 1.1em;
+            border: solid red;
+          }
+
+          h1 {
+            font-size: 30px;
+          }
+
+          .box {
+            width: 18em;
+            display: inline-block;
+            vertical-align: top;
+            font-size: 15px;
+          }
+    </style>
+    <div class="box green">
+        <h1>Avoid unexpected results by using unitless line-height.</h1>
+         length and percentage line-heights have poor inheritance behavior ...
+       </div>
+       
+       <div class="box red">
+        <h1>Avoid unexpected results by using unitless line-height.</h1>
+         length and percentage line-heights have poor inheritance behavior ...
+       </div>
+       
+       <!-- The first <h1> line-height is calculated from its own font-size   (30px × 1.1) = 33px  --> 
+       <!-- The second <h1> line-height results from the red div's font-size  (15px × 1.1) = 16.5px,  probably not what you want -->
+</body>
+</html>

@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  circle {
+    -webkit-transition: stroke-dasharray .25s;
+    transition: stroke-dasharray .25s;
+  }
+  text {
+    stroke-width: 1;
+    font-size: 20px;
+    text-anchor: middle;  /* 文本水平居中 */
+    dominant-baseline: middle; /* 文本垂直居中 */
+  }
+  </style>
+</head>
+<body>
+  
+不是原创，这里只是学习svg作一个记录，原创是张鑫旭大佬 http://www.zhangxinxu.com/wordpress/2015/07/svg-circle-loading/
+<hr>
+
+<svg width="440" height="440" viewbox="0 0 440 440">
+    <circle cx="220" cy="220" r="170" stroke-width="50" stroke="#D1D3D7" fill="none"></circle>
+    <circle cx="220" cy="220" r="170" stroke-width="50" stroke="#00A5E0" fill="none" transform="matrix(0,-1,1,0,0,440)" stroke-dasharray="0 1069"></circle>
+    <text x="220" y="220" fill="red">Text</text>
+</svg>
+<p>拖我：<input id="range" type="range" min="0" max="100" value="0" style="width:300px;"></p>
+
+
+
+<script type="text/javascript">
+  if (window.addEventListener) {
+    var range = document.querySelector("#range"), circle = document.querySelectorAll("circle")[1];
+    if (range && circle) {
+        range.addEventListener("change", function() {
+            var percent = this.value / 100, perimeter = Math.PI * 2 * 170;
+            circle.setAttribute('stroke-dasharray', perimeter * percent + " " + perimeter * (1- percent));
+        });
+    }
+}
+</script>
+</body>
+</html>

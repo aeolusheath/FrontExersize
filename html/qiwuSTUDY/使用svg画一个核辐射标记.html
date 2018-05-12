@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg tis</title>
+  <style>
+
+
+    .warning {
+      width: 300px;
+      background: black;
+      border-radius: 50%;
+    }
+    
+    .warning circle {
+      fill: none;
+      stroke:  yellow;
+      stroke-width: 32;
+      stroke-dasharray: 26%; 
+    }
+    .kk {      fill: none;
+      stroke:  yellow;
+      stroke-width: 32;
+      stroke-dasharray: 26%; 
+
+    }
+    body,p{
+      text-indent: 10px
+    }
+  </style>
+</head>
+<body>
+  非原创， get this info from 奇舞团
+  <hr>
+  <p>其实现在这个svg画的核辐射标记，但是不太标准。<br></p>
+  <p>关键点是使用 stoke-width 和 stroke-dasharray 的应用。<br></p>
+  <p>而且是将stroke应用到圆形图上面，stroke是以边界线条的中间往两边发散的。<br></p>
+  <p>就是说如果我们将一个圆的strokewidth设为圆的半径*2，这时候这个stroke（可以理解为border）已经是一个圆了，这个圆的半径是 r*2，这时候我们将画布可视区域缩小为r。（你可以将cricle的fill设置一个颜色查看对比）<br></p>
+  <p>这时候stroke完全遮盖住了之前的画布，然后我们将stroke设置为dash，使用  <a target="_blank" href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Attribute/stroke-dasharray"> stroke-dasharray</a>。<br></p>
+  <p>也可以看下这个<a target="_blank" href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Tutorial/Fills_and_Strokes"> Fills_and_Strokes</a>属性。</p>
+  <p>看了这个可以想下环形进度条怎么实现，通过stroke-dasharray </p>
+  <hr>
+  <svg viewBox="0 0 64 64" class="warning">
+    <circle r="25%" cx="50%" cy="50%"></circle>
+  </svg>
+
+
+</body>
+</html>
