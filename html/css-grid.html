@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>css-grid</title>
+  <style type="text/css">
+
+    .item1 {
+      background-color: aquamarine;
+      /**方法一*/
+      
+      grid-column-start: 1;
+      grid-column-end: 4;
+
+      /**方法二*/
+
+      grid-column: 1 / 4;
+
+      /**方法三*/
+
+      grid-column: 1 / span 3;
+
+
+      /**方法一二三有同样的效果*/
+
+      /**
+        对于行的设置，以此类推
+      */
+    }
+    .item2 {
+      background-color: yellow;
+    }
+    .item3 {
+      background-color: skyblue;
+    }
+    .item4 {
+      background-color: plum;
+      /* align-self: center;
+      grid-row: 2 / span 2; */
+    }
+    .item5 {
+      background-color: paleturquoise;;
+    }
+    .item6 {
+      background-color: orange;
+    }
+    .wrapper {
+      display: grid;
+      /* grid-template-columns: 100px 100px 100px; */
+      grid-template-columns: 1fr 1fr 1fr; 
+      grid-template-rows: 100px 100px 100px;  
+      grid-gap: 0.3em;    
+    }
+    div[class^=item] {
+      text-align: center;
+      font-weight: bold;
+      line-height: 100px;
+    }
+
+
+
+
+#container {
+  display: grid;
+  grid-gap: 1em;
+
+  /** 模拟flex布局 将一行分成3列，占比为1：2：1  */
+  /* grid-template-columns: 1fr 2fr 1fr;  */
+
+  /** 模拟flex布局  第一列200px 剩余的空间分成2等份，占比为1：2 */
+  /* grid-template-columns: 200px 1fr 2fr; */
+
+  /** 格子自适应排列，每一列的宽度最小200px，最大剩余可用宽度 */  
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) ;
+
+  /** 自适应按照每个格子210px等分 */
+  /* grid-template-columns: repeat(auto-fill, 210px);   */
+
+  /** 第一列和最后一列20px 中间剩余空间分成6分【设置了这个，就不要设置grid-item的最大最小宽度，不然显示错乱，自行尝试】 */
+  /* grid-template-columns: 20px repeat(6, 1fr) 20px; */
+  
+  /** 每一行分成6等份，实际就等于grid-template-columes: 1fr 1fr 1fr 1fr 1fr 1fr*/
+  /* grid-template-columns:  repeat(6, 1fr);  */
+  
+  /*** 每一行分成5等份，每一等份分成2份，占比是1:2 */
+  /* grid-template-columns: repeat(5, 1fr 2fr); */
+
+}
+
+#container > div {
+  background-color: skyblue;
+  /* min-width: 12em; */
+  /* min-width: 192px; */
+  /* max-width: 20em; */
+  height: 200px;
+  transition: all 0.2s ease;
+}
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="item1">1</div>
+    <div class="item2">2</div>
+    <div class="item3">3</div>
+    <div class="item4">4</div>
+    <div class="item5">5</div>
+    <div class="item6">6</div>
+  </div>
+
+<hr>
+  <div>
+      请注意，比如我们这样设置，fr是css-grid的单位，表示一行分成3等份。
+      <pre>
+        grid-template-columns: 1fr 1fr 1fr; 
+      </pre>
+      然后尝试将item4 增加一个，跨行的样式： 
+      <pre>
+        grid-row: 2 / span 2;
+        align-self: center;  垂直方向的摆放顺序（center end start stretch）
+        justify-self: center; 水平方向的摆放居中（同上）[同时设置一个宽度]
+      </pre>
+  </div>
+ 
+<hr>
+
+  <div id="container">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+      <div>10</div>
+      <div>11</div>
+      <div>12</div>
+      <div>13</div>
+      <div>14</div>
+      <div>15</div>
+      <div>16</div>
+      <!-- <div>17</div>
+      <div>18</div> -->
+    </div>
+</body>
+</html>
