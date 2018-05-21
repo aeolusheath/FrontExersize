@@ -164,6 +164,9 @@
     </div>
   </div>
 
+  <div id="other" data-name="kevin">
+    第0张
+  </div>
   <script type="text/javascript">
   /**
     接口设计 【外部调用的/ 内部调用的/组件之间调用】
@@ -284,10 +287,22 @@
 
 
 
-  //控制流设计
+  // 控制流设计 为什么要用自定义事件 
+  // 想象一下如果不用这个自定义事件的话，我们要做些什么？
+  // 我们点击小圆点 增加逻辑 ->获取小圆点index，然后设置点击的圆点样式为active，
+  // 我们点击上一页 增加逻辑 ->获取上一页index，然后设置上一页圆点样式为active
+  // 自动播放      增加逻辑 ->获取下一页index, 然后设置下一页圆点样式为active
+
   // const detail = {index: idx}
   // const event = new CustomEvent('slide', {bubbles: true, detail})
   // this.container.disptchEvent(event)
+
+  // it's so cool and it works with the bubble 
+  document.addEventListener('slide', (evt)=>{
+    // here we can use id 'other' represent the dom element div which id is other
+    // wow !!!! it a hack tip for me really
+    other.innerHTML= `第${evt.detail.index}张`
+  })
 
   </script>
 </body>
