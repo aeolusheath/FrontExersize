@@ -57,6 +57,10 @@
   })
   
 
+  document.addEventListener('any', (data)=>{
+    console.warn('get the data from event dispath', data)
+  })
+
   // 触发any 事件
   const data = { name: 'jackkk',  } // 创建event对象的初始化数据
   const customeEvent = new CustomEvent('any', {
