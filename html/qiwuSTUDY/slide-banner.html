@@ -182,58 +182,64 @@
       this.items = this.container.querySelectorAll('.slider-list__item, .slider-list__item--selected')
       this.cycle = cycle
       
-      // 小圆点的浮动和点击事件
-      const controller = this.container.querySelector('.slide-list__control')
-      if(controller) {
-        const buttons = controller.querySelectorAll('.slide-list__control-buttons, .slide-list__control-buttons--selected')
-        //事件代理，绑定到父元素上面，而不是子元素上面
-        controller.addEventListener('mouseover', evt => {
-          const idx = Array.from(buttons).indexOf(evt.target)
-          if(idx >= 0) {
-            this.slideTo(idx)
-            this.stop()
-          }
-        })
+      // // 小圆点的浮动和点击事件
+      // const controller = this.container.querySelector('.slide-list__control')
+      // if(controller) {
+      //   const buttons = controller.querySelectorAll('.slide-list__control-buttons, .slide-list__control-buttons--selected')
+      //   //事件代理，绑定到父元素上面，而不是子元素上面
+      //   controller.addEventListener('mouseover', evt => {
+      //     const idx = Array.from(buttons).indexOf(evt.target)
+      //     if(idx >= 0) {
+      //       this.slideTo(idx)
+      //       this.stop()
+      //     }
+      //   })
         
-        controller.addEventListener('mouseout', evt=>{
-          this.start()
-        })
+      //   controller.addEventListener('mouseout', evt=>{
+      //     this.start()
+      //   })
         
-        //slide 是自定义事件，改变小圆点的状态
-        this.container.addEventListener('slide', evt=>{
-          // const idx = evt.detail.index
-          // const selected = controller.querySelector('.slide-list__control-buttons--selected')
-          // if(selected) selected.className = 'slide-list__control--selected'
-          // buttons[idx].class = 'slide-list__control-buttons--selected'
-          const idx = evt.detail.index
-          const selected = controller.querySelector('.slide-list__control-buttons--selected');
-          if(selected) selected.className = 'slide-list__control-buttons';
-          buttons[idx].className = 'slide-list__control-buttons--selected';          
-        })
-      }
+      //   //slide 是自定义事件，改变小圆点的状态
+      //   this.container.addEventListener('slide', evt=>{
+      //     // const idx = evt.detail.index
+      //     // const selected = controller.querySelector('.slide-list__control-buttons--selected')
+      //     // if(selected) selected.className = 'slide-list__control--selected'
+      //     // buttons[idx].class = 'slide-list__control-buttons--selected'
+      //     const idx = evt.detail.index
+      //     const selected = controller.querySelector('.slide-list__control-buttons--selected');
+      //     if(selected) selected.className = 'slide-list__control-buttons';
+      //     buttons[idx].className = 'slide-list__control-buttons--selected';          
+      //   })
+      // }
 
-      // 上一页事件
-      const previous = this.container.querySelector('.slide-list__previous')
-      if(previous) {
-        previous.addEventListener('click', evt => {
-          this.stop()
-          this.slidePrevious()
-          this.start()
-          evt.preventDefault()
-        })
-      }
+      // // 上一页事件
+      // const previous = this.container.querySelector('.slide-list__previous')
+      // if(previous) {
+      //   previous.addEventListener('click', evt => {
+      //     this.stop()
+      //     this.slidePrevious()
+      //     this.start()
+      //     evt.preventDefault()
+      //   })
+      // }
 
-      // 下一页事件
-      const next = this.container.querySelector('.slide-list__next');
-      if(next){
-        next.addEventListener('click', evt => {
-          this.stop();
-          this.slideNext();
-          this.start();
-          evt.preventDefault();
-        });
-      }  
+      // // 下一页事件
+      // const next = this.container.querySelector('.slide-list__next');
+      // if(next){
+      //   next.addEventListener('click', evt => {
+      //     this.stop();
+      //     this.slideNext();
+      //     this.start();
+      //     evt.preventDefault();
+      //   });
+      // }  
 
+    }
+    // 构造函数过于庞大，我们将controller 和 next previous 抽取出来，但是不是简单的抽取方法
+    // 而是通过依赖注入【java里面貌似是通过构造函数参数】【而这里应该只是外部注入】的方式来将 控制流 外部注入
+    registerPlugins(...plugins) {
+      //可以用bind 吗？
+      plugins.forEach(plugin=>plugin(this))
     }
     stop() {
       console.log(this._timer,'dddddd')
@@ -279,7 +285,59 @@
     }
   }
 
+  function pluginController(slider){
+    const controller = slider.container.querySelector('.slide-list__control');
+    if(controller){
+      const buttons = controller.querySelectorAll('.slide-list__control-buttons, .slide-list__control-buttons--selected');
+      controller.addEventListener('mouseover', evt=>{
+        const idx = Array.from(buttons).indexOf(evt.target);
+        if(idx >= 0){
+          slider.slideTo(idx);
+          slider.stop();
+        }
+      });
+
+      controller.addEventListener('mouseout', evt=>{
+        slider.start();
+      });
+
+      slider.container.addEventListener('slide', evt => {
+        const idx = evt.detail.index
+        const selected = controller.querySelector('.slide-list__control-buttons--selected');
+        if(selected) selected.className = 'slide-list__control-buttons';
+        buttons[idx].className = 'slide-list__control-buttons--selected';
+      });
+    }  
+  }
+
+  function pluginPrevious(slider){
+    const previous = slider.container.querySelector('.slide-list__previous');
+    if(previous){
+      previous.addEventListener('click', evt => {
+        slider.stop();
+        slider.slidePrevious();
+        slider.start();
+        evt.preventDefault();
+      });
+    }  
+  }
+
+  function pluginNext(slider){
+    const next = slider.container.querySelector('.slide-list__next');
+    if(next){
+      next.addEventListener('click', evt => {
+        slider.stop();
+        slider.slideNext();
+        slider.start();
+        evt.preventDefault();
+      });
+    }  
+  }
+
+
+
   const slider = new Slider('my-slider')
+  slider.registerPlugins(pluginController, pluginPrevious, pluginNext)
   slider.start()
   // var intervalTimer = setInterval(()=>{
   //   slider.slideNext()
