@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>执行一次的函数</title>
+</head>
+<body>
+  <script type="text/javascript">
+  // 局部细节控制——》对函数统一处理 --》输入函数 返回函数-》高阶函数
+    function once(fn){
+      return function(...args){
+        if(fn) {
+          fn.apply(this, args)
+          fn = null
+        }        
+      }
+    }
+    
+    function output (param) {
+      console.log(param)
+    }
+    
+    output(1)
+    output(2)
+
+    output = once(output)
+    output(3)
+    output(4)
+    output(5)
+  </script>
+</body>
+</html>

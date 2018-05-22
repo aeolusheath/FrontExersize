@@ -21,7 +21,7 @@
     function debounce(method, context, interval = 1000) {
       clearTimeout(method.tId)
       method.tId = setTimeout(function(){
-        method.call(context)
+        method.call(context, ...arguments)
       }, interval)
     }
 

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>节流</title>
+  <style>
+    #circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: red;
+    line-height: 50px;
+    text-align: center;
+    color: white;
+    opacity: 1.0;
+    transition: opacity .25s;
+  }
+
+  #circle.fade {
+    opacity: 0.0;
+    transition: opacity .25s;
+  }
+  </style>
+</head>
+<body>
+  
+    每500毫秒可记录一次
+
+    <button id="btn">点我</button>
+    
+    <div id="circle">0</div>
+
+  <script>
+    function throttle(fn, time = 500){
+    let timer
+    return function(...args){
+      if(timer == null){
+        fn.apply(this,  args)
+        timer = setTimeout(() => {
+          timer = null
+        }, time)
+      }
+    }
+  }
+
+  btn.onclick = throttle(function(e){
+    circle.innerHTML = parseInt(circle.innerHTML) + 1
+    circle.className = 'fade'
+    setTimeout(() => circle.className = '', 250)
+  })
+  </script>
+</body>
+</html>
