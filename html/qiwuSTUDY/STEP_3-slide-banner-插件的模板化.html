@@ -188,6 +188,7 @@
       plugins.forEach(plugin=>{
         // 感觉这里可以可以将这里的html处理 放到 plugin 自己的逻辑里面
         const pluginContainer = document.createElement('div')
+        // 这里应该是可配置的 className，config
         pluginContainer.className = '.slider-list__plugin'
         pluginContainer.innerHTML = plugin.render(this.options.images)
         this.container.appendChild(pluginContainer)
