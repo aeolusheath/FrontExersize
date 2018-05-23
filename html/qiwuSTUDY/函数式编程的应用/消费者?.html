@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>消费者？</title>
+</head>
+<body>
+  <pre>
+    其实这里的消费者模式可以理解成这样：
+
+    我们赶火车的时候
+
+    【 无论你以多快的速度去检票进候车室，你总是需要排队，无论你排在前面或者后面 】
+    【 关键来了，（假定在工作人员的工作时间内）效率是不会变化 】
+    【 就是说每一个乘客检票完成到后面一个乘客检票完成的事件是固定的 】
+
+    【 或者说以任意速度去排队检票，但是每一次都是经过固定时间间隔通过一位乘客】
+    
+    【 任意速度进栈，但是出栈的频率是固定的】
+
+     so watch the code in script tag !
+  </pre>
+  <hr>
+
+  <script type="text/javascript">
+
+    function consumer(fn, time) {
+      const tasks = []
+      let timer
+      // 高阶函数
+      return function(...args) {
+        // 这里bind返回了一个新的函数，并且绑定了上下文作用域
+        tasks.push(fn.bind(this, ...args))
+        if(timer==null) {
+          // 定时执行所有栈里面的数据,必须要setInterval
+          timer = setInterval(()=>{
+            // console.log(tasks.length, 'taskssss---->>>>>>')
+            tasks.shift().call(this)
+            if(tasks.length <=0) {
+              //如果栈里面没有了，就清理定时器
+              clearInterval(timer)
+              timer = null
+            }
+          }, time)
+        }
+      }
+    }
+
+    function add(x, y) {
+      const sum = x + y
+      console.log('sum', sum)
+      return sum
+    }
+    
+    // 返回了一个函数，这个函数和所在作用域形成了一个闭包
+    // 而且这个闭包缓存了add 函数 以及 tasks 和 timer
+    // 虽然缓存了add，但是每次点击执行的操作就是根据add的bind操作返回一个新的函数，并且加到tasks里面
+    const consumerAdd = consumer(add, 1000) 
+    
+
+    let sum = 0
+
+    for (let i = 0; i < 10; i++) {
+      // 执行的是一个函数，这个函数和外层作用域的tasks,timer 以及add 函数形成了一个闭包
+      // 这个函数每次都会给闭包里的tasks数组增加一个item【根据add函数变化而来的，by bind】 
+      consumerAdd(sum, i)
+    }
+
+
+
+
+    //缓存函数
+    var test = function(fn) {
+      return function(){
+        return fn
+      }
+    }
+    var y = ()=>{console.log('yyy')}
+    var x = test(y)
+    var r1 = x()
+    var r2 = x()
+    // r1===r2 // true
+
+    // var testTail = function (fn) {
+    //   const x  = fn
+    //   return function(x){
+    //     return x
+    //   }
+    // }
+    
+    // var y2 = ()=>{console.log('xxx')}
+    // var x2 = testTail(y2)
+    // var r11 = x2()
+    // var r22 = x2()
+
+  </script>
+</body>
+</html>

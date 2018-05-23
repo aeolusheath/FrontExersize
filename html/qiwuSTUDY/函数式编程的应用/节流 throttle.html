@@ -33,23 +33,31 @@
     <div id="circle">0</div>
 
   <script>
+    /**
+     * 这里的节流实际上是用的闭包的特性
+     * 返回了一个函数，这个函数引用了上一层作用域的变量timer
+     * 无论你点的多快，只有过了time也就是500ms之后，timer才会为空
+     * 才会通过if语句然后执行下一次，所以控制到的执行频率就是500ms
+     * 
+    */
     function throttle(fn, time = 500){
-    let timer
-    return function(...args){
-      if(timer == null){
-        fn.apply(this,  args)
-        timer = setTimeout(() => {
-          timer = null
-        }, time)
+      let timer
+      return function(...args){
+        if(timer == null){
+          fn.apply(this,  args)
+          timer = setTimeout(() => {
+            timer = null
+          }, time)
+        }
       }
     }
-  }
 
-  btn.onclick = throttle(function(e){
-    circle.innerHTML = parseInt(circle.innerHTML) + 1
-    circle.className = 'fade'
-    setTimeout(() => circle.className = '', 250)
-  })
+    const clickFunc = throttle(function(e){
+      circle.innerHTML = parseInt(circle.innerHTML) + 1
+      circle.className = 'fade'
+      setTimeout(() => circle.className = '', 250)
+    })
+    btn.onclick = clickFunc
   </script>
 </body>
 </html>

@@ -45,11 +45,14 @@
   setInterval(function(){
     bird.className = "sprite " + 'bird' + ((i++) % 3);
   }, 1000/10);
-
+  /**
+   * 实际上也是用到的闭包的特性
+   * 
+  */
   function debounce(fn, dur=100){
     var timer;
     return function(){
-      clearTimeout(timer);
+      clearTimeout(timer); //其实这里好的做法是判断timer是否是有效的值
       timer = setTimeout(() => {
         fn.apply(this, arguments);
       }, dur);

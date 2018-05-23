@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>防抖与节流的区别</title>
+</head>
+<body>
+  click the link <a target="_href" href="http://www.css88.com/doc/lodash/#_debouncefunc-wait0-options"> lodash about debounce </a> 
+  <br>
+
+  <button id="kevin">click me !</button>
+  <script type="text/javascript">
+  
+        // 500毫秒内的多次操作，只会执行一次
+        // const debounce = (fn, dur = 500) => {
+        //   let timer
+        //   return function(...args) {
+        //     clearTimeout(timer)
+        //     timer = setTimeout(() => {
+        //       fn.apply(this, args)
+        //     }, dur)
+        //   }
+        // }
+        const debounce = (fn, dur = 500) => {
+          let timer
+          return function(...args) {
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+              fn.apply(this, args)
+            }, dur)
+          }
+        }
+        
+        kevin.onclick = debounce(()=>{
+          console.log('发起请求----->>>>>>')
+        })
+
+
+  //   // 每两秒内只能执行一次,点击了很多次
+  //   function throttle(fn, time = 2000){
+  //     let timer
+  //     return function(...args){
+  //       if(timer == null){
+  //         fn.apply(this,  args)
+  //         timer = setTimeout(() => {
+  //           timer = null
+  //         }, time)
+  //       }
+  //     }
+  //   }
+  // kevin.onclick = throttle(()=>{
+  //   console.log('发期请求---->>>>>>>>>>>>>')
+  // })
+  </script>
+  
+
+  <button id="kevin2">click me2 !</button>
+  <!-- <script src="https://cdn.bootcss.com/lodash.js/4.17.10/lodash.core.js"></script> -->
+  <script src="https://cdn.bootcss.com/lodash.js/4.17.10/lodash.js"></script>
+  <script type="text/javascript">
+    console.log(_.debounce)
+    const customDebounce = (fn, dur = 500) => _.debounce(fn, dur, { leading: true, trailing: false })
+    // const customDebounce = (fn, dur = 500) => _.throttle(fn, dur, { leading: true, trailing: false })
+    
+    kevin2.onclick=customDebounce(()=>{
+      console.log('发起请求--->>>>>>')
+    })
+  </script>
+</body>
+</html>
