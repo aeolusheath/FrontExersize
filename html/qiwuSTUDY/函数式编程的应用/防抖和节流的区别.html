@@ -10,63 +10,73 @@
   click the link <a target="_href" href="http://www.css88.com/doc/lodash/#_debouncefunc-wait0-options"> lodash about debounce </a> 
   <br>
 
-  <button id="kevin">click me !</button>
+  <button id="btn1">click me !</button>
   <script type="text/javascript">
   
-        // 500毫秒内的多次操作，只会执行一次
-        // const debounce = (fn, dur = 500) => {
-        //   let timer
-        //   return function(...args) {
-        //     clearTimeout(timer)
-        //     timer = setTimeout(() => {
-        //       fn.apply(this, args)
-        //     }, dur)
-        //   }
-        // }
-        const debounce = (fn, dur = 500) => {
-          let timer
-          return function(...args) {
-            clearTimeout(timer)
-            timer = setTimeout(() => {
-              fn.apply(this, args)
-            }, dur)
-          }
+    // // 500毫秒内的多次操作，只会执行一次
+    // const debounce = (fn, dur = 500) => {
+    //   let timer
+    //   return function(...args) {
+    //     clearTimeout(timer)
+    //     timer = setTimeout(() => {
+    //       fn.apply(this, args)
+    //     }, dur)
+    //   }
+    // }
+
+    // btn1.onclick = debounce(()=>{
+    //   console.log('发起请求----->>>>>>')
+    // })
+
+
+    // 每两秒内只能执行一次 在 【点击了很多次的总时间内】
+    function throttle(fn, time = 5000){
+      let timer
+      return function(...args){
+        if(timer == null){
+          fn.apply(this,  args)
+          timer = setTimeout(() => {
+            timer = null
+          }, time)
         }
-        
-        kevin.onclick = debounce(()=>{
-          console.log('发起请求----->>>>>>')
-        })
-
-
-  //   // 每两秒内只能执行一次,点击了很多次
-  //   function throttle(fn, time = 2000){
-  //     let timer
-  //     return function(...args){
-  //       if(timer == null){
-  //         fn.apply(this,  args)
-  //         timer = setTimeout(() => {
-  //           timer = null
-  //         }, time)
-  //       }
-  //     }
-  //   }
-  // kevin.onclick = throttle(()=>{
-  //   console.log('发期请求---->>>>>>>>>>>>>')
-  // })
+      }
+    }
+    btn1.onclick = throttle(()=>{
+    console.log('发起请求---->>>>>>>>>>>>>')
+  })
   </script>
   
 
-  <button id="kevin2">click me2 !</button>
-  <!-- <script src="https://cdn.bootcss.com/lodash.js/4.17.10/lodash.core.js"></script> -->
+
+   <!-- debounce with promise 自己的用法没有对 -->
+
+
+  <button id="btn2">click me2 !</button>
   <script src="https://cdn.bootcss.com/lodash.js/4.17.10/lodash.js"></script>
+  <script src="https://cdn.bootcss.com/superagent/4.0.0-alpha.1/superagent.js"></script>
   <script type="text/javascript">
-    console.log(_.debounce)
     const customDebounce = (fn, dur = 500) => _.debounce(fn, dur, { leading: true, trailing: false })
     // const customDebounce = (fn, dur = 500) => _.throttle(fn, dur, { leading: true, trailing: false })
     
-    kevin2.onclick=customDebounce(()=>{
-      console.log('发起请求--->>>>>>')
-    })
+    var request = (param) => {
+      console.log(param, 'request方法')
+      return superagent.get(
+        'http://api.map.baidu.com/telematics/v3/weather?location=嘉兴&output=json&ak=5slgyqGDENN7Sy7pw29IUvrZ')
+    }
+    var getPromise = customDebounce(request)
+
+
+    // var requestPlain = (param)=>{console.log(param)}
+    // var getPlain = customDebounce(requestPlain)
+
+    btn2.onclick = function() {
+      getPromise('param').then((result)=>{
+        console.log(result, 'resolve will be invoked many times')
+      })
+      // getPlain('ress')
+    }
+
+
   </script>
 </body>
 </html>
