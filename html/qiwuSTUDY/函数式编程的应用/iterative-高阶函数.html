@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>reduce的应用</title>
+</head>
+<body>
+  
+  <script>
+    // 数组的循环可以用reduce替代
+
+
+  
+    function add(x, y) {
+      return x + y
+    }
+    function sub(x, y) {
+      return x - y
+    }
+    // 高阶函数
+    // function addMany(fn) {
+    //   return function(...args) {
+    //     return args.reduce(add)
+    //   }
+    // }
+
+    function addMany(...args) {
+      return args.reduce(add) //如果不写第二个参数，默认是数组args的第一个元素
+    }
+    function subMany(...args) {
+      return args.reduce(sub)
+    }
+
+    console.log(addMany(1, 2, 3, 4, 5))
+    console.log(subMany(100, 10, 10, 10, 5))
+
+
+    // 再次抽象一下, 将函数传递进去。【匿名函数】
+    function iterative(fn) {
+      return function(...args) {
+        args.reduce(fn.bind(this))
+      }
+    }
+    
+    const addNew = iterative((x, y)=> x + y)
+    const subNew = iterative((x, y)=> x - y)
+    
+  </script>
+</body>
+</html>

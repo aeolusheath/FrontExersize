@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>toggle-imperative-declarative</title>
+  <style type="text/css">
+    #btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+    }
+    .on {
+      background-color: green;
+    }
+    .on::before {
+      content: 'on';
+    }
+    .off {
+      background-color: red;
+    }
+    .off::before {
+      content: 'off';
+    }
+    .yellow {
+      background-color: orange;
+      
+    }
+    .yellow::before {
+      content: 'warn'
+    }
+  </style>
+</head>
+<body>
+  <button id="btn" class="on">
+  </button>
+</body>
+<script type="text/javascript">
+  /** 命令式  怎么做？ imperative*/
+  // btn.onclick = function(evt){
+  //   if(evt.target.className==='on') {
+  //     evt.target.className='off'
+  //   }else{
+  //     evt.target.className='on'
+  //   }
+  // }
+
+  /** 声明式 高阶函数 */
+
+
+
+  // 版本1 这样是不行的，这样只是返回了一个添加off样式的函数
+  function toggle(...actions) {
+    let firstAction = actions.shift()
+    actions.push(firstAction)
+    console.log(firstAction, 'what is firstAction')
+    return firstAction
+  }
+  // btn.onclick = toggle(
+  //   evt => evt.target.className = 'off',
+  //   evt => evt.target.className = 'on'
+  // )
+  
+
+
+  // 版本2 改进一下,要用闭包缓存一下数据,要缓存这个actions，这个变量和返回的函数构成了闭包
+  // 如果不缓存这个数据，那么就会和版本1一样，返回的函数是唯一的一个，就是第一个
+  // 缓存了数据的结果就是 每次点击都用到的 只有 返回的函数能访问到的这个变量 actions 而做的操作
+  function toggle2(...actions) {
+    return function(...args){
+      let firstAction = actions.shift()
+      console.log(firstAction, 'what is firstAction')
+      firstAction.apply(this, args)
+      actions.push(firstAction)      
+    }
+  }
+
+
+  // 版本3 准备用tasks缓存一个函数列表， 但是看到老师不是这样写的
+  // 但是实际上tasks，不用从新赋值给一个新的cacheTasks，这个局部变量也和返回的函数形成了一个闭包
+  function toggle3(...tasks) {
+    const cacheTasks = tasks
+    return function(...args) {
+      const firstTask = cacheTasks.shift()
+      firstTask.apply(this, args)
+      cacheTasks.push(firstTask)
+    }
+  }
+
+
+  btn.onclick = toggle3 (
+    evt => evt.target.className = 'off',
+    evt => evt.target.className = 'on',
+    evt => evt.target.className = 'yellow'    
+  )
+
+
+
+
+  // ok 到这一步了，感觉真的很cooooooool!
+  // 这样的好处，我们可以再给他增加一个样式，红灯绿灯 黄灯 xx灯 , 增加一个yellw ！ amazing！
+
+
+  // 上面无限循环一个数组用到了一个技巧： 每次只操作第一个元素，然后操作完了 把第一个元素放到末尾
+  // 但是我们也可以使用generator来实现，一个数字无限递增
+  // 再次抽象一下
+</script>
+</html>

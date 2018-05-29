@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>toggle-imperative-declarative</title>
+  <style type="text/css">
+    #btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+    }
+    .on {
+      background-color: green;
+    }
+    .on::before {
+      content: 'on';
+    }
+    .off {
+      background-color: red;
+    }
+    .off::before {
+      content: 'off';
+    }
+    .yellow {
+      background-color: orange;
+      
+    }
+    .yellow::before {
+      content: 'warn'
+    }
+  </style>
+</head>
+<body>
+  <button id="btn" class="on">
+  </button>
+</body>
+<script type="text/javascript">
+
+
+
+  // 上面无限循环一个数组用到了一个技巧： 每次只操作第一个元素，然后操作完了 把第一个元素放到末尾
+  // 但是我们也可以使用generator来实现，一个数字无限递增
+  // 再次抽象一下
+  function * loop(list, max =Infinity) {
+    let i = 0;
+    while (i < max) {
+      yield list[i++ % list.length ]
+    }
+  }
+
+  //  这样写有错
+  // function toggle(...actions) {
+  //   return function(...args){
+  //     loop(actions).next().value.apply(this, args)
+  //   }
+  // }
+
+  function toggle(...actions) {
+    action = loop(actions)
+    return function(...args){
+      action.next().value.apply(this, args)
+    }
+  }
+
+  btn.onclick = toggle(
+    evt => evt.target.className = 'yellow',
+    evt => evt.target.className = 'off',
+    evt => evt.target.className = 'on'
+  )
+</script>
+</html>
