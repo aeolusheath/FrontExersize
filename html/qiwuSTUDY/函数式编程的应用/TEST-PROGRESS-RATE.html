@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>进度条的一个测试</title>
+</head>
+<body>
+  
+
+<style type="text/css">
+  #RectangleDiv{
+    padding-top: 50px;
+    width: 50%;
+    height: 100px;
+    margin: 0 auto;
+  }
+
+
+  .rec-progress__all {
+    position: relative;
+    height: 100px;
+    max-height: 20px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ddd;
+    border-radius: 18px;
+  }
+  /**用伪元素不好的就是，比如像想给进度条增加自定义类，是不可以的*/
+  /* .rec-progress__all::before { */
+  .rec-progress__all .rec-progress__proportion{
+    position:absolute;
+    left:0;
+    top:0;
+    height: 100%;
+    background-color:mediumturquoise;
+    width: 0%;
+    content: '';
+    border-radius: 18px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0; 
+    transition: all .2s ease;   
+  }
+</style>
+
+<div id="RectangleDiv">
+  <!-- <div class="rec-progress__all">
+    <div class="rec-progress__proportion"></div>
+  </div> -->
+</div>
+
+
+
+
+<style type="text/css">
+  .container {
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    position: relative;
+    margin-top: 50px;
+    display:flex;
+    height: 200px;
+    width: 80px;
+    flex-direction: column;
+    background-color: #ddd;
+  }
+  .container .triangle-shadow {
+    position: absolute;
+    right:0;
+    bottom:0;
+    width:0;
+    height:0;
+    border-top: 100px solid transparent;
+    border-bottom: 100px solid transparent;
+    border-left: 40px solid white; 
+    border-right: 40px solid white;  
+  }
+  .container .sub-container {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;    
+  }
+  .sub-container .up {
+    width:100%;
+    height: 100%;
+    background-color: orange;
+  }
+  .sub-container .down {
+    width:100%;
+    height: 0;
+    background-color: orange;
+    
+  }
+</style>
+<div id="SandGlassDiv">
+
+    
+
+
+
+      <div class="container" >
+        <!--可以设置成绝对布局-->
+        <div class="triangle-shadow"></div>
+
+
+        <div class="sub-container">
+          <div class="up"></div>  
+        </div>
+
+
+        <div class="sub-container">
+            <div class="down"></div>     
+        </div>
+
+      </div>
+
+
+
+</div>
+
+<script type="text/javascript">
+  const PROGRESS_TYPE = {
+    RECTANGLE: 'RECTANGLE',
+    SAND_GLASS: 'SAND_GLASS',
+    TORUS: 'TORUS'
+  }
+
+  // type 指定进度条的类型， eleId指定元素的ContainerId
+  class Progress {
+    constructor({proportion=0, type, eleId}) {
+      this.proportion = proportion
+      this.type = type
+      this.eleId = eleId
+      if(type === PROGRESS_TYPE.RECTANGLE) {
+        const progressDiv = document.createElement('div')
+        progressDiv.className = 'rec-progress__all'
+        // console.log(document.getElementById(eleId), 'abcc')
+        const proportionDiv = document.createElement('div')
+        proportionDiv.className = 'rec-progress__proportion'
+        progressDiv.appendChild(proportionDiv)
+        document.getElementById(eleId).appendChild(progressDiv)
+      }
+    }
+    getProportion() {
+      return this.proportion
+    }
+    setProportion(proportion) {
+      this.proportion = proportion
+      this.updateProgress()
+    }
+    updateProgress() {
+      let proportion = this.proportion
+      proportion = proportion > 100 ? 100 : proportion
+      proportion = proportion < 0 ? 0 :proportion
+      if(this.type === PROGRESS_TYPE.RECTANGLE) {
+        const percentValue = (proportion).toFixed(2) + '%'
+        console.log(percentValue, 'jjj')
+        // 如果等于100的话 给proportion 的右边设置两个
+        document.querySelector('#RectangleDiv .rec-progress__proportion').style.width = percentValue
+      }
+    }
+    setProgressBarColor (color) {
+      // 要根据类型不同来判断
+      if(this.type === PROGRESS_TYPE.RECTANGLE) {
+        document.querySelector('#RectangleDiv .rec-progress__proportion').style.backgroundColor = color        
+      }
+    }
+  }
+
+  var circle = new Progress({type: PROGRESS_TYPE.RECTANGLE, eleId: 'RectangleDiv'})
+
+
+</script>
+
+</body>
+</html>

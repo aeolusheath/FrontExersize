@@ -191,6 +191,7 @@
         // 这里应该是可配置的 className，config
         pluginContainer.className = '.slider-list__plugin'
         pluginContainer.innerHTML = plugin.render(this.options.images)
+        console.log(pluginContainer, typeof(pluginContainer), 'ddddd')
         this.container.appendChild(pluginContainer)
 
         plugin.action(this)
