@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>批量操作</title>
+</head>
+<body>
+  
+
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+      </ul>
+
+  <script type="text/javascript">
+    /**纯函数【任何情况下，同样的输入有同样的输出】 -> 有利于测试*/
+
+
+    function setColor(el, color) {
+      // console.log(el, 'what is el')
+      el.style.color = color
+    }
+    
+    function setFontSize(el, fontSize) {
+      el.style.fontSize = fontSize
+    }
+
+    function batch(fn) {
+      return function(args, ...rest) {
+        console.log(args, 'argsssss')
+        if(Array.isArray(args)) {
+          const els = [...args]
+          console.log(els, 'els')
+          els.forEach((arg)=>{
+            fn.apply(this, [arg, rest])
+          })
+
+        }
+        else {
+          console.log('222', args, rest)
+          fn.apply(this, [args, rest])
+        }
+      }
+    }
+    
+    setColor(document.querySelector('ul li:first-child'), 'red')
+
+    const batchSetColor = batch(setColor)
+    // batchSetColor(document.querySelector('li'), 'blue')
+    batchSetColor(document.querySelectorAll('li'), 'orange')
+
+  </script>
+</body>
+</html>
