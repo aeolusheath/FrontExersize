@@ -35,28 +35,25 @@
     }
 
     function batch(fn) {
-      return function(args, ...rest) {
-        console.log(args, 'argsssss')
-        if(Array.isArray(args)) {
-          const els = [...args]
-          console.log(els, 'els')
-          els.forEach((arg)=>{
-            fn.apply(this, [arg, rest])
-          })
-
+      return function(targets, ...rest) {
+        // if(Array.isArray(targets)) {// 判断是否是数组，很遗憾，Dom节点群 是类数组，不是数组，这样有问题的。
+        if (targets.length > 0) {
+          // const els = [...targets] // 其实类数组元素有forEach方法
+          // els.forEach((arg)=>{
+          //   fn.apply(this, [arg, rest])
+          // })
+          Array.from(targets).map(el => fn.apply(this, [el, rest]))
         }
         else {
-          console.log('222', args, rest)
-          fn.apply(this, [args, rest])
+          fn.apply(this, [targets, rest])
         }
       }
     }
     
-    setColor(document.querySelector('ul li:first-child'), 'red')
+    setColor(document.querySelector('ul li:first-child'), 'green')
 
     const batchSetColor = batch(setColor)
-    // batchSetColor(document.querySelector('li'), 'blue')
-    batchSetColor(document.querySelectorAll('li'), 'orange')
+    batchSetColor(document.querySelectorAll('li:not(:first-child)'), 'orange')
 
   </script>
 </body>
