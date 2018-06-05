@@ -34,7 +34,8 @@
       el.style.fontSize = fontSize
     }
 
-    function batch(fn) {
+    // batcn fn 
+    function batch(fn) {  
       return function(targets, ...rest) {
         // if(Array.isArray(targets)) {// 判断是否是数组，很遗憾，Dom节点群 是类数组，不是数组，这样有问题的。
         if (targets.length > 0) {
@@ -42,10 +43,10 @@
           // els.forEach((arg)=>{
           //   fn.apply(this, [arg, rest])
           // })
-          Array.from(targets).map(el => fn.apply(this, [el, rest]))
+          return Array.from(targets).map(el => fn.apply(this, [el, rest])) // 这里的return 是否有必要
         }
         else {
-          fn.apply(this, [targets, rest])
+          return fn.apply(this, [targets, rest])    // 这里的return 是否有必要
         }
       }
     }
@@ -55,6 +56,36 @@
     const batchSetColor = batch(setColor)
     batchSetColor(document.querySelectorAll('li:not(:first-child)'), 'orange')
 
+
+
+    // make sure fn is btach function | 查询到数组 或者 单个元素
+    function quirable(fn) {
+      return function(selector, ...args) {
+        if(typeof selector ==='string') {
+          selector = document.querySelectorAll(selector)
+        }
+        return fn.apply(this, [selector, args])
+      }
+    }
+
+    // if on my opion I WILL do it like this. compare this func with upper func
+    const batchSetColorWithSelector = function(target, color) {
+      let targets 
+      if(typeof target ==='string') {
+        targets = document.querySelectorAll(target)
+      }
+      else {
+        targets = [target] //单独的dom对象
+      }
+      targets.forEach(target=>setColor(target, color))
+    }
+
+
+    const setFontSizeWithSelector = quirable(batch(setFontSize))
+    setFontSizeWithSelector('ul > li:nth-child(2n + 1)', '1.5em')
+    batchSetColorWithSelector('ul > li:nth-child(2n + 1)', 'skyblue')
+    // 想一下怎么封装的？？？
+    // single func -> array batch func -> query get array and invoke batch func
   </script>
 </body>
 </html>
