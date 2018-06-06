@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>有操作的侧边栏【如果只是单纯的路由跳转可以通过纯css】</title>
+  <style type="text/css">
+    html,body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    .fixed-container{
+      width: 100px;
+      /* height: 100%; */
+      border: 1px solid orange;
+      top:0;
+      bottom:0;
+      position: fixed;
+      overflow: hidden;
+      transition: all 1s ease;      
+    }
+    .fixed-container.hide {
+      width: 0;
+      transition: all 1s ease;
+    }
+
+    .main-container {
+      height: 100%;
+      border: 4px solid #ddd;
+    }
+    .float-right {
+      float: right
+    }
+  </style>
+</head>
+<body>
+
+  <div class="fixed-container" tabindex="-1">
+    this is the sidebar
+
+
+  </div>
+  <div class="main-container">
+    <button type="button" onclick='toggle()' class="float-right">
+      toggle display
+    </button>
+
+  </div>
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+
+    function toggle() {
+      $('.fixed-container')[0].className=' fixed-container'
+      $('.fixed-container')[0].focus()
+    }
+
+    console.log($('.fixed-container'))
+    $('.fixed-container')[0].addEventListener('focusout', (event) => {
+      if (!$(event.relatedTarget).is('.fixed-container, .fixed-container *')) {
+        console.log($('.fixed-container')[0], 'ddd')
+        $('.fixed-container')[0].className=' fixed-container hide'
+      }
+    })
+  </script>
+</body>
+</html>
