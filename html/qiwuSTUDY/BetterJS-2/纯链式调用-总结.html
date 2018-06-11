@@ -38,6 +38,7 @@
 
 
   <script type="text/javascript">
+    // 方法 一
     function Vector(x, y) {
       this.x = x
       this.y = y
@@ -45,14 +46,11 @@
 
 
     // 所以我们写一个共用的方法
-
-    // 方法 一
-
     function methodize(fn, chain = true ) {
       return function(...args) {
         // wrong? 根据下面定义的函数我们不应该这样写 
         const ret = fn.apply(this, args) //函数的返回结果
-        console.log(ret, '返回的结果') 
+        // console.log(ret, '返回的结果') 
         return chain ? this : ret // 谁调用这个函数 谁就是this
       }
     }
@@ -65,20 +63,60 @@
 
     Vector.prototype.getLength = methodize(vetcorLength) 
 
+    // Vector.prototype.getLength = function() {
+    //   const {x, y} = this
+    //   return Math.sqrt(x ** 2 + y ** 2)
+    // }  this code snippet which add methodize method  is the same as upper two snippets
+
     const x = new Vector(3, 4)
     console.log(x.getLength(), x.getLength()===x) //验证结果是对的， 但是这样有什么问题？
     // 问题在于vectorLength 不是一个纯函数【任何条件下同样的输入都是同样的输出】
     // 因为它以来与执行环境上下文this 
-    // 下面的结果是50， vetcorLength.call({x: 30, y: 40}) 
-    console.log(vetcorLength.call({x: 30, y: 40}) ) 
-    // vetcorLength 不是纯函数，而且这样的函数是不好测试的
+    // 下面的结果是50， x.getLength.call({x: 30, y: 40})  
+    // 同一个对象调用方法不同，但是输出却不同
+    console.log(x.getLength.call({x: 30, y: 40}) ) 
+    // getLength 不是纯函数，依赖于上下文环境，而且这样的函数是不好测试的
 
  
   </script>
 
 
   <script type="text/javascript">
-  
+    // 方法 二
+
+    // 所以我们将函数改成纯函数
+    function Vector(x, y) {
+      this.x = x
+      this.y = y
+    }
+
+    // 所以我们写一个共用的方法
+    function methodize(fn, chain = true ) {
+      return function(...args) {
+        // wrong? 根据下面定义的函数我们不应该这样写 
+        const ret = fn.apply(null, [this, ...args]) //函数的返回结果  
+        // 注意这里的函数执行和 上面对比, 这里没有传递函数执行上下文环境 this，而是null
+        console.log(ret, '返回的结果') 
+        return chain ? this : ret
+      }
+    }
+
+    // 这里是一个纯函数， pure function
+    function vetcorLength(v) {
+      const {x, y} = v
+      return Math.sqrt(x ** 2 + y ** 2)
+    }
+
+    Vector.prototype.getLength = methodize(vetcorLength) 
+
+    const x = new Vector(3, 4)
+    console.log(x.getLength(), x.getLength()===x) //验证结果是对的， 但是这样有什么问题？
+    // 问题在于vectorLength 不是一个纯函数【任何条件下同样的输入都是同样的输出】
+    // 因为它以来与执行环境上下文this 
+    // 下面的结果是50， vetcorLength.call({x: 30, y: 40}) 
+    console.log(vetcorLength.call(null, {x: 30, y: 40})) // 这样无论环境怎么样，传的参数一致都会返回同样的结果
+
+
   </script>
     
 </body>
