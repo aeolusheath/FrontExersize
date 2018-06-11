@@ -64,6 +64,7 @@
     width: 80px;
     flex-direction: column;
     background-color: #ddd;
+    margin: 0 auto;
   }
   .container .triangle-shadow {
     position: absolute;
@@ -75,6 +76,19 @@
     border-bottom: 100px solid transparent;
     border-left: 40px solid white; 
     border-right: 40px solid white;  
+  }
+
+  .container::after {
+    position: absolute;
+    right:0;
+    bottom:0;
+    width:0;
+    height:0;
+    border-top: 100px solid transparent;
+    border-bottom: 100px solid transparent;
+    border-left: 40px solid white; 
+    border-right: 40px solid white;
+    content: '';
   }
   .container .sub-container {
     height: 50%;
@@ -102,7 +116,7 @@
 
       <div class="container" >
         <!--可以设置成绝对布局-->
-        <div class="triangle-shadow"></div>
+        <!-- <div class="triangle-shadow"></div> -->
 
 
         <div class="sub-container">

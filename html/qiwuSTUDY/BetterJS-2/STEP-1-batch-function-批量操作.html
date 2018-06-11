@@ -27,6 +27,7 @@
 
     function setColor(el, color) {
       // console.log(el, 'what is el')
+      // console.log(color, 'what is color')
       el.style.color = color
     }
     
@@ -43,6 +44,7 @@
           // els.forEach((arg)=>{
           //   fn.apply(this, [arg, rest])
           // })
+          // console.log(rest, 'what is rest')
           return Array.from(targets).map(el => fn.apply(this, [el, rest])) // 这里的return 是否有必要
         }
         else {
@@ -51,7 +53,7 @@
       }
     }
     
-    setColor(document.querySelector('ul li:first-child'), 'green')
+    // setColor(document.querySelector('ul li:first-child'), 'green')
 
     const batchSetColor = batch(setColor)
     batchSetColor(document.querySelectorAll('li:not(:first-child)'), 'orange')
@@ -59,7 +61,7 @@
 
 
     // make sure fn is btach function | 查询到数组 或者 单个元素
-    function quirable(fn) {
+    function queriable(fn) {
       return function(selector, ...args) {
         if(typeof selector ==='string') {
           selector = document.querySelectorAll(selector)
@@ -81,11 +83,14 @@
     }
 
 
-    const setFontSizeWithSelector = quirable(batch(setFontSize))
+    const setFontSizeWithSelector = queriable(batch(setFontSize))
     setFontSizeWithSelector('ul > li:nth-child(2n + 1)', '1.5em')
     batchSetColorWithSelector('ul > li:nth-child(2n + 1)', 'skyblue')
     // 想一下怎么封装的？？？
     // single func -> array batch func -> query get array and invoke batch func
+
+    // 第二步 我们去实现链式调用，以及通过对象方式设置dom的特性 {color: '', fontSize: ''}
+    // 移步下一步 STEP-2
   </script>
 </body>
 </html>

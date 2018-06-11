@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>批量操作</title>
+</head>
+<body>
+  
+
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+      </ul>
+
+  <script type="text/javascript">
+    /**纯函数【任何情况下，同样的输入有同样的输出】 -> 有利于测试*/
+
+
+    function setColor(el, color) {
+      // console.log(el, 'what is el')
+      el.style.color = color
+    }
+    
+    function setFontSize(el, fontSize) {
+      el.style.fontSize = fontSize
+    }
+
+    // batcn fn 
+    function batch(fn) {  
+      return function(targets, ...rest) {
+        // if(Array.isArray(targets)) {// 判断是否是数组，很遗憾，Dom节点群 是类数组，不是数组，这样有问题的。
+        if (targets.length > 0) {
+          // const els = [...targets] // 其实类数组元素有forEach方法
+          // els.forEach((arg)=>{
+          //   fn.apply(this, [arg, rest])
+          // })
+          return Array.from(targets).map(el => fn.apply(this, [el, ...rest])) // 这里的return 是否有必要
+        }
+        else {
+          // error
+          // 这里是错的，...rest 解析之后的结果 就是rest是一个数组
+          // 这样的话 你在setColor里面发现参数color 是一个数组，dom元素设置1个长度的数组元素是对的
+
+          // return fn.apply(this, [targets, rest])    // 这里的return 是否有必要
+          return fn.apply(this, [targets, ...rest])    // 这里的return 是否有必要          
+        }
+      }
+    }
+    
+    setColor(document.querySelector('ul li:first-child'), 'green')
+
+    const batchSetColor = batch(setColor)
+    batchSetColor(document.querySelectorAll('li:not(:first-child)'), 'orange')
+
+
+
+    // make sure fn is btach function | 查询到数组 或者 单个元素
+    function queriable(fn) {
+      return function(selector, ...args) {
+        if(typeof selector ==='string') {
+          selector = document.querySelectorAll(selector)
+        }
+        // error 和 batch是同样的错误 这里的args 是一个数组了，如果按照下面的方式穿参数，执行的第二个参数是一个数组，而不是列表，会报错
+        // return fn.apply(this, [selector, args])
+
+        return fn.apply(this, [selector, ...args])
+      }
+    }
+
+    // if on my opion I WILL do it like this. compare this func with upper func
+    const batchSetColorWithSelector = function(target, color) {
+      let targets 
+      if(typeof target ==='string') {
+        targets = document.querySelectorAll(target)
+      }
+      else {
+        targets = [target] //单独的dom对象
+      }
+      targets.forEach(target=>setColor(target, color))
+    }
+
+
+    const setFontSizeWithSelector = queriable(batch(setFontSize))
+    setFontSizeWithSelector('ul > li:nth-child(2n + 1)', '1.5em')
+    batchSetColorWithSelector('ul > li:nth-child(2n + 1)', 'skyblue')
+    // 想一下怎么封装的？？？
+    // single func -> array batch func -> query get array and invoke batch func
+
+
+    //-----------------------------------分割线 下面实现对象级别的多种属性更新 链式调用 ----------------------------------------------------------------------------------------
+  
+
+    // pack 接收一个对象，返回一个函数，这个函数和map对象形成了闭包 
+    function pack(map){
+      return function(el, obj){
+        for(let key in obj){
+          // console.log(map, 'map')         
+          // console.log(key, 'key')
+          // console.log( obj,'obj')
+          // key 是 {color: setColor, fontSize: setFontSize} 的key
+          // val 是 传入参数的值，传入的参数是这个{color: 'red', fontSize: '14px' }
+          map[key].call(this, el, obj[key])
+        }
+      }
+    }
+
+    function methodize(fn, prop){
+      return function(...args){
+        console.log(prop, 'what is prop------>>>>>>>>>>>>>>>>>>')
+        fn.apply(null, [prop ? this[prop] : this, ...args])
+        return this
+      }
+    }
+
+    function setText(el, text){
+      el.innerHTML = text
+    }
+
+    // 返回了一个函数，这个函数和传入的{color: setColor,...}形成闭包, // TODO 实际上传入的这个对象应该抽取出来可扩展和维护
+    // 返回的函数是function(el, object) el是 元素或者元素数组 object 是设置的值{color: 'red'}
+    let css = pack({color: setColor, fontSize: setFontSize})
+
+    console.log(css, 'css')
+    console.log(batch(css), 'batch css')
+
+    // batch操作做了什么，没有改变函数的参数构成，只是将pack之后的函数参数（el，object）中的el，做了一次分解，因为el可能是一个类数组
+    // batch返回了一个函数，这个函数参数和传入的batch的函数的参数是同样的参数，但是这个函数对第一个参数进行逻辑处理【可能是数组】
+    // 到目前为止这个场景，我们默认传入的第一个参数是dom元素，或者dom元素类数组或者数组
+    // 其实到这一步我们可以完成批量修改功能
+    // 这样做 batchCss(els, {color: 'red', 'fontSize': '14px'}), els是dom元素 或者 dom元素数组or 类数组
+    const batchCss = batch(css)
+    
+    console.log('-----宇宙分割线------start----')
+    batchCss(document.querySelectorAll('ul > li:nth-child(3n + 1)'), {color: 'red', 'fontSize': '14px'})
+    console.log('-----宇宙分割线------end------')
+
+
+    //
+    css = queriable(batchCss)
+
+    let text = queriable(batch(setText))
+
+    function E(selector){
+      this._selector = selector
+    }
+
+    E.prototype.css = methodize(css, '_selector')
+    E.prototype.text = methodize(text, '_selector')
+
+    // 链式调用 想到 返回一个对象 this
+    function $(selector){
+      return new E(selector)
+    }
+
+    $('ul > li:nth-child(2n + 1)').css({color: 'red'}).text('abc')
+    $('ul > li:nth-child(3n + 1)').css({color: 'green', fontSize: '22px'})
+
+  </script>
+</body>
+</html>
