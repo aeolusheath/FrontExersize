@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>链式调用</title>
+</head>
+<body>
+  
+
+
+  <script type="text/javascript">
+    /**例子 */
+    function Vector(x, y) {
+      this.x = x
+      this.y = y
+    }
+
+    Vector.prototype.getLength = function(chain = false) {
+      const {x, y} = this
+      return chain ? this : Math.sqrt(x ** 2 + y ** 2)
+    }
+
+    Vector.prototype.otherManipulation = function(chain = false) {
+      // some other manipulation
+      const result = 'result'
+      return chain ? this : result
+    }
+
+
+
+    // 最简单的思路就是上面想的的那种：
+    // 每一个方法的最后 返回this，如果需要链式调用的话
+    // 这样代码真的很丑陋
+    // 我们做一次改版,看下面
+  </script>
+
+
+  <script type="text/javascript">
+    function Vector(x, y) {
+      this.x = x
+      this.y = y
+    }
+
+
+    // 所以我们写一个共用的方法
+
+    // 方法 一
+
+    function methodize(fn, chain = true ) {
+      return function(...args) {
+        // wrong? 根据下面定义的函数我们不应该这样写 
+        const ret = fn.apply(this, args) //函数的返回结果
+        console.log(ret, '返回的结果') 
+        return chain ? this : ret // 谁调用这个函数 谁就是this
+      }
+    }
+
+    // 这样我们其实就可以通用这个方法了 //为什么这个方法与STEP-1 和 2 里面的不一样？ 因为这里不需要传递 选择器 字符串
+    function vetcorLength() {
+      const {x, y} = this
+      return Math.sqrt(x ** 2 + y ** 2)
+    }
+
+    Vector.prototype.getLength = methodize(vetcorLength) 
+
+    const x = new Vector(3, 4)
+    console.log(x.getLength(), x.getLength()===x) //验证结果是对的， 但是这样有什么问题？
+    // 问题在于vectorLength 不是一个纯函数【任何条件下同样的输入都是同样的输出】
+    // 因为它以来与执行环境上下文this 
+    // 下面的结果是50， vetcorLength.call({x: 30, y: 40}) 
+    console.log(vetcorLength.call({x: 30, y: 40}) ) 
+    // vetcorLength 不是纯函数，而且这样的函数是不好测试的
+
+ 
+  </script>
+
+
+  <script type="text/javascript">
+  
+  </script>
+    
+</body>
+</html>

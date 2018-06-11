@@ -113,11 +113,11 @@
       }
     }
 
-    function methodize(fn, prop){
+    function methodize(fn, prop, chain = true){
       return function(...args){
-        console.log(prop, 'what is prop------>>>>>>>>>>>>>>>>>>')
-        fn.apply(null, [prop ? this[prop] : this, ...args])
-        return this
+        console.log(prop, this[prop], 'what is prop------>>>>>>>>>>>>>>>>>>')
+        const ret = fn.apply(null, [prop ? this[prop] : this, ...args])
+        return chain ? this : ret
       }
     }
 
