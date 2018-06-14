@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>双向绑定</title>
+</head>
+<body>
+  <div id="students">
+  </div>
+  
+  <button id="printBtn">print</button>
+
+
+  <script type="text/javascript">
+      class Component{
+        constructor(id, opts = {data:[]}){
+          this.container = document.getElementById(id)
+          this.type = new.target.name.toLowerCase()
+          this.options = opts
+          this.container.innerHTML = this.render(opts.data)
+        }
+        registerPlugins(...plugins){
+          plugins.forEach(plugin => {
+            let pluginContainer = document.createElement('div')
+            pluginContainer.className = `.${this.type}__plugin`
+            pluginContainer.innerHTML = plugin.render(this.options.data)
+            this.container.appendChild(pluginContainer)
+            
+            plugin.action(this)
+          })
+        }
+      }
+
+    class StudentViewModule {
+      constructor(view, model){
+        this.view = view
+        this.model = model
+
+        const nameEl = view.querySelector('.student-name')
+        const ageEl = view.querySelector('.student-age')
+        
+        this._bind('name', nameEl, 'innerHTML')
+        this._bind('age', ageEl)
+      }
+      _bind(prop, el, attrName = 'value') {
+        const value = this.model[prop]
+        Object.defineProperty(this, prop, {
+          set(val){
+            el[attrName] = val
+          },
+          get(){
+            return el[attrName]
+          }
+        })    
+        this[prop] = value
+      }
+    }
+
+    class Students extends Component{
+      constructor(id, opts = {data: []}){
+        super(id, opts)
+        this.bind()
+      }
+      render(data){
+        let content = data.map(student => `
+          <li class="student-info">
+            <span class="student-name">${student.name}:</span> 
+            <input type="text" value="${student.age}" class="student-age"/>
+          </li>
+        `)
+        return `<ul class="${this.type}">${content.join('')}</ul>`
+      }
+      bind(){
+        let list = this.container.querySelectorAll('li.student-info')
+        let data = this.options.data
+        let students = []
+        
+        list.forEach((student, i) => {
+          students[i] = new StudentViewModule(student, data[i])
+        })
+        
+        this.students = students
+      }
+    }
+
+    let data = [
+      {
+        name : '张三',
+        age: '27'
+      }, 
+      {
+        name : '李四',
+        age: '21'
+      },
+      {
+        name : '王五',
+        age: '22'
+      },
+      {
+        name : '赵六',
+        age: '23'
+      }
+    ]
+
+    var studentList = new Students('students', {data})
+
+    printBtn.onclick = function(){
+      console.log(studentList.students.map(student => [student.name, student.age]))
+    }
+  </script>
+</body>
+</html>
