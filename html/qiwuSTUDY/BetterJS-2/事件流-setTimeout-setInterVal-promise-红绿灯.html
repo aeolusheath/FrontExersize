@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>红绿灯时间流</title>
+</head>
+<body>
+  
+  <style>
+  #traffic > li{
+  display: block;
+}
+
+#traffic span{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: gray;
+  margin: 5px;
+  border-radius: 50%;
+}
+
+#traffic.stop li:nth-child(1) span{
+  background-color: #a00;
+}
+
+#traffic.wait li:nth-child(2) span{
+  background-color: #aa0;
+}
+
+#traffic.pass li:nth-child(3) span{
+  background-color: #0a0;
+}
+  </style>
+
+  <ul id="traffic" class="stop">
+    <li><span></span></li>
+    <li><span></span></li>
+    <li><span></span></li>
+  </ul>
+
+  <script type="text/javascript">
+  // 第一个版本
+
+  const traffic = document.getElementById('traffic');
+
+  // (function loop() {
+  //   traffic.className = 'stop'
+  //   setTimeout(()=>{
+  //     traffic.className = 'wait'
+  //     setTimeout(()=>{
+  //       traffic.className = 'pass'
+  //       setTimeout(loop,
+  //         2000)
+  //     }, 2000)
+  //   }, 2000)
+  // })()
+
+
+  // 第二个版本
+
+  // function wait(fn, time) {
+  //   setTimeout(fn, time)
+  // }
+
+
+  // (function loop(){
+  //   traffic.className = 'stop' //重复设定状态 不好
+  //   function setState(state, delay, callback) {
+  //     traffic.className = state
+  //     setTimeout(callback, delay)
+  //   }
+  //   setState('wait', 2000, ()=>{
+  //     setState('pass', 2000, ()=>{
+  //       setState('stop', 2000, loop)
+  //     })
+  //   })
+  // }
+  // )()
+
+  // 第三个
+  // 通过promise的链式调用
+
+  // 单纯延迟
+  function delay(time) {
+    return new Promise((resolve, reject)=>{
+      setTimeout(resolve, time)
+    })
+  }
+
+  // wait  这一步可能多余
+  function wait(fn, time = 2000) {
+    return function(...args) {
+      fn.apply(this, [...args])
+      return delay(time)
+    }
+  }
+
+  function setState(target, status) {
+    target.className = status
+  }
+
+  
+  (function loop(){
+    // 不太好的思路？
+    // return new Promise((resolve, reject)=>{
+    //   set(traffic, 'stop')
+    // })
+
+    // 直接wait这样是错的。wait传递或者接收的是一个函数，而不是函数的调用
+    // Promise.resolve()//构造一个立即决议的promise
+    //   .then(wait(setState(traffic, 'stop')))
+    //   .then(wait(setState(traffic, 'wait')))
+    //   .then(wait(setState(traffic, 'pass')))
+    //   .then(loop) //决议promise
+
+    // 这样页面卡住了，仍然是错误的，then传递或者接收是一个函数，而不是函数的调用
+    // Promise.resolve()//构造一个立即决议的promise
+    //   .then(wait(setState).call(null, traffic, 'stop'))
+    //   .then(wait(setState).call(null, traffic, 'wait'))
+    //   .then(wait(setState).call(null, traffic, 'pass'))
+    //   .then(loop) //决议promise   
+
+    // 仍然是页面卡住了，错误，这里的错误是因为then传入的函数如果没有return，就会默认return undefined，立即返回一个promise，这个promise是resolve的
+    // 除非返回一个新的promise，如果返回一个新的promise，then会展开这个promise决议，判决是resolve or reject
+    // Promise.resolve()//构造一个立即决议的promise
+    //   .then(()=> { wait(setState).call(null, traffic, 'stop')})
+    //   .then(()=> { wait(setState).call(null, traffic, 'wait')})
+    //   .then(()=> { wait(setState).call(null, traffic, 'pass')})
+    //   .then(loop) //决议promise  
+
+    // 正确答案
+    // Promise.resolve()//构造一个立即决议的promise
+    //   .then(()=> { return wait(setState).call(this, traffic, 'stop')})
+    //   .then(()=> { return wait(setState).call(this, traffic, 'wait')})
+    //   .then(()=> { return wait(setState).call(this, traffic, 'pass')})
+    //   .then(loop) //决议promise
+    
+    // 其他的方法
+    // 返回一个待执行的函数,函数体（知道参数的情况下）【而不是立即执行函数获取结果】
+    // 有几种办法
+    // 1， 直接定义function(){ fn(param1, param2) } 也可以用call 或者apply代替直接调用
+    // 2， 箭头函数()=>{ fn(param1, param2) } 也可以 用call 或者apply代替直接调用
+    // 3， 通过bind来修改绑定函数的作用域，并且返回函数，实际上也是返回一个函数，但是这个函数是绑定了上下文执行环境和函数参数
+    //     fn.bind(null, param1, param2)
+      
+    //也可以改成下面这样
+    Promise.resolve()//构造一个立即决议的promise
+      .then(wait(setState).bind(null, traffic, 'stop'))
+      .then(wait(setState).bind(null, traffic, 'wait'))
+      .then(wait(setState).bind(null, traffic, 'pass'))
+      .then(loop) //决议promise
+
+
+  }())
+
+
+  /***
+   老师是这样来做的：
+    const traffic = document.getElementById('traffic');
+
+    function wait(time){
+      return new Promise(resolve => setTimeout(resolve, time));
+    }
+
+    function setState(state, last = 2000){
+      traffic.className = state;
+      return wait(last)
+    }
+
+    (function loop(){
+      Promise.resolve()
+        .then(setState.bind(null, 'wait'))
+        .then(setState.bind(null, 'stop'))
+        .then(setState.bind(null, 'pass'))
+        .then(loop);
+    }())   
+
+  */
+
+  </script>
+</body>
+</html>
