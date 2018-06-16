@@ -9,37 +9,38 @@
 <body>
   
   <style>
-  #traffic > li{
-  display: block;
-}
+      #traffic > li{
+        display: block;
+      }
 
-#traffic span{
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  background-color: gray;
-  margin: 5px;
-  border-radius: 50%;
-}
+      #traffic span{
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        background-color: gray;
+        margin: 5px;
+        border-radius: 50%;
+      }
 
-#traffic.stop li:nth-child(1) span{
-  background-color: #a00;
-}
+      #traffic.stop li:nth-child(1) span{
+        background-color: #a00;
+      }
 
-#traffic.wait li:nth-child(2) span{
-  background-color: #aa0;
-}
+      #traffic.wait li:nth-child(2) span{
+        background-color: #aa0;
+      }
 
-#traffic.pass li:nth-child(3) span{
-  background-color: #0a0;
-}
+      #traffic.pass li:nth-child(3) span{
+        background-color: #0a0;
+      }
+
   </style>
 
-  <ul id="traffic" class="stop">
-    <li><span></span></li>
-    <li><span></span></li>
-    <li><span></span></li>
-  </ul>
+<ul id="traffic" class="stop">
+  <li><span></span></li>
+  <li><span></span></li>
+  <li><span></span></li>
+</ul>
 
   <script type="text/javascript">
   // 第一个版本
@@ -80,7 +81,7 @@
   // }
   // )()
 
-  // 第三个
+  // 第三个版本
   // 通过promise的链式调用
 
   // 单纯延迟
@@ -103,7 +104,7 @@
   }
 
   
-  (function loop(){
+  function loop(){
     // 不太好的思路？
     // return new Promise((resolve, reject)=>{
     //   set(traffic, 'stop')
@@ -154,7 +155,20 @@
       .then(loop) //决议promise
 
 
-  }())
+  }
+
+  // 第四个版本
+
+  // 不用promise ，其实可以用生成器 generator 函数来解决，但是要手写一个或者引用三方执行器
+  // 用async 函数 内置co 执行器模块
+  // 这里比较老师的版本，用匿名函数即可，反正它是一个立即执行函数
+  (async function loopLight(){
+    await wait(setState)(traffic, 'stop')
+    await wait(setState)(traffic, 'wait')
+    await wait(setState)(traffic, 'pass')
+    loopLight()
+  })()
+
 
 
   /***
@@ -178,7 +192,19 @@
         .then(loop);
     }())   
 
+    // 老师用async是这样优化的
+
+    (async function () {
+      //noprotected
+      while(1) {
+        await setState('wait')
+        await setState('stop')
+        await setState('pass')
+      }
+    }())    
+
   */
+
 
   </script>
 </body>
