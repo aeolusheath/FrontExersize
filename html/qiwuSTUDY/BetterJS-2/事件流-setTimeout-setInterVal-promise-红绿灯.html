@@ -197,7 +197,7 @@
     (async function () {
       //noprotected
       while(1) {
-        await setState('wait')
+        await setState('wait') // 这里setState要返回一个promise
         await setState('stop')
         await setState('pass')
       }

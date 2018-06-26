@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>关于生成器</title>
+</head>
+<body>
+  
+
+  <script type="text/javascript">
+  // 生成
+  const cards =  new Array(52) //cards 遍历
+  cards.map((_, i)=>console.log(i))
+
+  const cards2 = Array.from({length: 52})
+  cards2.map((_, i)=>console.log(i))
+  
+  const cards3 = new Array(52)
+  cards3.fill(0)
+
+  // 请注意
+  cards3.keys() // 数组的方法 元素是 key
+  Object.keys(cards3) // Object的方法 元素是str
+
+  // 卡牌制造机
+  function * $cards(){
+    const points = ['A',2,3,4,5,6,7,8,9,10,'J','Q','K']
+
+    yield * points.map(p=> ['♠️', p])
+    yield * points.map(p=> ['♣️', p])
+    yield * points.map(p=> ['♥️', p])
+    yield * points.map(p=> ['♦️', p])
+  }
+
+
+  //-----------分割线------------
+  // 求30以内的素数
+
+  // 最笨的方法【一， 二】
+  function getPrimeNums(max = 3) {
+    let primeArr = [2]
+    for(let i = 3; i <= max; i++) { 
+      let isPrime = true
+      /**
+      *   如果一个数不是素数是合数，
+      *   那么一定可以由两个自然数相乘得到，
+      *   其中一个大于或等于它的平方根，一个小于或等于它的平方根。并且成对出现。
+      *   所以我们可以只需要将 j 遍历到i的平方根就可以，只需要除到平方根就可以了
+      */
+      for(let j = 2; j < i; j++){ //Tips 这里的i 可以是  Math.floor(Math.sqrt(i)), 并且< 应该要换成 <=  这样比直接循环到i 节约资源
+        // if(i % j ===0){
+        if(i % 2 === 0 || i % j === 0) { // 这里将偶数全部先过滤，偶数肯定不是质数
+          isPrime = false
+          break
+        }
+      }
+      if(isPrime) {
+        primeArr.push(i)
+      }
+    }
+    return primeArr
+  } 
+  
+  // 好一点的方法 【三】
+  function getPrimeNums2(max = 30) {
+    let primeArr = [2]
+    for(let i = 3; i < max; i++) {
+      for(let j = 0; j < primeArr.length; j++) {
+        if( i % primeArr[j] ===0 ) break // 如果能够被存在的质数整除，则肯定不是
+        if( i < primeArr[j] ** 2 ) { // if(primeArr[j] > Math.sqrt(i))
+          primeArr.push(i)
+          break
+        }
+      }
+    }
+    return primeArr
+  }
+
+
+  // ---------------------生成卡牌数组-----------------------方法一
+
+  const nums = ['A', 1,2,3,4,5,6,7,8,9,'J','Q','K']
+  const signs = ['♥️', '♦️', '♣️', '♠️']
+  const cards = []
+
+  signs.forEach(sign=>{
+    nums.forEach(num=>{
+      cards.push({
+        kind: sign,
+        num: num
+      })
+    })
+  })
+
+  // ---------------------生成卡牌数组-----------------------方法二
+
+  // Key Point
+  // ...扩展运算符 内部调用的是数据结构的Iterator接口 而且生成器返回的就是一个Iterator对象 遍历器对象
+  // 对这个遍历器对象执行扩展运算符 ... 就会将内部遍历到的值转为一个数组
+
+  // Key Point
+  // 任何数据结构只要有Iterator接口，就可以用yield * 来遍历
+  // let readStr = (function* (){ yield* 'hello from other side' }())
+  // readStr.next().value 
+  function * getCards() {
+    const nums = ['A', 1,2,3,4,5,6,7,8,9,'J','Q','K']
+    
+    yield * nums.map(num=>({key: '♥️', num: num }))
+    yield * nums.map(num=>({key: '♠️', num: num }))
+    yield * nums.map(num=>({key: '♦️', num: num }))
+    yield * nums.map(num=>({key: '♣️', num: num }))
+    
+  }
+  const cards = [...getCards()]
+
+
+  //洗牌算法 
+  function shuffle(cards) {
+    for(let i = cards.length-1; i >= 0; i--) {
+      var randomIndex =  Math.floor(i * Math.random())
+      // 从 index 为 51 开始， 51 * Math.random() 的范围是 (0, 51)
+      // Math.floor 之后的整数范围是 [0, 50] 
+      // 我们将 cards[51] 和 前面的随机索引位置的值交换
+      // 然后到 50个的时候，和 前面 [0, 49] 中索引取一个随机的 然后交换值
+      // 这样下去，交换位置之后 索引为51 和 50 的值就不会变动了
+      const temp = cards[randomIndex]
+      cards[randomIndex] = cards[i]
+      cards[i] = temp
+    }
+    return cards
+  }
+
+  // 小tips
+  const params = (function * (){
+    yield 1;
+    yield 2;
+    yield * (function *(){ yield 3; yield 4; })()
+    yield * [5,6,7]
+    yield * 'abc'
+    // yield * { length: 9, name: 'Ariza' }
+  })()
+  
+  console.log([...params])
+
+
+  </script>
+</body>
+</html>
