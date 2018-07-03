@@ -162,12 +162,12 @@
   // 不用promise ，其实可以用生成器 generator 函数来解决，但是要手写一个或者引用三方执行器
   // 用async 函数 内置co 执行器模块
   // 这里比较老师的版本，用匿名函数即可，反正它是一个立即执行函数
-  (async function loopLight(){
-    await wait(setState)(traffic, 'stop')
-    await wait(setState)(traffic, 'wait')
-    await wait(setState)(traffic, 'pass')
-    loopLight()
-  })()
+  // (async function loopLight(){
+  //   await wait(setState)(traffic, 'stop')
+  //   await wait(setState)(traffic, 'wait')
+  //   await wait(setState)(traffic, 'pass')
+  //   loopLight()
+  // })()
 
 
 
@@ -205,7 +205,41 @@
 
   */
 
+    // Meta-Programing 元编程 再次升级 主要是使用了 for of 可以遍历实现了Iterator接口的对象
+    // 怎么实现呢如果一个对象的[Symbol.iterator]返回的是一个生成器对象
 
+    const _states = Symbol('states');
+
+    class Togglable {
+      constructor(states) {
+        this[_states] = states
+      }
+      *[Symbol.iterator]() {
+        const states = this[_states]
+        for(let i=0; i< Infinity; i++) {
+          yield states[i % states.length]
+        }
+      }
+    }
+    
+    //但是我们不能直接for of 循环， 不限制时间的死循环造成堆栈溢出，tab卡死
+
+
+
+
+    // 知识点： 请注意，co模块约定，yield命令后面只能是Trunk或者Promise对象，但是Async
+    // 函数得await命令后面可以是Promise对象和原始类型的值（数字 字符串 布尔 Symbol Null Undefined），但这时候相当于同步操作 
+    // async函数返回的是一个promise
+
+
+    //我们基于Promise来执行上面的那个操作
+    const togglable = new Togglable(['wait', 'pass', 'stop']);
+    (async function(){
+      for(let state of togglable) {
+        traffic.className = state
+        await delay(2000)
+      }
+    })()
   </script>
 </body>
 </html>
