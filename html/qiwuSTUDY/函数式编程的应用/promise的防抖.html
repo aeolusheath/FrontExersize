@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>防抖与节流的区别</title>
+</head>
+<body>
+  click the link <a target="_href" href="http://www.css88.com/doc/lodash/#_debouncefunc-wait0-options"> lodash about debounce </a> 
+  <br>
+
+  <button id="btn1">click me !</button>
+  <script type="text/javascript">
+  
+    // 500毫秒内的多次操作，只会执行一次
+    // const debounce = (fn, dur = 500) => {
+    //   let timer
+    //   console.log(fn, 'fn')
+    //   return function(...args) {
+    //     clearTimeout(timer)
+    //     timer = setTimeout(() => {
+    //       // fn.apply(this, args) 最开始的一版没有加return ...导致报错
+    //       let x = fn.apply(this, args)
+    //       console.log(x, 'what is x')
+    //       return x
+    //     }, dur)
+    //   }
+    // }
+
+  function debounce(fn, dur = 500) {
+    // let timer
+    // return function(...args){
+    //   clearTimeout(timer)
+    //   timer = setTimeout(()=>{
+    //     var x = fn.apply(this, args)
+    //     console.log(x, 'what is x')
+    //     return x
+    //   }, dur)
+    // }
+      // let timer
+      // console.log(fn, 'fn')
+      return function(...args) {
+        // clearTimeout(timer)
+        // timer = setTimeout(() => {
+        //   // fn.apply(this, args) 最开始的一版没有加return ...导致报错
+        //   let x = fn.apply(this, args)
+        //   console.log(x, 'what is x')
+        //   return x
+        // }, dur)
+        console.log('返回一个promise--->>>')
+        return new Promise((fn, reject)=>{
+          let timer 
+          if(timer) clearTimeout(timer)
+          timer = setTimeout(()=>{
+            // return fn.apply(this, args)
+            fn(...args)
+          }, dur)
+        })
+      }    
+  }
+
+    let testFunc = ()=>{
+      // console.log('发起请求----->>>>>>')
+      return new Promise((resolve, reject)=>{
+        console.log('发起请求')
+        resolve('0000')
+      })
+    }
+    testFunc = debounce(testFunc, 2000);
+    // console.log(testFunc, 'testfunc')
+    btn1.onclick = function(){
+      // var promise = testFunc()
+      // if(promise) {
+      //   promise.then((val)=>console.log(val))
+      // }
+      testFunc().then((val)=>console.log(val))
+    }
+
+
+  </script>
+  
+
+
+   <!-- debounce with promise 自己的用法没有对 -->
+
+
+  <button id="btn2">click me2 !</button>
+  <script src="https://cdn.bootcss.com/lodash.js/4.17.10/lodash.js"></script>
+  <script src="https://cdn.bootcss.com/superagent/4.0.0-alpha.1/superagent.js"></script>
+  <script type="text/javascript">
+    const customDebounce = (fn, dur = 500) => _.debounce(fn, dur, { leading: true, trailing: false })
+    // const customDebounce = (fn, dur = 500) => _.throttle(fn, dur, { leading: true, trailing: false })
+    
+    var request = (param) => {
+      console.log(param, 'request方法')
+      return superagent.get(
+        'http://api.map.baidu.com/telematics/v3/weather?location=嘉兴&output=json&ak=5slgyqGDENN7Sy7pw29IUvrZ')
+    }
+    var getPromise = customDebounce(request)
+
+
+    // var requestPlain = (param)=>{console.log(param)}
+    // var getPlain = customDebounce(requestPlain)
+    var x = 1, y
+    btn2.onclick = function() {
+      x ++ 
+      if(x ==1) {
+        y = getPromise('param')
+      }else {
+        // console.log(y === getPromise('param'))
+      }
+      getPromise('param').then((result)=>{
+        console.log(result, 'resolve will be invoked many times')
+      })
+    }
+
+
+  </script>
+</body>
+</html>
