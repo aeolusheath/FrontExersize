@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Meta-programing Reflect proxy</title>
+</head>
+<body>
+  
+  <script type="text/javascript">
+    // Proxy 修改操作的默认行为，不止是对象。等同于在语言层面作出的修改，属于元编程 
+    // Proxy可以理解在目标对象前架设一"拦截层"，外界对该对象的访问都必须先通过这层拦截。
+    // 就理解成代理
+
+    // let p = new Proxy(target, handler) 重点是代理的目标可以是任意类型的对象，包括函数，数组
+    // target ---> 用Proxy包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）。
+    // handler---> 一个对象，其属性是当执行一个操作时定义代理的行为的函数。
+
+    // proxy 支持的方法： http://es6.ruanyifeng.com/#docs/proxy
+    // reflect 文档: http://es6.ruanyifeng.com/#docs/reflect
+
+    // 代理一个对象， proxy实例 可以作为其他对象的原型对象
+    Symbol.call = Symbol.call || new Symbol('call')
+    function MagicalObject() {}
+    MagicalObject.prototype = new Proxy({},{
+        get(target, key, receiver) {
+          if(typeof key === 'string' && key.endsWith('Action')) {
+            // equal to Symbol.call in receiver
+            if(Reflect.has(receiver, Symbol.call)) {
+              return function(...args) {
+                                    // fn                   thisArg   params
+                return Reflect.apply(receiver[Symbol.call], receiver, [key.slice(0. -6), ...args])
+              }
+            }
+          }
+        }
+      }
+    )
+
+    class Foo extends MagicalObject {
+      indexAction() {
+        console.log('call index action')
+      }
+      [Symbol.call](name, ...args) {
+        console.log(`call default action with name: ${name}`)
+      }
+    }
+
+    const foo = new Foo()
+    foo.indexAction()
+    foo.barAction()
+    foo.abcAction()
+    foo.aaaa()    
+
+    // 代理一个函数对象
+    // 用到了闭包 缓存数据---> parts
+    function urlBuilder(domain) {
+      const parts = []
+      const proxy = new Proxy(function () {
+        const returnValue = domain + '/' + parts.join('/')
+        parts.length = 0
+        return returnValue
+      }, {
+          get: function (object, prop) {
+            parts.push(prop)
+            return proxy
+          },
+        })
+      return proxy
+    }
+
+    const google = urlBuilder('http://google.com')
+    console.log(google.search.products.bacon.and.eggs()) 
+    
+    // const obj = {}
+    // 实用例子，我们要构造一个深层次的对象的时候 比如obj.a.b.c='kevin' 这样会比较麻烦
+    // 我们知道可以
+    const obj = {}
+    let initValueA
+    Object.defineProperty(obj, 'a', {
+      writable : true,
+      enumerable : true,
+      configurable : true,
+      set (val) {
+        initValueA = val
+      },
+      get() {
+        return initValueA
+      }
+    })
+    // 但是动态的多个不受控制的不行了
+    // 下面这个第一层是对的，第二层就会报错了，明显要用到递归，这种层层调用
+    var proxyObject = new Proxy(obj, {
+      get: function(target, prop, receiver){
+        if(!Reflect.has(receiver, prop)) {
+          Reflect.set(target, prop, {}, receiver)
+        }
+        return Reflect.get(target, prop)
+      },
+      set: function(target, prop, value, receiver){
+      }
+    })
+
+    function SuperObject(dataObj = {}) {
+      return new Proxy(dataObj, {
+        get: function (target, prop, receiver) {
+          // 如果没有这个属性 就添加
+          if (!Reflect.has(receiver, prop) && prop !=='toJSON') {
+            Reflect.set(target, prop, {}, receiver)
+            return SuperObject(target)
+          } 
+          // 如果有的花要判断是否是对象，是对象要递归调用
+          else {
+            const ret = Reflect.get(target, prop)
+            if(ret && typeof ret ==='object' ) {
+              return new SuperObject(ret)
+            }
+            return ret
+          }
+          // return Reflect.get(target, prop)
+        }
+      })
+    }
+  </script>
+</body>
+</html>
