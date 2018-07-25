@@ -115,3 +115,81 @@ const PointTwo = class{
     return Math.sqrt(x ** 2 + y ** 2)      
   }
 }
+
+//分割线-------------------------
+
+
+// 结构赋值和函数默认参数的使用
+function initStudent({name = '', id = null, address =''} = {}) {
+  let _name = name,
+    _id = id,
+    _address =address
+  let obj =
+  {
+    setName(name) {
+      _name = name
+    },
+    getName() {
+      return _name
+    },
+    setId(id) {
+      _id = id
+    },
+    getId() {
+      return _id
+    },
+    setAddress(address) {
+      _address = addredss
+    },
+    getAddress(){
+      return _address
+    },
+    toString() {
+      return `student' name is ${_name}, address is ${_address} ,id is ${_id}`
+    }
+  }
+  const getErrorFun =function(prop) {
+    return function () {
+      throw new Error(`you cannot set ${prop} value directly, use setMethod`)
+    }
+  }
+  Object.defineProperties(obj , {
+    'name': {
+      set: getErrorFun('name')
+    },
+    'id': {
+      set: getErrorFun('id')
+    },
+    'address': {
+      set: getErrorFun('address')
+    },    
+  })
+  return obj
+}
+
+
+// 用Symbol来封装
+
+const _name = Symbol('name'),
+  _id = Symbol('id'),
+  _address = Symbol('address')
+ 
+class Student {
+  constructor({name = '', id = null, address =''} = {}) {
+    this[_name] = name
+    this[_id] = id
+    this[_address] = address
+  }
+  get name(){
+    return this[_name]
+  }
+  set name(name) {
+    throw new Error('cannot set value directly, use setMethod')
+  }
+  getName(){
+    return this[_name]    
+  }
+  setName(name){
+    this[_name] = name
+  }   
+}
