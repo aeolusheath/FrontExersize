@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg-viewbox</title>
+  <style>
+    rect {
+      fill: #d93D59;
+      stroke: none;
+      stroke-width: none;
+    }
+    rect.viewBox {
+      fill: none;
+      stroke: black;
+      stroke-width: 10px;
+    }
+    .preview svg {
+      border: 10px solid brown;
+    }    
+  </style>
+</head>
+<body>
+  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="300px" height="200px" viewBox="0 0 300 200" preserveAspectRatio="xMinyMin meet">
+    <rect class="viewBox" c x="5" y="5" width="10" height="10" />
+  </svg> -->
+
+
+
+  <!--基本的格式-->
+  <svg xmlns="http://www.w3.org/2000/svg" width="300px" height="200px" viewBox="0 0 300 200">
+    <!--defs标签是可选的-->
+    <defs>
+      <!--这里定义一些公用的形状/渐变（线性渐变和径向渐变）/Pattern-->
+      <!--svg渲染的时候不会渲染defs里面定义的内容-->
+      <!--如果定义了一些形状或者说图形，使用标签引用，如果使用了渐变/Pattern，可以在下面的的图形里面fill or stroke 引用-->
+    </defs>
+
+    <!--默认的形状之一-->
+    <rect width="300" height="200"></rect>
+
+    <!--通过坐标自定义形状 下面这个例子是一个三次贝塞尔曲线-->
+    <path d="M10 10 C 20 20, 40 20, 50 10" stroke="black" fill="transparent"/>
+
+    <!--可以不是形状，也可以是文字-->
+    <text x="150" y ="100">
+      <tspan> here is the text </tspan>
+    </text>
+  </svg>
+
+<script>
+//   setInterval(function() {
+//   const source = document.querySelector('.cm-s-jsbin');
+//   const preview = document.querySelector('.preview');
+  
+//   const viewBox = source.innerText.match(/viewBox="([\d\s]+)"/)[1];
+//   const [x, y, width, height] = viewBox.split(/\s+/);
+//   const text = source.innerText.replace('</svg>', `
+//   <rect class="viewBox" x="${x}" y="${y}" width="${width}" height="${height}"/>
+// </svg>`);
+  
+//   preview.innerHTML = text;
+// }, 100);
+</script>
+</body>
+</html>

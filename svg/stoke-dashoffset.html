@@ -7,14 +7,14 @@
   <title>svg stroke-dashoffset的应用</title>
 
 </head>
-<body>
+<body style="padding-left: 300px;">
   
 <svg width="99px" height="228px" viewBox="0 0 99 228" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
   <desc>Created with Sketch.</desc>
   <defs></defs>
   <g id="Page-1" stroke="none" stroke-width="2" fill="none" fill-rule="evenodd">
-      <path id="Path-K" d="M20.2447307,13.999011 C2.07155905,156.148473 -3.00246175,227.223203 5.02266826,227.223203 C13.2802584,227.223203 25.6314834,153.342902 27.7142344,128.696517 C28.6676624,117.414059 63.0092249,173.341982 79.1149039,183.758554 C106.300403,201.341155 94.921514,179.978811 44.9782367,119.671522 C93.1498002,65.63687 108.572705,43.433224 91.2469505,53.0605844 C73.9211963,62.6879448 54.756459,77.8112875 33.7527385,98.4306124 C36.2962143,48.0409867 36.2962143,17.7479992 33.7527385,7.55164988 C31.2092628,-2.64469941 26.7065935,-0.49557903 20.2447307,13.999011 Z"  stroke="#979797"></path>
+      <path class="lineeee" id="Path-K" d="M20.2447307,13.999011 C2.07155905,156.148473 -3.00246175,227.223203 5.02266826,227.223203 C13.2802584,227.223203 25.6314834,153.342902 27.7142344,128.696517 C28.6676624,117.414059 63.0092249,173.341982 79.1149039,183.758554 C106.300403,201.341155 94.921514,179.978811 44.9782367,119.671522 C93.1498002,65.63687 108.572705,43.433224 91.2469505,53.0605844 C73.9211963,62.6879448 54.756459,77.8112875 33.7527385,98.4306124 C36.2962143,48.0409867 36.2962143,17.7479992 33.7527385,7.55164988 C31.2092628,-2.64469941 26.7065935,-0.49557903 20.2447307,13.999011 Z"  stroke="#979797"></path>
   </g>
 </svg>
 
@@ -46,24 +46,38 @@
   </g>
 </svg>
 
+
+<svg width="600" height="300">
+    <path id="line" d="M100 100 C 200 200, 400 200, 500 100" stroke="red" fill="transparent" />
+</svg>
+
+
+<svg width="300" height="300">
+    <line  x1="0" y1="300" x2="300" y2="300" stroke="skyblue" id="Line" stroke-width="5"></line>
+</svg>
+
 <style>
+
+    @keyframes fillColor {
+      from {
+        fill: white;
+      }
+      to {
+        fill:skyblue;
+      }
+    }
+
     path {
       stroke-width: 2px;      
     }
     #Path-K {
       stroke-dasharray: 800px;
-      animation: draw 1s linear forwards;
+      animation:  1s linear forwards draw, 1s linear 1s forwards fillColor ;
       stroke-width: 2px;            
-      /* transition: fill 1s ; */
-      /* fill: skyblue; */
     }
     @keyframes draw {
       from{
         stroke-dashoffset: 800px;
-        fill: white;        
-      }
-      to {
-        fill:skyblue;
       }
     }
 
@@ -83,23 +97,19 @@
 
     #Path-E-Out {
       stroke-dasharray: 1136px;
-      animation: draw-e-out 1s linear forwards;
+      animation: draw-e-out 1s linear forwards, 1s linear 1s forwards fillColor;
       stroke-width: 3px;
     }
     @keyframes draw-e-out {
       from{
-        stroke-dashoffset: 1136px;
-        fill: white;        
-      }
-      to {
-        fill:skyblue;        
+        stroke-dashoffset: 1136px;       
       }
     }    
 
     #Path-V {
       stroke-width: 2px;
       stroke-dasharray: 780px;
-      animation: draw-v 1s linear forwards;
+      animation: draw-v 1s linear forwards,  1s linear 1s forwards fillColor;
       transition: fill 2s ease 3s;
     }
     .a {
@@ -109,12 +119,7 @@
     @keyframes draw-v {
       from{
         stroke-dashoffset: 780px;
-        fill: white;
       }
-      to {
-        fill:skyblue;    
-        stroke-dashoffset: 0;            
-      }      
     }     
 
   </style>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>测试有滚动条的绝对布局</title>
+  <style>
+    body {
+      position: relative;
+    }
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .content {
+      padding: 30px;
+      position: static;
+    }
+  </style>
+</head>
+<body>
+    <div style="
+        position: absolute;
+        top: 50px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: 1px solid skyblue;
+        overflow: auto;
+    ">
+
+
+    <div class="content">
+        <div style="
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        height: 67px;
+        z-index: 100;
+        background-color: skyblue;
+    
+        "></div>
+        <div style="border: 1px solid rosybrown; height: 600px; margin-bottom: 20px;">
+        </div>
+        <div style="border: 1px solid rosybrown; height: 600px; margin-bottom: 20px;">
+        </div>
+    </div>
+
+    </div>
+
+</body>
+</html>

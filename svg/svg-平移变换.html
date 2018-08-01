@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg-translate-平移变换</title>
+  <style>
+    .move-F {
+      animation: F-MOVE;
+      animation-duration: .5s;
+      animation-delay: .5s;      
+      animation-fill-mode: forwards;
+    }
+    @keyframes F-MOVE {
+      to {
+        transform: translateX(-500px);
+      }
+    }
+    .move-H {
+      animation: H-MOVE;
+      animation-duration: .5s;
+      animation-delay: .5s;      
+      animation-fill-mode: forwards;      
+    }
+
+    @keyframes H-MOVE {
+      to {
+        transform: translateX(-340px);
+      }
+    }    
+
+    .move-Y {
+      animation: Y-MOVE;
+      animation-duration: .5s;
+      animation-delay: .5s;      
+      animation-fill-mode: forwards;      
+    }
+    @keyframes Y-MOVE {
+      to {
+        transform: translateX(-185px);
+      }
+    }
+    .move-A {
+      animation: A-MOVE;
+      animation-duration: .5s;
+      animation-delay: .5s;
+      animation-fill-mode: forwards;      
+    }
+    @keyframes A-MOVE {
+      to {
+        transform: translateX(-70px);
+      }
+    }    
+
+    .move-P {
+      animation: P-MOVE;
+      animation-duration: .5s;
+      animation-delay: .5s;
+      animation-fill-mode: forwards;      
+    }
+    @keyframes P-MOVE {
+      to {
+        transform: translateX(-35px);
+      }
+    }
+
+
+    #long {
+      animation: show-words;
+      animation-duration: .5s;
+      animation-fill-mode: forwards;  
+      animation-delay: 1s;
+      opacity: 0;
+    }
+    @keyframes show-words {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+ <!-- <svg width="1036px" height="100px" viewBox="0 0 1036 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <desc>Created with Sketch.</desc>
+  <defs></defs>
+  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="Ayuthaya" font-size="72" font-weight="normal">
+      <text id="Fear-Hold-You-A-Pris" fill="#000000">
+          <tspan x="0" y="77">Fear Hold You A Prisoner</tspan>
+      </text>
+  </g>
+</svg> -->
+
+<svg width="1036px" height="100px" viewBox="0 0 1036 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <g id="long" font-family="Ayuthaya" font-size="72" font-weight="normal" fill="skyblue">
+      <text x="0" y="76">F</text>
+      <text x="40" y="76">e</text>
+      <text x="85" y="76">a</text>
+      <text x="125" y="76">r</text>
+
+      <!-- <text x="165" y="76">H</text> -->
+      <text x="205" y="76">H</text>
+      <text x="245" y="76">o</text>
+      <text x="285" y="76">l</text>
+      <text x="325" y="76">d</text>
+
+      <!-- <text x="365" y="76">o</text> -->
+      <!-- <text x="405" y="76">u</text> -->
+      <text x="405" y="76">Y</text>
+      <text x="445" y="76">o</text>
+      <text x="485" y="76">u</text>
+
+      <!-- <text x="565" y="76">i</text> -->
+      <text x="565" y="76">A</text>
+      <!-- <text x="645" y="76">o</text> -->
+
+      <text x="645" y="76">P</text>
+      <text x="685" y="76">r</text>
+      <text x="725" y="76">i</text>  
+      <text x="765" y="76">s</text>   
+      <text x="805" y="76">o</text>   
+      <text x="845" y="76">n</text>                  
+      <text x="885" y="76">e</text>
+      <text x="925" y="76">r</text>                  
+                        
+      
+                      
+  </g>
+
+  <g fill="dimgray" id="short" font-family="Ayuthaya" font-size="72" font-weight="normal" >
+    <text x="500" y="76" class="move-F">F</text>
+    <text x="545" y="76" class="move-H">H</text>
+    <text x="590" y="76" class="move-Y">Y</text>
+    <text x="635" y="76" class="move-A">A</text>
+    <text x="680" y="76" class="move-P">P</text>
+  </g>
+</svg>
+</body>
+</html>
