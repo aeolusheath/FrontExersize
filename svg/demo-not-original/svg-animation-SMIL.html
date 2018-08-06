@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>switch-logo-非原创</title>
+</head>
+<body>
+
+   <h3> demo from MDN:   https://developer.mozilla.org/zh-CN/docs/Web/SVG/SVG_animation_with_SMIL </h3>
+   <h3> svg原生支持，通过特定标签来实现svg元素的动画</h3>
+    <svg width="300px" height="100px">
+        <rect x="0" y="0" width="300" height="100" stroke="black" stroke-width="1" fill="aliceblue" />
+        <rect x="0" y="50" width="15" height="34" fill="skyblue" stroke="black" stroke-width="1" transform="rotation">
+          <animateTransform
+                attributeName="transform"
+                begin="0s"
+                dur="20s"
+                type="rotate"
+                from="0 60 60"
+                to="360 100 60"
+                repeatCount="indefinite" 
+          />
+        </rect>
+      </svg>
+
+      <svg width="300px" height="100px">
+          <rect x="0" y="0" width="300" height="100" stroke="black" stroke-width="1" fill="aliceblue"/>
+          <circle cx="0" cy="50" r="15" fill="skyblue" stroke="black" stroke-width="1">
+               <animate attributeName="cx" from="0" to="100" dur="5s" repeatCount="indefinite" />
+          </circle>
+      </svg>
+  
+      <svg xmlns="http://www.w3.org/2000/svg" width="300px" height="100px">
+        <rect x="0" y="0" width="300" height="100" stroke="black" stroke-width="1"  fill="aliceblue"/>
+          <circle cx="0" cy="50" r="15" fill="skyblue" stroke="black" stroke-width="1">
+            <animateMotion path="M 0 0 H 300 Z" dur="3s" repeatCount="indefinite" />
+          </circle>
+      </svg>
+
+      <svg width="300px" height="100px">
+          <rect x="0" y="0" width="300" height="100" stroke="black" stroke-width="1" />
+          <rect x="0" y="0" width="20" height="20" fill="blue" stroke="black" stroke-width="1">
+            <animateMotion path="M 250,80 H 50 Q 30,80 30,50 Q 30,20 50,20 H 250 Q 280,20,280,50 Q 280,80,250,80Z"
+              dur="3s" repeatCount="indefinite" rotate="auto">
+          </rect>
+      </svg>          
+</body>
+</html>

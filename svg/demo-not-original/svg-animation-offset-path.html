@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>svg动画</title>
+  <style>
+  body {
+    width: 100%;
+    /* text-align: center; */
+    position: relative;
+  }
+
+  .circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: skyblue;
+    display: inline-block;
+    position: absolute;
+  }
+  .circle-run {
+    offset-path: path("M20.2447307,13.999011 C2.07155905,156.148473 -3.00246175,227.223203 5.02266826,227.223203 C13.2802584,227.223203 25.6314834,153.342902 27.7142344,128.696517 C28.6676624,117.414059 63.0092249,173.341982 79.1149039,183.758554 C106.300403,201.341155 94.921514,179.978811 44.9782367,119.671522 C93.1498002,65.63687 108.572705,43.433224 91.2469505,53.0605844 C73.9211963,62.6879448 54.756459,77.8112875 33.7527385,98.4306124 C36.2962143,48.0409867 36.2962143,17.7479992 33.7527385,7.55164988 C31.2092628,-2.64469941 26.7065935,-0.49557903 20.2447307,13.999011 Z");
+    animation: move 3s linear 1;
+  }
+  @keyframes move {
+    100% { offset-distance: 100%;}
+  }
+  .mt-lg {
+    margin-top: 30px;
+  }
+  .mb-lg {
+    margin-bottom: 30px;
+  }
+  </style>
+</head>
+<body>
+  
+  <h3>
+    描边动画（stroke-offset/stroke-dasharray）<br>
+    <span style="color: skyblue;">路径轨迹动画（css实验属性, offset-path/offset-distance[/offset-rotate]）</span><br>
+    Path变形动画（css实验属性，d）
+  </h3>
+
+  <hr class="mt-lg mb-lg">
+
+  <div class="mb-lg">
+    重要的是offset-path属性，这个属性可以规定一个路径，然后我们可以用offset-distance与css animation结合，实现元素按照路径轨迹运动。 <br>
+    tip： 按照轨迹运动的元素需要设置为绝对布局。<br>
+    from： https://www.zhangxinxu.com/study/201702/offset-path-css-animation.html
+  </div>
+  <!-- <div class="circle circle-run"></div> -->
+  
+
+  <span class="circle circle-run"></span>
+
+  <svg width="99px" height="228px" viewBox="0 0 99 228" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+        <path  stroke-width="2" fill="none" class="lineeee" id="Path-K" d="M20.2447307,13.999011 C2.07155905,156.148473 -3.00246175,227.223203 5.02266826,227.223203 C13.2802584,227.223203 25.6314834,153.342902 27.7142344,128.696517 C28.6676624,117.414059 63.0092249,173.341982 79.1149039,183.758554 C106.300403,201.341155 94.921514,179.978811 44.9782367,119.671522 C93.1498002,65.63687 108.572705,43.433224 91.2469505,53.0605844 C73.9211963,62.6879448 54.756459,77.8112875 33.7527385,98.4306124 C36.2962143,48.0409867 36.2962143,17.7479992 33.7527385,7.55164988 C31.2092628,-2.64469941 26.7065935,-0.49557903 20.2447307,13.999011 Z"  stroke="#979797"></path>
+  </svg>
+
+
+</body>
+</html>
