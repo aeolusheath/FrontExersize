@@ -28,7 +28,8 @@
   // 好一点的方法 【三】
   function getPrimeNums2(max = 30) {
     let primeArr = [2]
-    for(let i = 3; i < max; i++) {
+    // i++ 改为 i+=2 ，偶数肯定不是素数
+    for(let i = 3; i < max; i += 2) {
       for(let j = 0; j < primeArr.length; j++) {
         if( i % primeArr[j] ===0 ) break // 如果能够被存在的质数整除，则肯定不是
         if( i < primeArr[j] ** 2 ) { // if(primeArr[j] > Math.sqrt(i))
@@ -44,7 +45,8 @@
   function * $getPrimeNumsByGenerator() {
     yield 2;
     let primeArr = [2];
-    for(let i = 3; i< Infinity; i++) {
+    // for(let i = 3; i< Infinity; i++) {
+    for(let i = 3; i< Infinity; i += 2) {      
       for(let j = 0; j< primeArr.length; j++) {
         if(i % primeArr[j] ===0) break;
         if(i < primeArr[j] ** 2) {
