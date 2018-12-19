@@ -91,4 +91,37 @@ tip：
 }
 ```
 
+---
+
+到目前位置我们已经做了提交前的检查，但是检查只是检查了语法和规范的，这些语法和规范我们是定义在.eslintrc和.stylelintrc里面。
+
+现在存在一个问题，当我们引入资源的时候，路径没有正确，恰好又没有将错误信息输出到浏览器里面，这时候就会出错。
+
+这时候需要另外的插件来完成检查资源是否被正确引用。
+
+需要这这两个库：
+
+```eslint-import-resolver-webpack```  webpack配置的别名里面，配置路径的解析
+
+```eslint-plugin-import``` 相对路径or绝对路径的解析
+
+
+
+.eslintrc文件下面根节点下面增加节点：
+```javascript
+{
+  plugins: [
+    // other plugin
+    'import'
+  ],
+  settings: {
+    "import/resolver": {
+        "webpack": {
+            "config": "./build/webpack.base.conf.js" // 相对与.eslintrc文件 配置alias别名的webpack的配置文件的位置
+        }
+    }
+  }
+}
+```
+
 这里有一个链接有更多的详情： [https://blog.csdn.net/a5534789/article/details/84754572](https://blog.csdn.net/a5534789/article/details/84754572)
