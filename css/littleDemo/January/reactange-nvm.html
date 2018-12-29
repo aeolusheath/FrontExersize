@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>格子导航</title>
+  <style>
+   body {
+     padding: 20px;
+     font-size: 13px;
+   }
+   .nav-wrapper {
+     border-bottom: 1px solid #ddd;
+     /* overflow: auto; */
+     height: 42px;
+     box-sizing: border-box;
+    
+   }
+   .nav-item {
+     float: left;
+     height: 42px;
+     line-height: 42px;
+     margin-right: 10px;
+     min-width: 100px;
+     border: 1px solid #ddd;
+     border-bottom: none;
+     text-align: center;
+     box-sizing: border-box; 
+   }
+   .nav-item.is-active {
+     background-color: white;
+   }
+   
+  </style>
+</head>
+<body>  
+  <div class="nav-wrapper">
+    <div class="nav-item is-active">
+      Dashboard
+    </div>
+    <div class="nav-item">
+      About
+    </div>
+  </div>
+  <span style="font-size: 10px">正在创建</span>
+  <span style="font-size: 12px">正在创建</span>  
+</body>
+</html>
