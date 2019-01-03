@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>实时和非实时</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+  <!-- <script src="main.js"></script> -->
+  <style>
+    .gr {
+      color: skyblue;
+    }
+    .red {
+      color: salmon;
+    }
+  </style>
+</head>
+<body>
+
+    这里有一个关于 live 与 no-live的 资料：
+    <a target="_blank" href="https://stackoverflow.com/questions/28163033/when-is-nodelist-live-and-when-is-it-static">When is NodeList live and when is it static?</a>
+    <div class="gr"> 1 </div>
+    <div> 2 </div>
+    <div> 3 </div>
+    <div> 4 </div>
+    <script>
+      window.onload = function() {
+        var a = document.getElementsByTagName('div')
+        var b = document.querySelectorAll('div')
+
+        console.log(a, 'a')
+        console.log(b, 'b')
+
+        var para=document.createElement("div");
+        var node=document.createTextNode("这是新段落。");
+        para.appendChild(node);
+        document.getElementsByTagName('body')[0].appendChild(para);
+        document.getElementsByTagName('div')[1].setAttribute('class', 'red')
+
+        console.log(a, 'a')
+        console.log(b, 'b')
+      }
+    </script>
+</body>
+</html>
