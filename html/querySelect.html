@@ -23,7 +23,7 @@
     <div class="gr"> 1 </div>
     <div> 2 </div>
     <div> 3 </div>
-    <div> 4 </div>
+    <div id="kevin"> 4 </div>
     <script>
       window.onload = function() {
         var a = document.getElementsByTagName('div')
@@ -38,6 +38,8 @@
         document.getElementsByTagName('body')[0].appendChild(para);
         document.getElementsByTagName('div')[1].setAttribute('class', 'red')
 
+        var temp = document.getElementById('kevin');
+        document.getElementsByTagName('body')[0].removeChild(temp)
         console.log(a, 'a')
         console.log(b, 'b')
       }
