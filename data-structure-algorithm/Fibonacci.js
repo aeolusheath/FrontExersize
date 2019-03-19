@@ -6,7 +6,7 @@ function fibonaci(n) {
 }
 
 // 方法二
-// 优化，不用什么鬼递归，用数组存储之前计算出来的值
+// 优化，不用什么鬼递归，用数组存储之前计算出来的值, 动态规划【1，划分小最小粒度  2， 存储之前已经计算的值  3，转换方程】
 var initFibonaci = [1,2]
 function fibonaci2(n) {
   if (n <= 2) return initFibonaci[n - 1]
@@ -25,7 +25,7 @@ const getFibonacci = ((n) => {
   return function(n) {
     // if (n <= 2) return initFibonaci[n - 1]
     // 如果传递的数字小于等于缓存的数组长度，那么这个值已经在数组里面了【这种情况已经包含上面注释的情况】
-    if (n <= initFibonaci.length) return initFibonaci[n - 1] 
+    if (n <= initFibonaci.length) return initFibonaci[n - 1]
     // 如果传递的数字大于缓存的数组长度，那么我们直接从数组的最终值开始求值，不用从i=3 开始计算，因为第1个到 initFibonaci.lengh 个数字已经求出来了。不用从新计算重复的
     for (let i = initFibonaci.length; i <= n; i++) {
       const index = i
@@ -34,4 +34,21 @@ const getFibonacci = ((n) => {
     return initFibonaci[n-1]
   }
 })()
+
+
+// 其他的方式求fibonacci数列中的某一项，3个变量去存储
+var climbStairs = function(n) {
+    let first = 1
+    let second = 2
+    let third = null
+    if (n <= 2) {
+        return n
+    }
+    for (let i = 2; i < n; i++) {
+      third = first + second
+      first = second
+      second = third
+    }
+    return third
+}
 
