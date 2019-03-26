@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>background-size 兼容性处理</title>
+        <style type="text/css">
+           html, body {
+             width: 100%;
+             height: 100%;
+           }
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            /* .parent {
+                width: 400px;
+                height: 400px;
+                margin: 100px;
+                border: 1px solid red;
+                background: url(./aaa.jpg) no-repeat center center;
+                background-size: 100% 100%;
+            } */
+            /* .parent {
+                width: 400px;
+                height: 400px;
+                margin: 100px;
+                border: 1px solid red;
+                background: url(./aaa.jpg) no-repeat center center;
+                background-size: 100% 100%;
+                /*针对IE8的hack，目的是除掉之前background*/
+                /* background: none\9; */
+                /*下一行为关键设置*/
+                /* filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img/aaa.jpg', sizingMethod='scale'); */
+            /* } */
+            body {
+              position: relative;
+            }
+            .a {
+              position: absolute;
+              left: 0;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              z-index: -999;
+              width: 100%;
+              height: 100%;
+            }
+            .parent {
+              color: white;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="parent">
+          ahdsadasd
+        </div>
+        <img class="a" src="" alt="">
+        <p id="kevin">
+          <span>kev</span>
+        </p>
+        <p id="kaiqiang">kaiqiang</p>
+    </body>
+    <script>
+
+      // // 手动实现for..of
+      // var o = {
+      //   name: "kevin"
+      // }
+      // o[Symbol.iterator] = function() {
+      //   var v = 0;
+      //   return {
+      //     next: function() {
+      //       return { value: v++, done: v > 10  }
+      //     }
+      //   }
+      // }
+
+      // for(let oItem of o) {
+      //   console.log(oItem)
+      // }
+
+
+      // console.log("\n-----\n")
+
+      // var x = {
+      //   name: "kevin"
+      // }
+      // x[Symbol.iterator] = function * () {
+      //   for(let i = 0; i< Infinity; i += 1) {
+      //      if(i > 10) break;
+      //       yield i;
+      //     }
+      // }
+
+      // for(let xItem of x) {
+      //   console.log(xItem)
+      // }
+
+    var iterator = document.createNodeIterator(document, NodeFilter.SHOW_ELEMENT, null) // 第三个参数可以是一个回调，参考MDN
+
+    var nodes = []
+    var currentNode = null
+    while (currentNode = iterator.nextNode()) {
+      nodes.push(currentNode.tagName);
+    }
+    console.log([...new Set(nodes)], "采用nodeIterator")
+
+    var allNodeNames = []
+    function getAllTagName(node) {
+      if(node.tagName)
+        allNodeNames.push(node.tagName)
+      if(node.childNodes && node.childNodes.length > 0) {
+        for(let item of node.childNodes) {
+          getAllTagName(item)
+        }
+      }
+    }
+    getAllTagName(document)
+    allNodeNames = [...new Set(allNodeNames)]
+    console.log(allNodeNames, "采用迭代法")
+
+    </script>
+
+</html>
