@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    strong {
+      text-align: center;
+    }
+    div {
+      display: inline-block;
+      width: 150px;
+    }
+    div p, ol, table {
+      border: 1px solid blue;
+    }
+    span, li, th, td {
+      border: 1px solid green;
+    }
+
+  </style>
+</head>
+<body>
+
+
+<!-- Learn about this code on MDN: https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getClientRects -->
+
+<h3>A paragraph with a span inside</h3>
+<p>Both the span and the paragraph have a border set. The client rects are in red. Note that the p has only one border box, while the span has multiple border boxes.</p>
+
+<div>
+ <strong>Original</strong>
+ <p>
+  <span>Paragraph that spans multiple lines</span>
+ </p>
+</div>
+ 
+<div>
+ <strong>p's rect</strong>
+ <p class="withClientRectsOverlay">
+  <span>Paragraph that spans multiple lines</span>
+ </p>
+</div>
+
+<div>
+ <strong>span's rect</strong>
+ <p>
+  <span class="withClientRectsOverlay" id="kevin">Paragraph that spans multiple lines</span>
+ </p>
+</div><h3>A list</h3>
+<p>Note that the border box doesn't include the number, so neither do the client rects.</p>
+
+<div>
+ <strong>Original</strong>
+ <ol>
+  <li>Item 1</li>
+  <li>Item 2</li>
+ </ol>
+</diV>
+
+<div>
+ <strong>ol's rect</strong>
+ <ol class="withClientRectsOverlay">
+  <li>Item 1</li>
+  <li>Item 2</li>
+ </ol>
+</div>
+
+<div>
+ <strong>each li's rect</strong>
+ <ol>
+  <li class="withClientRectsOverlay">Item 1</li>
+  <li class="withClientRectsOverlay">Item 2</li>
+ </ol>
+</div><h3>A table with a caption</h3>
+<p>Although the table's border box doesn't include the caption, the client rects do include the caption.</p>
+
+<div>
+ <strong>Original</strong>
+ <table>
+  <caption>caption</caption>
+  <thead>
+    <tr><th>thead</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>tbody</td></tr>
+  </tbody>
+ </table>
+</div>
+ 
+<div>
+ <strong>table's rect</strong>
+ <table class="withClientRectsOverlay">
+  <caption>caption</caption>
+  <thead>
+    <tr><th>thead</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>tbody</td></tr>
+  </tbody>
+ </table>
+</div>
+
+<script>
+
+
+
+// function addClientRectsOverlay(elt) {
+//     // 为了使边框宽度与矩形宽度一致，这里给每个客户矩形上方绝对定位一个 div。
+//     // 注意:如果用户改变大小或者缩放，绘图将会重绘。
+
+//     var rects = elt.getClientRects();
+//     for (var i = 0; i != rects.length; i++) {
+//         var rect = rects[i];
+//         var tableRectDiv = document.createElement('div');
+//         tableRectDiv.style.position = 'absolute';
+//         tableRectDiv.style.border = '1px solid red';
+//         var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+//         var scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+//         tableRectDiv.style.margin = tableRectDiv.style.padding = '0';
+//         tableRectDiv.style.top = (rect.top + scrollTop) + 'px';
+//         tableRectDiv.style.left = (rect.left + scrollLeft) + 'px';
+//         // 我们希望 rect.width 作为边框宽度，所以内容宽度减少2px
+
+//         tableRectDiv.style.width = (rect.width - 2) + 'px';
+//         tableRectDiv.style.height = (rect.height - 2) + 'px';
+//         document.body.appendChild(tableRectDiv);
+//     }
+// }
+
+// (function() {
+//   /* 给所有具有"widthClientRectsOverlay"样式的元素调用函数addClientRectsOverlay(elt) */
+//   var elt = document.getElementsByClassName('withClientRectsOverlay');
+//   for (var i = 0; i < elt.length; i++) {
+//     addClientRectsOverlay(elt[i]);
+//   }
+// })();
+
+
+window.onload = function () {
+  // 第一步获取所有节点
+  const allNodes = []
+  function getAllTagName(node) {
+    if(node.tagName)
+      allNodes.push(node)
+    if(node.childNodes && node.childNodes.length > 0) {
+      for(let item of node.childNodes) {
+        getAllTagName(item)
+      }
+    }
+  }
+  getAllTagName(document.body)
+  // console.log(allNodes, "aaa")
+  console.log(allNodes[0], allNodes[0].getBoundingClientRect(), "kevinnnn")
+
+
+  // 帮助方法，获取element的坐标
+  function getAllRects() {
+    // tip
+    // 这里不能直接获取元素离document的距离，应该加上滚动条偏移量
+    // 你可以尝试将start 到 end之间的代码 删掉，在有滚动条的情况下，刷新页面 偶尔会出现错位
+    var pageXOffset = 0
+    var pageXOffset = 0
+    // start
+    pageXOffset = document.documentElement.pageXOffset || 0
+    pageXOffset = document.documentElement.pageYOffset || 0
+    // end
+    console.log(pageXOffset, pageYOffset)
+    const rects = []
+    allNodes.forEach(item => {
+      const {x, y , width, height} = item.getBoundingClientRect()
+      rects.push({
+        x: x + pageXOffset, y: y + pageYOffset, width, height
+      })
+    })
+    return rects
+  }
+
+  // 绘制一个canvas绘布，在canvas上绘制element的轮廓[根据getAllRects取到的各个盒模型的位置]
+  function drawSkeleton() {
+    const canvas = document.createElement('canvas')
+    canvas.width = document.documentElement.offsetWidth
+    canvas.height = document.documentElement.offsetHeight
+
+    canvas.style.position = 'absolute'
+    canvas.style.left = '0'
+    canvas.style.right = '0'
+    canvas.style.top = '0'
+    canvas.style.bottom = '0'
+    canvas.style.zIndex = '999999'
+    canvas.style.background = "rgba(0, 0, 0, .1)"
+
+    // 添加到body里面
+    document.body.appendChild(canvas)
+    const ctx = canvas.getContext('2d')
+    // canvas API  https://developer.mozilla.org/zh-CN/docs/Web/API/CanvasRenderingContext2D
+    draw(ctx, getAllRects())
+
+    function draw (ctx, rects) {
+      let i = 0
+      ctx.strokeStyle ='yellow'
+      ctx.lineWidth= 1
+      ctx.fillStyle = 'white'
+      for (let i = 0; i < rects.length; i++) {
+        let {x, y, width, height} = rects[i]
+        ctx.strokeRect(x, y, width, height)
+      }
+      console.log('%cdone!', 'background-color: green; color: white; padding: 0.3em 0.5em')
+    }
+
+  }
+
+  drawSkeleton()
+
+}
+</script>
+
+</body>
+</html>

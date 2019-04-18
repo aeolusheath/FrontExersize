@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>css 对象模型</title>
+  <style>
+    .title {
+      color: skyblue
+    }
+    .content {
+      color:tan;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+  </style>
+
+  <style>
+    .second-rule-style1 {
+      font-size:  10px;
+    }
+  </style>
+  <link rel="stylesheet" href="./cssom-css对象模型.css">
+</head>
+<body>
+  <div class="title">
+     每个人都不同
+  </div>
+  <div class="content">
+    朋友和爱人的相处很相似，其实你们都没有问题，但是你们有各自喜欢的生活方式，如果不能妥协，那么只能各自远扬<br/>
+    <p>那么妥协的程度到底应该在哪儿呢？</p>
+
+  </div>
+  <button onclick="removeRule()">点击移除样式表中的规则</button>
+
+  <hr>
+<script type="text/javascript">
+  window.onload = function () {
+    // document.styleSheets  获取样式表
+    // get StyleSheetList {}
+    // 几个style 这个对象就几个key， 比如我们现在有3个key， 对应着2个style标签和一个link
+    console.log(document.styleSheets, "document.styleSheets")
+
+    // 我们无法创建新的样式表 也就是 stylesheet
+    // 但是我们可以修改样式表中的内容
+    // 但是你在浏览器里面发现dom元素里面第一个样式表 没有 这些字符串，但是内存中加载了这个样式
+    document.styleSheets[0].insertRule("p { color: gray; }", 0)
+
+
+    // CSSOM 获取CSS元素的最终样式
+    // window.getComputedStyle(elt, [pseudoElt])
+    // 等价于
+    // document.defaultView.getComputedStyle(elt, [pseudoElt])
+
+  }
+
+  // 视窗滚动 API window
+  // scrollX(pageXOffset)  scrollY(pageYOffset)  只读属性
+  // scrollTo(x, y)  / scroll(x, y) 滚动到特定的位置，坐标
+  // scrollBy(x, y)                 滚动特定的距离
+  // document.addEventListener('scroll', function(event) {  })
+
+
+  // 元素滚动 API
+  // scrollTop  元素的属性 Y方向的当前滚动距离
+  // scrollLeft 元素的属性 X方向上的当前滚动距离
+  // scrollIntoView 使得元素滚动到可见区域
+  // https://developer.mozilla.org/zh-CN/docs/Web/API/Element/scrollIntoView
+
+  function removeRule() {
+    document.styleSheets[0].removeRule(0)
+  }
+
+
+  // 元素的布局信息
+  // 元素可能产生多个盒
+  // 获取一个元素的位置，元素是在一个盒子里面，只有盒子才有宽高
+
+  // API Element.getClientRects()
+  var contentDiv = document.getElementsByClassName("content")[0]
+  console.log(contentDiv, contentDiv.getClientRects())
+
+  // API Element.getBoundingClientReact()
+  console.log(contentDiv, contentDiv.getBoundingClientRect())
+
+</script>
+</body>
+</html>
