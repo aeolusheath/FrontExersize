@@ -18,6 +18,7 @@
  * @return {number}
  */
 
+// 方法一 有缺陷，map 可能是无序列的， 解决办法： 遍历两次字符串，第二次从map里面取就好了
 var firstUniqChar = function(s) {
   let map = new Map()
   for(let i = 0; i < s.length; i++) {
@@ -35,6 +36,7 @@ var firstUniqChar = function(s) {
    return -1
 }
 
+// 利用语言特性
 var firstUniqChar = function(s) {
   for(let i = 0; i < s.length; i++) {
       const index = s.indexOf(s[i])
