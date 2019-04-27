@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>测试</title>
+</head>
+<body>
+
+
+
+  <script>
+  function Promise6(executor) {
+    this.status = 'pending' //'resolved' 'rejected'
+    this.value = void (0)
+    this.error = void (0)
+    this.fulFillTasks = []
+    this.rejectTasks = []
+
+    this.fulfillRet = void (0)
+    this.rejectRet = void(0)
+
+    const resolve1 = (resolveValue) => {
+      this.value = resolveValue
+      if (this.status === 'pending') {
+        this.status = 'resolved'
+        this.fulFillTasks.forEach(fn => {
+          this.fulfillRet = fn && fn(resolveValue)
+        })
+      }
+    }
+
+    const reject1 = (rejectError) => {
+      this.error = rejectError
+      if (this.status === 'pending') {
+        this.status = 'rejected'
+        this.rejectTasks.forEach(fn => {
+          this.rejectRet = fn && fn(rejectError)
+        })
+      }
+    }
+
+    executor(resolve1, reject1)
+  // 略
+  }
+
+  Promise6.prototype.then = function (onFulfilled, onRejected) {
+    // 同步resolve reject
+    if (this.status === 'resolved') {
+      // 这是同步的
+      this.fulfillRet = onFulfilled(this.value)
+
+      // 如果是同步resolved，那么返回的promise必须也是同步的，也就是说也是resolved
+      return new Promise6((resolve, reject) => {
+        resolve(this.fulfillRet)
+      })
+    }
+    if (this.status === 'rejected') {
+      // 这是同步的
+      this.rejectRet = onRejected(this.error)
+      return new Promise6((resolve, reject) => {
+        reject(this.rejectRet)
+      })
+    }
+    // 异步resolve reject
+    // 错误0.5
+    // 这里的问题，不能控制获取到onFulfilled的value
+    // 不能将value传递给返回的promise的resolve()函数
+
+
+
+
+
+    // 如果是异步的，我们要解决的问题，如果是异步的话，返回的一定是一个promise
+    // 1，获取到 onFullFilled的 返回值
+    // 2，？？？？卡壳了 明天再写
+    // this.fulFillTasks.push(onFulfilled)
+    // this.rejectTasks.push(onRejected)
+
+    // 必须return一个新的promise
+    // const currentStatus = this.status
+
+    // 我们先处理then第一个函数，也就是resolve的情况。
+    // 而且 onFullFilled函数 会立即同步返回一个值，可能是undefined 可能是一个promise
+    // 而且这个值我们需要传递给返回的
+
+
+    // 有问题，这里 ----->  这里不能立即执行，必须要变为resolved才能执行
+    // 错误步骤 1 error:  this.fulfillRet = onFulfilled(this.value)
+    // 仍然要放到队列里面去
+
+    var newP = new Promise6((resolve, reject) => {
+          // 这里是异步的，状态肯定是pending
+          // 但是如何保证，上面的onFulled 或者 onReject执行之后 在这里执行resolve函数
+          // 要把resolve 放到异步队列里面吗？
+
+          // 这是我遇到的问题，没有想到将这两个放进一个函数，放进同一个函数并不会执行，然后放进调用then的异步队列里面
+          // 这样既能保证p1.then()，p1的状态变为resolved,then返回的才变为resolved
+          /**
+           * let func = (value) => {
+           *  let ret = onFulfilled(value)
+           *  resolve(ret)
+           * }
+           */
+
+
+
+          // 错误步骤 2 error: newP.fulFillTasks.push(resolve.call(null, this.onFulfilled(this.value))) // 错在那里，this.onFullfilled仍然没有等待 status 变为resolved的时候去执行
+          // 比如保证 return的promise 执行完成之后，才能变成 resolve状态
+
+          /**
+           *
+            所以最终是这样：
+            错误步骤 3 error:
+            newP.fulFillTasks.push((resolveValue) => {
+              let x = fullFilled(value)
+              resolve(x)
+            })
+          *
+          *
+          */
+          /**
+           * 错误步骤 4 error:
+           * 这里不应该将函数放到返回的promise的fulFillTasks里面应该放到 当前then的promise的fulFilledTasks里面
+           */
+          this.fulFillTasks.push((value) => {
+            let retValue = onFulfilled(value)
+            resolve(retValue)
+          })
+          this.rejectTasks.push((err) => {
+            let retErr = onRejected(err)
+            reject(retErr)
+          })
+
+    })
+
+    return newP
+    // return new Promise6()
+  }
+
+  var p3 = new Promise((resolve, reject) => {
+    // reject(new Error("reject-sync-error"))
+    console.log("1111111")
+    reject('value')
+  })
+  console.log(p3, "new 的promise对象")
+  var retP3 = p3.then((val) => {
+    console.log("2222222")
+    return val
+  }, (rejectVal) => {
+    console.log("333333")
+    return rejectVal
+  })
+  console.log(retP3, "retP3返回的一定是立即resolved的promise")
+  // 这句话是错的，retP3 一开始是 pending的
+  // 打印顺序 是什么，是
+  /**
+   *
+   *  1111111
+      second-step_test.html:147 Promise {<resolved>: "value"} "new 的promise对象"
+      second-step_test.html:154 Promise {<pending>} "retP3返回的一定是立即resolved的promise"
+      second-step_test.html:149
+      2222222
+   *
+   **/
+
+    // 另一个测试
+
+  var p4 = new Promise((resolve, reject) => {
+    // reject(new Error("reject-sync-error"))
+    console.log("-----")
+    reject('errValue')
+  }).then(()=>{}, (errValue)=>{
+    return errValue
+  })
+  console.log(p4, "p4")
+
+  setTimeout(()=>{
+    console.log(p3, "settimeout p3")
+    console.log(p4, "settimeout p4")
+  })
+
+  </script>
+
+</body>
+</html>
+
