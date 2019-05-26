@@ -38,3 +38,20 @@ var singleNumber = function (nums) {
   }
   return nums[nums.length - 1]
 }
+
+
+// 使用位运算符 AND operator & 判断一个数是否是奇数
+var isOdd = function (number) {
+  // & 运算符 两个都为 1 才为1， 1的二进制 第一位是1
+  return number & 1
+}
+
+// 使用位运算符 >> 实现除以 2
+var divide2 = function (num) {
+  return num >> 1
+}
+
+// 使用位运算符 << 实现乘以 2
+var multify = function (num) {
+  return num << 1
+}
