@@ -31,7 +31,6 @@ var singleNumber = function(nums) {
 }
 
 // 不用额外的空间------>异或运算
-
 var singleNumber = function (nums) {
   for (let i = 1; i < nums.length; i++) {
     nums[i] = nums[i] ^ nums[i - 1]
