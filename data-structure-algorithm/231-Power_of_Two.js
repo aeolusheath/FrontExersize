@@ -47,7 +47,9 @@ var isPowerOfTwo = function (n) {
 // 计算一个数字的二进制中1的个数【除了用字符串的遍历】
 var getOneCount = function (n) {
   count = 0
-  while (n > 0) {
+  // wrong 有符号整数，n为负数
+  // while (n > 0) {
+  while(n != 0) {
     count++
     n = n & (n - 1)
   }
