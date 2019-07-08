@@ -1,3 +1,5 @@
+
+
 /**
  *
  * 实现一个LazyMan，可以按照以下方式调用:
@@ -54,6 +56,7 @@ function _LazyMan(name) {
   this.runNext()
 
   // 原po 是把这里用setTimeout()包起来，下一个task queue队列开始的时候，又等待下一个task queue才去执行，执行构造函数里面的异步内容
+  // 原po 在这里http://web.jobbole.com/89626/#comments
 
   // 我这里没有放到setTimeout里面，而是直接执行，直接执行实际上就是在主线程将构造函数里面的异步内容先放到task queue里面去，主线程执行完毕后只有一个task queue去执行
 }

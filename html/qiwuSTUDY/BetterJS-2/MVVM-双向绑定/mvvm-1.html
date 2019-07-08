@@ -7,7 +7,7 @@
   <title>双向绑定</title>
 </head>
 <body>
-  
+
   <ul>
     <li>
       <label for="name">姓名</label>
@@ -22,11 +22,13 @@
       </select>
     </li>
   </ul>
-  
+
   <button id="confirm" type="submit">提交</button>
 
   <script>
-    //getter/setter 与数据双向绑定
+    // getter/setter 与数据双向绑定
+    // 有代理模式的影子，实际上获取和设置的都是 dom元素的值
+    // get 和 set 方法里面实际上关联的是 view对象里面的dom元素
 
     const view = {
       nameEl: document.getElementById('name'),
@@ -68,7 +70,7 @@
           return view.ageEl.value
         }
       })
-      
+
       this.name = name
       this.age = age
     }

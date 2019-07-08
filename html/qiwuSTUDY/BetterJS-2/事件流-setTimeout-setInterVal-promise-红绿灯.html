@@ -7,7 +7,7 @@
   <title>红绿灯时间流</title>
 </head>
 <body>
-  
+
   <style>
       #traffic > li{
         display: block;
@@ -103,7 +103,7 @@
     target.className = status
   }
 
-  
+
   function loop(){
     // 不太好的思路？
     // return new Promise((resolve, reject)=>{
@@ -122,7 +122,7 @@
     //   .then(wait(setState).call(null, traffic, 'stop'))
     //   .then(wait(setState).call(null, traffic, 'wait'))
     //   .then(wait(setState).call(null, traffic, 'pass'))
-    //   .then(loop) //决议promise   
+    //   .then(loop) //决议promise
 
     // 仍然是页面卡住了，错误，这里的错误是因为then传入的函数如果没有return，就会默认return undefined，立即返回一个promise，这个promise是resolve的
     // 除非返回一个新的promise，如果返回一个新的promise，then会展开这个promise决议，判决是resolve or reject
@@ -130,7 +130,7 @@
     //   .then(()=> { wait(setState).call(null, traffic, 'stop')})
     //   .then(()=> { wait(setState).call(null, traffic, 'wait')})
     //   .then(()=> { wait(setState).call(null, traffic, 'pass')})
-    //   .then(loop) //决议promise  
+    //   .then(loop) //决议promise
 
     // 正确答案
     // Promise.resolve()//构造一个立即决议的promise
@@ -138,7 +138,7 @@
     //   .then(()=> { return wait(setState).call(this, traffic, 'wait')})
     //   .then(()=> { return wait(setState).call(this, traffic, 'pass')})
     //   .then(loop) //决议promise
-    
+
     // 其他的方法
     // 返回一个待执行的函数,函数体（知道参数的情况下）【而不是立即执行函数获取结果】
     // 有几种办法
@@ -146,7 +146,7 @@
     // 2， 箭头函数()=>{ fn(param1, param2) } 也可以 用call 或者apply代替直接调用
     // 3， 通过bind来修改绑定函数的作用域，并且返回函数，实际上也是返回一个函数，但是这个函数是绑定了上下文执行环境和函数参数
     //     fn.bind(null, param1, param2)
-      
+
     //也可以改成下面这样
     Promise.resolve()//构造一个立即决议的promise
       .then(wait(setState).bind(null, traffic, 'stop'))
@@ -190,7 +190,7 @@
         .then(setState.bind(null, 'stop'))
         .then(setState.bind(null, 'pass'))
         .then(loop);
-    }())   
+    }())
 
     // 老师用async是这样优化的
 
@@ -201,7 +201,7 @@
         await setState('stop')
         await setState('pass')
       }
-    }())    
+    }())
 
   */
 
@@ -212,23 +212,47 @@
 
     class Togglable {
       constructor(states) {
+        this.pause = false
+        this.startIndex = 0
+        // this.pauseIndex = 0
         this[_states] = states
+      }
+      setStartIndex(index) {
+        this.startIndex = index
+      }
+      setToZero() {
+        this.startIndex = 0
+      }
+      pause() {
+        this.pause = false
       }
       *[Symbol.iterator]() {
         const states = this[_states]
-        for(let i=0; i< Infinity; i++) {
-          yield states[i % states.length]
+        const startIndex = this.startIndex
+        for(let i = startIndex; i < Infinity; i++) {
+          const index = i % states.length
+          if(this.pause === true) {
+            this.startIndex = index
+            // this.pauseIndex = index
+            break
+          }
+          yield states[index]
+        }
+      }
+      async startLight() {
+        for (let state of this) {
+          await delay(2000)
         }
       }
     }
-    
+
     //但是我们不能直接for of 循环， 不限制时间的死循环造成堆栈溢出，tab卡死
 
 
 
 
     // 知识点： 请注意，co模块约定，yield命令后面只能是Trunk或者Promise对象，但是Async
-    // 函数得await命令后面可以是Promise对象和原始类型的值（数字 字符串 布尔 Symbol Null Undefined），但这时候相当于同步操作 
+    // 函数得await命令后面可以是Promise对象和原始类型的值（数字 字符串 布尔 Symbol Null Undefined），但这时候相当于同步操作
     // async函数返回的是一个promise
 
 

@@ -7,7 +7,7 @@
   <title>关于生成器</title>
 </head>
 <body>
-  
+
 
   <script type="text/javascript">
   // 生成
@@ -16,7 +16,7 @@
 
   const cards2 = Array.from({length: 52})
   cards2.map((_, i)=>console.log(i))
-  
+
   const cards3 = new Array(52)
   cards3.fill(0)
 
@@ -41,7 +41,7 @@
   // 最笨的方法【一， 二】
   function getPrimeNums(max = 3) {
     let primeArr = [2]
-    for(let i = 3; i <= max; i++) { 
+    for(let i = 3; i <= max; i++) {
       let isPrime = true
       /**
       *   如果一个数不是素数是合数，
@@ -61,8 +61,8 @@
       }
     }
     return primeArr
-  } 
-  
+  }
+
   // 好一点的方法 【三】
   function getPrimeNums2(max = 30) {
     let primeArr = [2]
@@ -103,25 +103,25 @@
   // Key Point
   // 任何数据结构只要有Iterator接口，就可以用yield * 来遍历
   // let readStr = (function* (){ yield* 'hello from other side' }())
-  // readStr.next().value 
+  // readStr.next().value
   function * getCards() {
     const nums = ['A', 1,2,3,4,5,6,7,8,9,'J','Q','K']
-    
+
     yield * nums.map(num=>({key: '♥️', num: num }))
     yield * nums.map(num=>({key: '♠️', num: num }))
     yield * nums.map(num=>({key: '♦️', num: num }))
     yield * nums.map(num=>({key: '♣️', num: num }))
-    
+
   }
   const cards = [...getCards()]
 
 
-  //洗牌算法 
+  //洗牌算法
   function shuffle(cards) {
     for(let i = cards.length-1; i >= 0; i--) {
       var randomIndex =  Math.floor(i * Math.random())
-      // 从 index 为 51 开始， 51 * Math.random() 的范围是 (0, 51)
-      // Math.floor 之后的整数范围是 [0, 50] 
+      // 从 index 为 51 开始， 51 * Math.random() 的范围是 [0, 51)
+      // Math.floor 之后的整数范围是 [0, 50]
       // 我们将 cards[51] 和 前面的随机索引位置的值交换
       // 然后到 50个的时候，和 前面 [0, 49] 中索引取一个随机的 然后交换值
       // 这样下去，交换位置之后 索引为51 和 50 的值就不会变动了
@@ -141,7 +141,7 @@
     yield * 'abc'
     // yield * { length: 9, name: 'Ariza' }
   })()
-  
+
   console.log([...params])
 
 
