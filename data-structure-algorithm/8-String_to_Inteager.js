@@ -48,6 +48,7 @@
  * @param {string} str
  * @return {number}
  */
+// 方法一
 var myAtoi = function(str) {
     if (str == null || str == undefined)
         return 0
@@ -84,3 +85,33 @@ var myAtoi = function(str) {
     }
     return value
 };
+
+// 方法二
+
+var myAtoi = function(str) {
+    if (str == null || str == undefined)
+        return 0
+    if (toString.call(str) !== '[object String]')
+        return 0
+    let s = str.trim()
+
+    // 直接用正则表达式匹配
+    var result = s.match(/^[\+\-]?[\d][\d]*/)
+    if (result == null) {
+        return 0
+    } else {
+        var value  = parseInt(result[0])
+        if (Number.isNaN(value))
+            return 0
+
+        var min = -Math.pow(2, 31)
+        var max = -min - 1            
+        if (value > max) {
+            return max
+        }
+        if (value < min) {
+            return min 
+        }
+        return value
+    }
+}

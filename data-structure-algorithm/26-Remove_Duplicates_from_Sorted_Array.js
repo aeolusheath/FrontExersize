@@ -51,6 +51,7 @@
 // 定义两个下标，一个为不重复的总长度的下标
 var removeDuplicates = function(nums) {
      let realLen = 0
+     // i 从 0  开始也可以，但是没有必要，因为一开始肯定是相等的
      for (let i = 1; i < nums.length; i++) {
          if (nums[i] !== nums[realLen]) {
              realLen++

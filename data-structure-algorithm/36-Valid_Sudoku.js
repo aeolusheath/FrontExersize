@@ -56,37 +56,57 @@
  * @param {character[][]} board
  * @return {boolean}
  */
+
 var isValidSudoku = function(board) {
-    // 一共实际上重复的行/列/子块 只有9 * 3 个
-    // 每一个数字 只会在 某一列 某一行 某一个子块里面
-    // 我们给每一行 每一列 每一子块 添加一个 map
-    // 这个 map 存储出现的数字的次数
-    // 每一个数字，必定在这3个中的某一个，
-    const rows = new Array(10)
-    const cols = new Array(10)
-    const boxes = new Array(10)
+  // 每一行 每一列 每一个小格子 不能存在重复的
+  // 9个列 
+  // 9个行
+  // 9个小格子 
+  // 一共 27个 hash table
 
-    for (let i = 0; i < 9; i++) {
-        rows[i] = new Map()
-        cols[i] = new Map()
-        boxes[i] = new Map()
+  const rows = new Array(9)
+  const cols = new Array(9)
+  const boxes = new Array(9)
+
+  for (let i = 0; i < 9; i++) {
+    rows[i] = {}
+    cols[i] = {}
+    boxes[i] = {}
+  }
+
+  // 遍历这 81 个格子
+  for (let i = 0; i < rows.length; i++) {
+    for (let j = 0; j < cols.length; j++) {
+      let num = board[i][j]
+      var rowMap = rows[i]
+      var colMap = cols[j]
+      const boxIndex = ~~(i / 3) * 3 + ~~(j / 3) // 将九宫格分成9个大块
+      var boxMap = boxes[boxIndex]
+
+      if (num != '.') {    
+        rowMap[num] = rowMap[num] == undefined ? 1 : (rowMap[num] + 1)
+        colMap[num] = colMap[num] == undefined ? 1 : (colMap[num] + 1)
+        boxMap[num] = boxMap[num] == undefined ? 1 : (boxMap[num] + 1)
+      }
+
+      if (rowMap[num] > 1 || colMap[num]> 1 || boxMap[num] > 1) {
+        // console.log(i, j, board[1][9], "oppo")
+        // console.log(false, num, rowMap ,rowMap[num], colMap[num], boxMap[num], "abcdefg----")
+        return false
+      }
     }
+  }
+  // console.log(true)
+  return true
+}
 
-    for (let row = 0; row < board.length; row++) {
-        // console.log("当前行", row)
-        for(let col = 0; col < board[row].length; col++) {
-            // console.log("当前行 列", row , col)
-            let num = borad[row][col]
-            if(num !== '') {
-              let boxIndex = (i / 3) * 3 + j / 3;
-              rows[row].set(num, (rows[row].get(num) || 0) + 1)
-              cols[col].set(num, (cols[col].get(num) || 0) + 1)
-              boxes[boxIndex].set(num, (cols[col].get(num) || 0) + 1)
-            }
-          if (rows[row].get(num) > 1 || cols[col].get(num) > 1 || boxes[boxIndex].get(num) > 1) {
-            return false
-          }
-        }
-    }
-};
-
+isValidSudoku([
+  ["5","3",".",".","7",".",".",".","."],
+  ["6",".",".","1","9","5",".",".","."],
+   [".","9","8",".",".",".",".","6","."],
+   ["8",".",".",".","6",".",".",".","3"],
+   ["4",".",".","8",".","3",".",".","1"],
+   ["7",".",".",".","2",".",".",".","6"],
+   [".","6",".",".",".",".","2","8","."],
+   [".",".",".","4","1","9",".",".","5"],
+   [".",".",".",".","8",".",".","7","9"]])

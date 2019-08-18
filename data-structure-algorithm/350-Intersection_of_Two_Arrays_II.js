@@ -42,3 +42,16 @@ var intersect = function(nums1, nums2) {
     }
     return ret
 };
+
+
+var intersect = function(nums1,nums2) {
+    let arr = []
+    for (let i of nums1) {
+        if (nums2.indexOf(i) !== -1) {
+            // 去掉nums2中当前这个值 
+            nums2.splice(nums2.indexOf(i), 1)
+            arr.push(i)
+        }
+    }
+    return arr
+}
