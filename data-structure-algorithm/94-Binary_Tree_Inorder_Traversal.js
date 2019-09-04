@@ -40,8 +40,8 @@ var inorderTraversal = function (root) {
   var result = []
   var stack = []
   var node = root
-  while (node != undefined || stack.length != 0) {
-    if (node != undefined) {
+  while (node != null || stack.length != 0) {
+    if (node) {
       stack.push(node)
       node = node.left
     } else {

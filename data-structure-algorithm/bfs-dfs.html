@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div class="parent">
+      <div class="child-1">
+          <div class="child-1-1">
+              <div class="child-1-1-1">
+                a
+              </div>
+              <div class="child-1-1-2">
+                b
+              </div>              
+          </div>
+          <div class="child-1-2">
+              <div class="child-1-2-1">
+                c
+              </div>    
+          </div>     
+          <div class="child-1-3">
+                d
+          </div>                 
+      </div>
+      <div class="child-2">
+        <div class="child-2-1">
+          e
+        </div>
+        <div class="child-2-2">
+          f
+        </div>        
+      </div>
+      <div class="child-3">
+        <div class="child-3-1">
+          g
+        </div>
+      </div>
+  </div>
+</body>
+  <script type="text/javascript">
+
+    // 深度优先遍历  PreOrder(144) InOrder(94) PostOrder(145) 
+    // 广度优先遍历  LevelOrder(102) (107)
+
+    // 需求： 打印class 为parent的dom节点以及所有的子节点
+    
+    const root = document.getElementsByClassName('parent')[0]
+    // 深度优先遍历 - 递归
+    var dfs_recursive = function(root, res = []){
+      res.push(root)
+      for (let item of root.children) {
+        dfs_recursive(item, res)
+      }
+      return res
+    }
+    console.log('1------------->>', dfs_recursive(root))
+
+
+    // 深度优先遍历 - stack 先进后出 【push(item) -> pop】 或者 [unshift(item) -> shift()]
+    var dfs_stack = function(root) {
+      const res = []
+      const stack = []
+      stack.push(root)
+      while (stack.length != 0) {
+        let item = stack.pop()
+        res.push(item)
+        for (let i = item.children.length - 1; i >= 0; i--) {
+          stack.push(item.children[i])
+        }
+      }
+      return res
+    }
+    console.log('2------------->>', dfs_stack(root))
+
+
+
+    // 广度优先遍历 - queue 先进先出[push(item) -> shift()] 或者[unshift(item) -> pop()]
+    var bfs_queue = function(root) {
+      const res = []
+      const queue = []
+      queue.push(root)
+      while (queue.length != 0) {
+        let currentLevelLength = queue.length
+        for (let i = 0 ; i < currentLevelLength; i++) {
+          let item = queue.shift()
+          res.push(item)
+          for (let j = 0; j < item.children.length; j++) {
+            queue.push(item.children[j])
+          }
+        }
+      }
+      return res
+    }
+    console.log('3------------->>', bfs_queue(root))
+
+  </script>
+
+</html>

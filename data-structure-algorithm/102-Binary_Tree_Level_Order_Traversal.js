@@ -34,7 +34,7 @@
  * @return {number[][]}
  */
 
-// BFS 宽度优先遍历
+// BFS 宽度优先遍历 同题目107类似
 // 按照层次遍历 二叉树层次遍历
 var levelOrder = function(root) {
     // var list = []
