@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>多行多列两端对齐</title>
+  <style type="text/css">
+      html, body {
+        padding-top: 50px;
+      }
+
+      /** 缺点：兼容性问题 */
+      .container-1 {
+        padding: 20px; 
+        width: 800px;
+        border: 1px solid black;
+        margin: 0 auto;
+        margin-bottom: 50px;
+
+        /** key words*/
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 180px); /**制定重复元素的宽度*/
+        justify-content: space-between;
+        grid-gap: 1rem;
+      }
+      .container-1 .item {
+        display: inline-block;
+        height: 50px;
+        border: 1px solid green;
+        text-align: center;
+        line-height: 50px;
+        box-sizing: border-box;
+      }
+
+
+
+      
+      /**缺点就是 只能将子元素一行分成4列，切这个宽度基本没法自定义, 而且需要计算子元素的margin*/
+      .container-2 {
+        width: 800px;
+        border: 1px solid black;
+        margin: 0 auto;
+        margin-bottom: 50px;
+        padding:20px;
+
+        /*** key words*/
+        display: flex;
+        flex-flow: row wrap;
+        
+
+      }
+
+      .container-2 .item {
+        width: 23%;
+        height: 50px;
+        border: 1px solid green;
+        text-align: center;
+        line-height: 50px;
+        display: inline-block;
+        margin: 0 1% 20px;
+        box-sizing: border-box; /**有边框的情况必须加上此属性，不然一行会放不下4个*/
+      }
+
+
+
+
+      /**缺点： 需要添加伪元素，并且需要额外的父元素*/
+      .container-3 {
+        width: 800px;
+        border: 1px solid black;
+        margin: 0 auto;
+        margin-bottom: 50px;
+        padding:20px;
+
+        /*** key words*/
+        display: flex;
+        flex-flow: row wrap;
+        /* justify-content: space-between; */
+      }
+
+      .container-3 .item {
+        width: 25%;
+        display: block;
+        border: 1px solid green;
+        text-align: center;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        padding: 10px;
+      }
+
+      .container-3 .item .item-inner {
+        border: 1px solid red;
+        line-height: 50px;
+      }
+
+
+
+
+      /**缺点： 需要额外的父元素*/
+      .container-4 {
+        width: 800px;
+        border: 1px solid black;
+        margin: 0 auto;
+        margin-bottom: 50px;
+        padding:20px;
+
+        /*** key words*/
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+      }
+      .container-4 .item {
+        /* 修改比率即可，一行占几列 */
+        flex-basis: 33.3333%; 
+        display: block;
+        border: 1px solid green;
+        text-align: center;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        padding: 10px;
+      }
+
+      .container-4 .item .item-inner {
+        border: 1px solid red;
+        line-height: 50px;
+      }
+
+  </style>
+</head>
+<body>
+  
+
+
+
+  <div class="container-1">
+    <div class="item">A</div>
+    <div class="item">B</div>
+    <div class="item">C</div>
+    <div class="item">D</div>
+    <div class="item">E</div>
+    <div class="item">F</div>
+    <div class="item">G</div>
+  </div>
+
+
+
+
+  <hr/>
+
+
+  <div class="container-2">
+    <div class="item">A</div>
+    <div class="item">B</div>
+    <div class="item">C</div>
+    <div class="item">D</div>
+    <div class="item">E</div>
+    <div class="item">F</div>
+    <div class="item">G</div>
+  </div>
+
+
+
+
+  <hr/>
+
+
+
+
+
+  <div class="container-3">
+    <div class="item">
+      <div class="item-inner">A</div>
+    </div>
+    <div class="item">
+      <div class="item-inner">B</div>
+    </div>
+    <div class="item">
+      <div class="item-inner">C</div>
+    </div>
+    <div class="item">
+      <div class="item-inner">D</div>
+    </div>
+    <div class="item">
+      <div class="item-inner">E</div>
+    </div>
+    <div class="item">
+      <div class="item-inner">F</div>
+    </div>
+    <div class="item">
+      <div class="item-inner">G</div>
+    </div>
+  </div>
+
+
+
+  <hr>
+
+
+  <style type="text/css">
+     
+
+  </style>
+
+  <div class="container-4">
+      <div class="item">
+          <div class="item-inner">A</div>
+        </div>
+        <div class="item">
+          <div class="item-inner">B</div>
+        </div>
+        <div class="item">
+          <div class="item-inner">C</div>
+        </div>
+        <div class="item">
+          <div class="item-inner">D</div>
+        </div>
+        <div class="item">
+          <div class="item-inner">E</div>
+        </div>
+        <div class="item">
+          <div class="item-inner">F</div>
+        </div>
+        <div class="item">
+          <div class="item-inner">G</div>
+        </div>
+  </div>
+
+
+</body>
+</html>
