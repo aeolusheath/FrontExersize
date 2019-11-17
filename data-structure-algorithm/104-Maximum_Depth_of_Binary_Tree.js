@@ -39,12 +39,15 @@ var maxDepth = function(root) {
 
 // 用递归的另外一种办法，求最大深度
 // 按照常用方法计算一个节点的深度：max(depth of node.left, depth of node.right) + 1
-
-
+// 边界没有控制好 - 错误
 var maxDepth = function(root) {
   function innerFunc(node) {
-    if (node.left == null && node.right == null) return 0
-    return Math.max(innerFunc(node.left) + 1, innerFunc(node.right) + 1)
+    if (node) {
+      if (node.left == null && node.right == null) return 1 // 这护代码注释之后也能通过，不过竟然只有14.96的超过率
+      return Math.max(innerFunc(node.left) + 1, innerFunc(node.right) + 1)
+    } else {
+      return 0
+    }
   }
-  innerFunc(root)
+  return innerFunc(root)
 }
