@@ -11,6 +11,7 @@ A linked list can be reversed either iteratively or recursively. Could you imple
  *
  */
 
+ // wrong - where is temp
 function reverseLinkedList(head) {
   let prev = null
   while (head) {
@@ -20,4 +21,32 @@ function reverseLinkedList(head) {
     head = temp
   }
   return temp
+}
+
+
+var reverseList =  (head) => {
+  if (!head) return null
+  let prev = null
+  let node = head
+  while (node.next != null) {      
+      let temp = node.next
+      node.next = prev
+      prev = node
+      node = temp
+  }
+  node.next = prev
+  return node
+}
+
+var reverseList = (head) => {
+  if (!head) return null
+  let prev = null
+  let node = head
+  while(node) {
+    let temp = node.next
+    node.next = prev
+    prev = node
+    node = temp
+  }
+  return prev // 这里是返回prev ，注意while的循环结束
 }
