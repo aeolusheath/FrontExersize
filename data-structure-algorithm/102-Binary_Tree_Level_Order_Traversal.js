@@ -35,6 +35,7 @@
  */
 
 // BFS 宽度优先遍历 同题目107类似
+// 队列
 // 按照层次遍历 二叉树层次遍历
 var levelOrder = function(root) {
     // var list = []

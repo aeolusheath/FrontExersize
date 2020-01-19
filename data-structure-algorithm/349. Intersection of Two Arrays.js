@@ -92,3 +92,54 @@ function intersections(l1, l2) {
   }
   return intersections;
 }
+
+// 2020 01-03
+// 今天又看到了一种解法， 空间复杂度是O(1) ,但是有重复的元素，所以需要进一步
+// 实际上这个解法是上面解法的第一步
+const intersection1 = (l1, l2) => {
+  l1.sort((a, b) => a - b)
+  l2.sort((a, b) => a - b)
+  let res = []
+  let i =0, j = 0;
+  while( i < l1.length && j < l2.length ) {
+    if (l1[i] == l2[j]) {
+      res.push(l1[i])
+      i++
+      j++
+    } else if (l1[i] < l2[j]) {
+      i++
+    } else if (l1[i] > l2[j]) {
+      j++
+    }
+  }
+  return res
+}
+
+// 第二步
+// [1,2,2,1], [2,2]
+const intersection2 = (l1, l2) => {
+  l1.sort((a, b) => a - b)
+  l2.sort((a, b) => a - b)
+  let res = []
+  let i = 0, j = 0;
+  while(i < l1.length && j < l2.length) {
+    let left = l1[i], right = l2[j]
+    if (left == right) {
+      res.push(left)
+      // 因为要跳过重复的数据
+      while (left == l2[j]) j++
+      while (right == l1[i]) i++
+    } else if (left > right) {
+      while (left > l2[j] ) j++
+    } else if (left < right) {
+      while (l1[i] < right) i++
+    }
+  }
+  return res
+}
+
+intersection2([4,9,5], [9,4,9,8,4])
+
+
+
+ 

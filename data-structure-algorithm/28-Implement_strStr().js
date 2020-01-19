@@ -115,5 +115,88 @@ var strStr3 = function (haystack, needle) {
 }
 
 
+// 2020-01-10 分割线--------------------------------
+// BF 暴力分解法
+
+var strStrIndex = function (haystack, needle) {
+  let i = 1; j = 1;
+  while (i <= haystack.length && j <= needle.length) {
+    // index从1 开始，这里是错的 
+    if (haystack[i] == needle[j]) {
+      i++
+      j++
+    } else {
+      i = i - j + 2 // i 的下一位
+      j = 1
+    }
+  }
+  if (j > needle.length) 
+    // return i - j  WRONG
+    return i - needle.length
+  return -1
+}
+
+// 0 1 2 3 5 1 2 4        i = 3 j = 2
+//   1 2 4
 
 
+
+// kmp 算法
+function getPrefixTable (pattern) {
+  
+  let prefix = []
+  prefix[0] = 0
+  let len = 0; // 最大前后缀的相等的数目 【包含当前字母的字符串的最大相等前后缀的长度】
+  let i = 1; // i 从pattern的第二个字母开始比较，为什么，因为第一个字母比较不相等j不需要回溯，i和j都往后移动一个即可。
+  while (i < pattern.length) {
+    // if 
+
+    /**
+     *  https://www.youtube.com/watch?v=3IFxpozBs2I  7:59s
+     *  ABABCA [这个字符] 的prefix值是啥，这个字符前面的最大重复前后缀为1 len = 1
+     *  如果这个字符 等于 pattern[1] 那么必然有两个相同的前后缀
+     *  所以每个位置的相同的前后缀是和前面一个字符的相同最大前后缀长度相关联的 
+     * 
+     */
+    // if (i==8) {
+    //   console.log(len)
+    // }
+    if (pattern[i] == pattern[len]) {
+      len++
+      prefix[i] = len
+      i++;
+      console.log('1111111')
+    } else {
+      // len 可能等于 -1 
+      // WRONG
+      // len = prefix[len - 1]
+
+      if (len > 0) {
+      console.log('22222222')
+
+        len = prefix[len - 1]
+      } else {
+        //  let t = 'ABABCABAA' i = 1 ; len = 0  程序进入的时候就死循环
+        // 所以
+      console.log('3333333')
+        prefix[i] = len 
+        i++;
+        // prefix[i] = 0 都可以
+      }
+    }
+  }
+  console.log(prefix)
+  return  moveTable(prefix)
+}
+
+
+function moveTable(prefix) {
+  let j = prefix.length;
+  for (let i = j - 1; i > 0; i--) {
+    prefix[i] = prefix[i - 1]
+  }
+  prefix[0] = -1
+}
+
+let t = 'ABABCABAA'
+let next = getPrefixTable(t)

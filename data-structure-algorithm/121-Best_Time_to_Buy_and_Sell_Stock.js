@@ -86,3 +86,24 @@ var maxProfit = function (prices) {
   }
   return profit
 }
+
+
+
+// 2020-1-10
+// 求最大亏损，这个和求最大利润是一样
+var worst = function(prices) {
+  var maxPrice = Number.NEGATIVE_INFINITY;
+  var profit = 0
+  for (let i = 0; i < prices.length; i++) {
+    if (prices[i] > maxPrice) {
+      maxPrice = prices[i]
+    }
+    if (profit < (maxPrice - prices[i])) {
+      profit = maxPrice - prices[i]
+    }
+  }
+  console.log(profit)
+  return profit
+}
+worst([7, 4, 2, 9])
+worst([2, 4, 6, 8])
