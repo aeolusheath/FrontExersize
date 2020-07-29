@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>简单的饼图</title>
+  <style type="text/css">
+
+
+    .pie {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: yellowgreen;
+
+      /* 第一步：  将扇形的右半边设置为棕色 */
+      background-image: linear-gradient(to right, transparent 50%, #655 0)
+    }
+
+      /* 第二步：  设置一个伪元素，这是一个遮罩层，这个遮罩层也是yellowgreen绿色 */
+    .pie::before {
+      content: '';
+      display: block; 
+      margin-left: 50%; 
+      height: 100%;     
+
+      background-color: inherit; /* 遮罩层的颜色和父元素的保持一致 */
+
+      /* border-radius: 100% 50%;
+      border-top-left-radius: 0 50%;
+      border-bottom-left-radius: 0 50%; */
+      
+      border-radius: 0 100% 100% 0 / 50%; /* 设置遮罩层为半圆，也可以在pie类添加 overflow为hidden 与下面等价，与上面不等价 */
+
+      /* border-top-left-radius: 0px 50%;
+      border-top-right-radius: 100% 50%;
+      border-bottom-right-radius: 100% 50%;
+      border-bottom-left-radius: 0px 50%; */
+
+
+
+      /* 第三步： 旋转这个遮罩层，设置旋转的点 */
+      transform-origin: 0 50%;
+      /* 或者 */
+      transform-origin: left;
+
+
+      /* 第四步： 设置旋转角度，这里为90度 */
+      transform: rotate(0.25turn);
+    }
+
+
+  </style>
+</head>
+<body>
+  实现方式一： 纯粹的css；<br/>
+  
+  
+  <div class="pie"> </div>
+
+  
+  <hr>
+
+  实现方式二： svg; <br/>
+
+</body>
+</html>

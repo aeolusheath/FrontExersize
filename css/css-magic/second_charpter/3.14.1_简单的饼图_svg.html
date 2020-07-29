@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>饼图----svg</title>
+  <style type="text/css">
+
+        @keyframes fillup {
+        to { stroke-dasharray: 158 158; }
+        }
+
+
+      circle {
+ 
+        animation: fillup 5s linear infinite; /* 角度从 0 到 360 */
+        animation-play-state: paused; /*  设置此让动画暂停 */
+        fill: yellowgreen; 
+        stroke: #655;
+        stroke-width: 50;
+        stroke-dasharray: 58 158; /* 2π × 25 ≈ 158； 第一个数字从0-158，0是0度，158是360度 */
+      }
+
+      svg {
+        transform: rotate(-90deg);
+        background: yellowgreen;
+        border-radius: 50%;
+      }
+
+      div {
+        width: 1.6in;
+        height: 1in;
+        background: #fb3;
+        box-shadow: 0 5px 4px -4px black;
+      }
+  </style>
+</head>
+<body>
+  
+
+    <svg width="100" height="100"> <circle r="25" cx="50" cy="50" />
+    </svg>
+
+
+
+    <div></div>
+    
+
+    <script>
+      const data = {
+    "2020-07-16 16:37:55 655|PRO|pc-mid-p|yh-rme-srm-productcenter|INFO |172.31.202.63 | yh-rme-srm-productcenter-50c86-5c5bc89d65-6hxhw|[org.springframework.kafka.KafkaListenerEndpointContainer#1-0-C-1]| c.y.y.r.s.p.service.AbstractKafkaListener| AbstractUpdateKafkaListener##listen 消费完成的消息为 content":{
+        "data":[
+            {
+                "id":"405858560568727057",
+                "shop_code":"9DJM",
+                "shop_name":"合肥市琅琊山路店",
+                "shop_full_name":"永辉安徽合肥市--永辉生活琅琊山路店",
+                "shop_group_code":"0164",
+                "product_code":"1042258",
+                "bar_code":"6949668121785",
+                "product_name":"优颂午后阳光面巾F08-1",
+                "purchase_group_code":"A09",
+                "purchase_group_name":"纺织用品课",
+                "purchase_org_code":"P300",
+                "purchase_org_name":"云创大区采购组织",
+                "region_code":"310000",
+                "small_category_code":"13850301",
+                "brand":"",
+                "bar_type":"",
+                "durability_day":"0",
+                "unit":"11",
+                "spec":"F08-1",
+                "biz_type":"0",
+                "normal_deduction":"0.000000 ",
+                "promotional_deduction":"0.000000 ",
+                "supplier_code":"Y0001",
+                "logistics_mode_code":"3",
+                "distribution_mode_code":"0",
+                "provenance":"山东高密",
+                "orign_provenance":"",
+                "input_tax_code":"13.00000 ",
+                "output_tax_code":"A",
+                "tax_purchase_price":"6.0",
+                "tax_sale_price":"16.900",
+                "gross_rate":"0.0",
+                "project_block_code":"",
+                "product_status":"7",
+                "valid_tag":"1",
+                "rp_type":"ND",
+                "purchase_type":"",
+                "auto_purchase_order_flag":"1",
+                "location_minus_stock_flag":"1",
+                "valuation_class":"3020",
+                "shop_level_name":"",
+                "product_attribute":"",
+                "product_bracket_to_shop_create_time":"2019-01-08 00:00:00",
+                "spu":"",
+                "channel_id":"0",
+                "is_delete":"0",
+                "created_time":"2020-07-16 16:37:45",
+                "created_by":"sys",
+                "updated_time":"2020-07-16 16:37:45",
+                "updated_by":"sys",
+                "sales_channel":"G",
+                "ext1":"",
+                "ext2":"",
+                "ext3":"",
+                "ext4":"",
+                "ext_json":""
+            }],
+        "database":"yh_srm_channelcenter_sharding_sap_prod",
+        "es":1594888665000,
+        "id":85018,
+        "isDdl":false,
+        "mysqlType":{
+            "id":"bigint(20) unsigned",
+            "shop_code":"varchar(10)",
+            "shop_name":"varchar(100)",
+            "shop_full_name":"varchar(128)",
+            "shop_group_code":"varchar(20)",
+            "product_code":"varchar(18)",
+            "bar_code":"varchar(18)",
+            "product_name":"varchar(64)",
+            "purchase_group_code":"varchar(10)",
+            "purchase_group_name":"varchar(50)",
+            "purchase_org_code":"varchar(6)",
+            "purchase_org_name":"varchar(100)",
+            "region_code":"varchar(10)",
+            "small_category_code":"varchar(20)",
+            "brand":"varchar(50)",
+            "bar_type":"varchar(10)",
+            "durability_day":"int(4)",
+            "unit":"varchar(20)",
+            "spec":"varchar(32)",
+            "biz_type":"int(2) unsigned",
+            "normal_deduction":"varchar(50)",
+            "promotional_deduction":"varchar(50)",
+            "supplier_code":"varchar(10)",
+            "logistics_mode_code":"int(2)",
+            "distribution_mode_code":"int(2)",
+            "provenance":"varchar(20)",
+            "orign_provenance":"varchar(128)",
+            "input_tax_code":"varchar(18)",
+            "output_tax_code":"varchar(18)",
+            "tax_purchase_price":"decimal(13,3)",
+            "tax_sale_price":"decimal(13,3)",
+            "gross_rate":"decimal(13,3)",
+            "project_block_code":"varchar(20)",
+            "product_status":"int(2)",
+            "valid_tag":"int(2)",
+            "rp_type":"varchar(2)",
+            "purchase_type":"varchar(20)",
+            "auto_purchase_order_flag":"int(2)",
+            "location_minus_stock_flag":"int(2)",
+            "valuation_class":"varchar(20)",
+            "shop_level_name":"varchar(64)",
+            "product_attribute":"varchar(10)",
+            "product_bracket_to_shop_create_time":"datetime",
+            "spu":"varchar(50)",
+            "channel_id":"int(2)",
+            "is_delete":"int(2)",
+            "created_time":"timestamp",
+            "created_by":"varchar(30)",
+            "updated_time":"timestamp",
+            "updated_by":"varchar(30)",
+            "sales_channel":"varchar(4)",
+            "ext1":"varchar(30)",
+            "ext2":"varchar(30)",
+            "ext3":"varchar(30)",
+            "ext4":"varchar(30)",
+            "ext_json":"varchar(1500)"
+        },
+        "old":null,
+        "pkNames":["id"],
+        "sql":"",
+        "sqlType":{
+            "id":-5,
+            "shop_code":12,
+            "shop_name":12,
+            "shop_full_name":12,
+            "shop_group_code":12,
+            "product_code":12,
+            "bar_code":12,
+            "product_name":12,
+            "purchase_group_code":12,
+            "purchase_group_name":12,
+            "purchase_org_code":12,
+            "purchase_org_name":12,
+            "region_code":12,
+            "small_category_code":12,
+            "brand":12,
+            "bar_type":12,
+            "durability_day":4,
+            "unit":12,
+            "spec":12,
+            "biz_type":4,
+            "normal_deduction":12,
+            "promotional_deduction":12,
+            "supplier_code":12,
+            "logistics_mode_code":4,
+            "distribution_mode_code":4,
+            "provenance":12,
+            "orign_provenance":12,
+            "input_tax_code":12,
+            "output_tax_code":12,
+            "tax_purchase_price":3,
+            "tax_sale_price":3,
+            "gross_rate":3,
+            "project_block_code":12,
+            "product_status":4,
+            "valid_tag":4,
+            "rp_type":12,
+            "purchase_type":12,
+            "auto_purchase_order_flag":4,
+            "location_minus_stock_flag":4,
+            "valuation_class":12,
+            "shop_level_name":12,
+            "product_attribute":12,
+            "product_bracket_to_shop_create_time":93,
+            "spu":12,
+            "channel_id":4,
+            "is_delete":4,
+            "created_time":93,
+            "created_by":12,
+            "updated_time":93,
+            "updated_by":12,
+            "sales_channel":12,
+            "ext1":12,
+            "ext2":12,
+            "ext3":12,
+            "ext4":12,
+            "ext_json":12
+        },
+        "table":"base_product_shop_sap_9djm",
+        "ts":1594888669811,
+        "type":"INSERT"
+    }
+}
+
+
+const isObject = (obj) => {
+  return Object.prototype.toString
+}
+const help = (obj) => {
+  for (let key in obj) {
+    // obj[key]  = ''
+    if (!Array.isArray(obj[key]) && typeof(obj[key]) === 'object') {
+      help(obj[key]);
+    }else {
+      obj[key] = ''
+    }
+    
+  }
+  return obj
+}
+
+// console.log(help(data), 'kevin')
+console.log(JSON.stringify(help(data)))
+
+    </script>
+</body>
+</html>

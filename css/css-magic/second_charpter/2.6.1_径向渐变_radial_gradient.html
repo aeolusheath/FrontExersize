@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>径向渐变</title>
+  <style>
+    .radient-div {
+      width: 500px;
+      height: 200px;
+      /* border: 10px solid rgba(0, 0, 0, .1);  */
+      background-clip: content-box;
+
+      /* 背景颜色 */
+      background: #655;
+      background-image: radial-gradient(tan 70%, transparent 0);
+      /* 设置背景图片大小 */
+      /* background-size: cover; */
+      background-size: 30px 30px;
+      background-repeat: no-repeat;
+    } 
+  
+  </style>
+</head>
+<body>
+  
+  <div class="radient-div">
+
+  </div>
+
+
+
+  <div style="
+    width: 100px;
+    height: 200px;
+    background-image: radial-gradient( circle, red, yellow, green);
+  ">
+
+  </div>
+
+  
+  <div style="
+  width: 100px;
+  height: 200px;
+  background-image: radial-gradient( ellipse, red, yellow, green);
+">
+
+</div>
+
+</body>
+</html>
