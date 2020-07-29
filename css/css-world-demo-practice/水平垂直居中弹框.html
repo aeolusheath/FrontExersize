@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>水平垂直居中弹框</title>
+  <style type="text/css">
+    .container {
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      /* for IE8 */
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABtJREFUeNpiZGBgaGAgAjAxEAlGFVJHIUCAAQDcngCUgqGMqwAAAABJRU5ErkJggg==);
+      /* for IE9+ */
+      background: rgba(0,0,0,.2) ;
+      text-align: center;
+      white-space: nowrap;
+      z-index: 99;
+      overflow: auto; /* 弹框高度超过一屏的时候依然能够看见屏幕外的内容*/
+    }
+    .container:after {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+    .dialog {
+        display: inline-block;
+        vertical-align: middle;
+        border-radius: 6px;
+        background-color: #fff;
+        text-align: left;
+        white-space: normal;
+    }
+
+    .content {
+      width: 500px; 
+      height: 600px; /*高度随意调整都会在中间*/
+    }
+  </style>
+</head>
+<body>
+    something in body
+    <div class="container">
+        <div class="dialog">
+            <div class="content">内容占位</div>
+        </div>
+    </div>
+</body>
+</html>

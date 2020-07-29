@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>couter-reset</title>
+  <style type="text/css">
+    .xxx {
+      /* 声明多个计数器 */
+      counter-reset: aaa 2 bbb 4 ccc -2; 
+      /* counter-increment: 1; */
+    }
+    .xxx::before{
+      /* content: "div - "counter(aaa); */
+      /* content: counter(aaa); */
+      content: counter(aaa) "-" counter(bbb) "=" counter(ccc);
+    }
+
+    .counter {
+      counter-reset: wangxiaoer 2; 
+      counter-increment: wangxiaoer;
+      font-size: 32px; 
+      font-family: Arial black; 
+      color: #cd0000; 
+    }
+    .counter:before { 
+      content: counter(wangxiaoer); 
+    }
+
+
+    .box {
+       width: 80px;
+       padding: 20px 60px;
+       box-sizing: border-box;
+    }
+
+
+
+    .box-2 {
+         border: 2px dashed #cd0000;
+         width: 300px;
+    }
+    span {
+          padding: 50%;
+          background-color: gray;
+    }
+
+  </style>
+</head>
+<body>
+  
+  <div class="xxx">
+    序列号
+  </div>
+  <div class="xxx">
+      序列号
+    </div>
+  
+
+    <p>我本名王小二，万万没想到，我现在居然成了王小...</p>
+    <p class="counter"></p>
+
+
+
+    <div class="box">
+      1
+    </div>
+
+
+
+    <div class="box-2">
+      <span> 内有文字若干 </span>
+    </div>
+
+</body>
+</html>
