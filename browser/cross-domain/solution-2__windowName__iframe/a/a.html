@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>a页面</title>
+</head>
+<body>
+  
+
+  <p >原理： <span style="color:skyblue"> window.name这个属性值 在不同的页面【域名】加载之后依然存在，并且可以支持很长的数据, 在chrome里面做个例子
+    打开baidu.com 在控制台输入window.name = 'KevinKang', 然后在输入新的url: bing.com。 然后在控制台打印window.name，输出的仍然是KevinKang </span></p>
+
+
+  <p>当前是在a页面，当前端口是3000，a页面嵌套了一个iframe，源是c.html, 端口为4000</p>
+
+   a 嵌套了一个iframe 源为非同源的c.html, c.html的JS脚本里面，将window.name设置为一个值。<br/>
+   然后将iframe的源设置为同源的 b.html【端口也是3000】<br/>
+   然后获取iframe.contentWindow.name。
+   
+  <iframe src="http://localhost:4000/c.html" id="iframe" onload="load()" frameborder="0"></iframe>
+  <script>
+    
+    let first =true
+
+    function load(){
+      // console.log(iframe.contentWindow) // 如果这里直接获取不同源的iframe.contentWindow会报错
+      // iframe.contentWindow.postMessage('data', 'http://localhost:4000') // 但是通过postMessage接口却不会
+      
+      // let first =true
+      // 第一次加载完 不同源的c.html，修改了window.name，实际业务中这个window.name应该是实际的数据
+      if (first) {
+        iframe.src = "http://localhost:3000/b.html"
+        first = false
+      } else {
+        // 第二次触发onload函数，第一次加载非同源的c.html，在c.html设置window.name,但是不能直接通过iframe.contentWindow对象
+        // 第二次加载了同源的b.html, 因为同源可以直接获取iframe.contentWindow.name
+        console.log(iframe.contentWindow.name)
+      }
+    }
+    
+ 
+  </script>
+</body>
+</html>

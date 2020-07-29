@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>a页面</title>
+</head>
+<body>
+  
+
+  <p>当前是在a页面，当前端口是3000，a页面嵌套了一个iframe，源是b.html, 端口为4000</p>
+  <iframe src="http://localhost:4000/b.html" id="frame" onload="load()" frameborder="0"></iframe>
+  <script>
+    
+    function load(){
+      let frame = document.getElementById('frame')
+      // console.log(frame, frame, 'abcdefffffff')
+      // 发送数据给b.html
+      frame.contentWindow.postMessage('data', 'http://localhost:4000')
+      window.onmessage = function(e) {
+        console.log('从b.html收到的数据', e.data)
+      }      
+    }
+
+ 
+  </script>
+</body>
+</html>

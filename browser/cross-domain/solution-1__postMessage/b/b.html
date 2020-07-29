@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>b页面</title>
+</head>
+<body>
+  b 页面
+  <script>  
+    window.onload = function(){
+      window.onmessage = function(e) {
+        // a.html发送数据过来
+        console.log('当前是在端口为4000的b.html下面。。。')
+        console.log('当前从端口为3000的 a.html 发送过来的数据:  ', e.data)
+        console.log('\n\n')
+    
+
+        // window.postMessage('金曲十二大霉女 ', e)
+        e.source.postMessage('金曲十二大美女', e.origin)
+      }
+    }
+  </script>
+</body>
+</html>
