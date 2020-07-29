@@ -77,6 +77,37 @@
     }
 
 
+    const debounce = (fn, dur = 500) => {
+      let timer = null
+      return function(...args) {
+        clearTimeout(timer)
+        timer = setTimeout(()=>{
+          fn.apply(this, args)
+        }, timer)
+      }
+    }
+
+    const throttle = (fn, dur = 500) => {
+      let timer = null
+      return function(...args) {
+        if(timer == null) {
+          timer = setTimeout(()=>{
+            fn.apply(this, args)
+            clearTimeout(timer)
+          })
+        }
+      }
+    }
+
+    const collectInto = (fn) => {
+      return (...args) => {
+        fn(args)
+      }
+    }
+
+    const flip = () => {}
+
+
   </script>
 </body>
 </html>
