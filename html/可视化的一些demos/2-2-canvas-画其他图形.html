@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>canvas</title>
+</head>
+<body>
+  <canvas id="canvas" width="150" height="150"></canvas>
+
+  <script>
+    window.onload = function() {
+      const canvas = document.querySelector('canvas');
+      console.log('页面加载完了----------->>>>>>', canvas);
+      const ctx = canvas.getContext('2d');
+
+    }
+
+
+    // canvas 绘制圆弧，不一定是圆形
+    // 参数的意思是：  圆心的x坐标，y坐标，半径，开始角度，结束角度，顺时针还是反时针旋转
+    // 传入的度数 是360度计数的
+    var draw = function (x, y, radius, startAngle, endAngle, anticlockwise) {
+      const canvas = document.querySelector('canvas')
+      const ctx = canvas.getContext('2d')
+      var unit =  2 * Math.PI / 360 // 弧度
+      ctx.beginPath()
+      ctx.arc(x, y, startAngle * unit,  endAngle * unit)
+      ctx.strokeStyle = "red"
+      ctx.fillStyle = "yellow"
+      ctx.fillText = 'kevin'
+      ctx.fill()
+      ctx.closePath()
+    }
+
+
+
+
+
+  </script>
+</body>
+</html>

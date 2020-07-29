@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>用svg绘制城市层级图</title>
+  <style type="text/css">
+  
+        
+
+  </style>
+</head>
+<body>
+  
+    <h1 id="title" style="text-align: center; margin-bottom: 50px"></h1>
+  <!-- <svg xmlns="http://www.w3.org/2000/svg" version="1.1"> -->
+    <!-- 画布宽度设置好， width/height/viewBox -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="800" height="800"  viewBox="0 0 1600 1600"> 
+    <!-- <circle cx="100" cy="50" r="40" stroke="black"
+    stroke-width="2" fill="orange" /> -->
+  </svg>
+  
+
+
+
+  <script src="https://d3js.org/d3-hierarchy.v1.min.js"></script>
+  <script type="text/javascript">
+
+    
+
+
+    const dataSource = 'https://s5.ssl.qhres.com/static/b0695e2dd30daa64.json';
+
+    /* globals d3 */
+    (async function () {
+      const data = await (await fetch(dataSource)).json();
+      const regions = d3.hierarchy(data)
+        .sum(d => 1)
+        .sort((a, b) => b.value - a.value);
+
+      const pack = d3.pack()
+        .size([1600, 1600])
+        .padding(3);
+
+      const root = pack(regions);
+
+      // const canvas = document.querySelector('canvas');
+      // const context = canvas.getContext('2d');
+      const context = document.querySelector('svg');
+      // const TAU = 2 * Math.PI;
+
+      console.log(context, 'context -------->>>>>>>>>>>>>>>>');
+      function draw(parent, node, {fillStyle = 'rgba(0, 0, 0, 0.2)', textColor = 'white'} = {}) {
+        const { x, y, r, children } = node
+          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle')
+          circle.setAttribute('data-name', node.data.name)
+          circle.setAttribute('cx', x)
+          circle.setAttribute('cy', y)
+          circle.setAttribute('r', r)
+          circle.setAttribute('fill', fillStyle)
+          parent.appendChild(circle) // 需要append进去
+          // 绘制子元素
+          if (children) {
+            const group = document.createElementNS('http://www.w3.org/2000/svg', 'g')
+            for (let i = 0; i < children.length; i++) {
+              draw(group, children[i], { fillStyle, textColor })
+            }
+            group.setAttribute('data-name', node.data.name)
+            parent.appendChild(group)
+          } else {
+            //  如果没有children 子元素，那么说明已经到最底层  那么给圆圈添加文字
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
+            text.setAttribute('fill', textColor)
+            text.setAttribute('font-family', 'Arial')
+            text.setAttribute('font-size', '1.5rem')
+            text.setAttribute('text-anchor', 'middle')
+            text.setAttribute('x', x)
+            text.setAttribute('y', y)
+            const name = node.data.name
+            text.textContent = name
+            parent.appendChild(text)
+          }
+
+      }
+
+      draw(context, root);
+
+
+
+            // getTitle方法 
+      const titleEl = document.getElementById('title')
+      
+      function getTitle(target) {
+        const name =  target.getAttribute('data-name')
+        if (target.parentNode && target.parentNode.nodeName === 'g') {
+          const parentName =  target.parentNode.getAttribute('data-name')
+          return `${parentName}-${name}`
+        }
+        return name
+      }
+
+
+      // 给svg添加hover事件，模拟canvas事件
+      let activeTarget = null
+      // 还是遍历整个对象，这个对象里面包含坐标的信息
+      // root.addEventListener('mousemove', (evt) => {
+      context.addEventListener('mousemove', (evt) => {
+         let target = evt.target
+         // 如果浮动到文本元素上面
+         if (target.nodeName === 'text') {
+           console.log('到这里了---->>>>')
+           target = target.parentNode
+         } 
+         if (activeTarget !== target) {
+           if (activeTarget) activeTarget.setAttribute('fill', 'rgba(0, 0, 0 , 0.2)')
+            // if (activeTarget) activeTarget.setAttribute('fill', 'red')
+          }
+         target.setAttribute('fill', 'rgba(0, 128, 0, 0.1)')
+         // target.setAttribute('fill', 'green')
+         titleEl.textContent = getTitle(target);
+         activeTarget = target
+      });
+
+
+
+      
+    }());
+
+
+
+
+    
+      
+
+  </script>
+</body>
+</html>
