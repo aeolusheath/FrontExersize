@@ -38,10 +38,11 @@ const contructHaffumanTree = (weightArr) => {
     newNode.right = minNode2
     forest.push(newNode); 
     // 为了后续的循环直接获取数组头部的元素（权重值最小的两个节点），这里直接再排一次序
-    forest.sort((n1, n2) =>n1.val - n2.val)  
+    forest.sort((n1, n2) =>n1.val - n2.val)
   }
   // 4，森林里只有一颗树
   return forest[0]
 }
 
 contructHaffumanTree([7,5,2,4])
+
