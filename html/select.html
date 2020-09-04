@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>弹框选择组件</title>
+  <style>
+    .select-domain__modal{
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom:0;
+      width: 80%;
+      background-color: white;
+      z-index:999;
+      padding-left: 10px;
+      /* transition: */
+      transition: all .4s ease 0s;
+    }
+    .display-domain__modal__zero{
+      /* width: 0; */
+      right: -80%;
+      transition: all .4s ease 0s;
+    }
+
+    .select-domain-shade {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 99;
+      background-color: rgba(0, 0, 0, .3);
+      transition: all .5s ease 0s;
+
+    }
+    .select-domain-shade__zero{
+      width: 0;
+      transition: all .5s ease 0s;
+    }
+    .button-group {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+    }
+    .button-group button {
+      width: 47%;
+      border: 1px solid #ddd;
+      background-color: lightblue;
+    }
+
+    .fold-icon, .unfold-icon {
+      border: 1px solid #D8D8D8;
+      color: #333;
+      margin-right: .2em;
+      display: inline-block;
+      height: 14px;
+      width: 14px;
+      text-align: center;
+      line-height: 12px;
+      font-size: 14px;
+      margin-bottom: .4rem;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <div id ="app">
+    <!-- <h1>{{name}}</h1> -->
+    <!-- <button-counter/>   -->
+    <!-- {{list}} <br/> -->
+    <button style="border: 1px solid #ddd; background-color: lightblue" @click="displaySelectModal">点击显示弹框</button>
+    当前选中：{{domain}}
+
+    <!-- <input type="text"  v-model="sk" >
+    <d-option v-for="item in list" :data="item" :searchKey="'okok'" :sk="sk" :selected="selected"></d-option> -->
+    <select-domain v-model="domain" :visible.sync="displayModal"  :list="list"> </select-domain>
+
+  </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+
+<!--option组件-->
+<script type="text/javascript">
+  // Vue.component('button-counter', {
+  //   data: function () {
+  //     return {
+  //       count: 0
+  //     }
+  //   },
+  //   template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+  // })
+
+  Vue.component('d-option', {
+    data: function(){
+      return {
+        checked: false,
+        collapse: true,
+      }
+    },
+    props: {
+      data: Object,
+      selected: String,
+      searchKey: String,
+      sk: String,
+    },
+    created() {
+      this.checked = this.selected === this.data.name
+    },
+    watch: {
+      selected(val){
+        // console.log('selectedd---')
+        this.checked = val == this.data.name 
+      },
+      checked(val, oldVal){
+        if (val === true) {
+          console.log('选中了-->', this.data.name)
+          this.$root.eventHub.$emit('SET_SELECTED', this.data.name)
+        }
+      },
+      allDisplayNodes(val, oldVal) {
+        console.log(val, oldVal, '发生了变化--->>>>>>')
+        if (val.includes(this.data.name)) {
+          this.collapse = false
+        } else {
+          // this.collapse = true
+        }
+      }
+    },
+    computed: {
+      paddingLeft(){
+        return this.data.level * 15 +'px'
+      },
+      formatName() {
+        let { name }= this.data 
+        if (this.sk.trim() == '') {
+          return name
+        } else {
+          if (name.indexOf(this.sk) != -1 ) {
+            return name.replace(this.sk, `<span style="color: blue">${this.sk}</span>`)
+          } else {
+            return name
+          }
+        }
+      },
+      allDisplayNodes() {
+        return this.getDisplayNodes()
+      }
+    },
+    inject: ['getDisplayNodes'],
+    methods: {
+      toggleDisplay() {
+        this.collapse = !this.collapse
+      },
+      checkCurrent() {
+        this.$root.eventHub.$emit('SET_SELECTED', this.data.name)
+      }
+    },
+    template: `
+      
+      <div :style='"padding-left:"+paddingLeft'>
+        <template v-if ="data.children && data.children.length>0">
+          <span @click="toggleDisplay" class="fold-icon">
+            {{ collapse ? '+': '-' }}
+          </span>
+        </template>
+
+        <span v-html="formatName" @click="checkCurrent">
+        </span>
+
+        <input type="checkbox" :disabled="checked" v-model="checked"/> 
+
+        <div class="children" v-show="!collapse" v-if="data.children && data.children.length > 0">
+          <d-option v-for="item of data.children" :data="item" :searchKey="searchKey" :sk="sk" :selected="selected"> </d-option>
+        </div>
+      </div>  
+    
+    `
+  })
+
+</script>
+
+<!--弹框 container-->
+<script type="text/javascript">
+  // 
+  Vue.component('select-domain', {
+    // components: {
+    //   'd-option': 'd-option'
+    // },
+    data: function() {
+      return {
+        // TODO
+        currentValue: this.value,
+        sk: '', // 输入框搜索的关键字
+        // temp: '',
+      }
+    },
+    props: {
+      value: [String, Number],
+      list: [Array],
+      visible: [Boolean],
+    },
+    // props: ['value', 'list', 'visible'],
+    provide: function(){
+      return {
+        // getDisplayNodes: ()=>this.getParentsNode()
+        getDisplayNodes: ()=> {
+          let keyWordUnfold = this.getUnfoldNodesBySearchKey()
+          let defaultUnfold = this.getUnfoldNodesByDefaultVal()
+          // let defaultUnfold = ''
+
+          // console.log(keyWordUnfold, defaultUnfold, 'hello')
+          // console.log('1234', keyWordUnfold + ( defaultUnfold == '' ? '' : (','+ defaultUnfold) ))
+          // 因为默认值也会展开，如果搜索关键字的属数据不为空，搜索的结果包含了默认值有歧义
+          // 所以搜索的结果就只显示搜索的结果
+          if (keyWordUnfold !=='') {
+            defaultUnfold = ''
+          }
+
+
+          // 和上面有点矛盾，这里是共存
+          let res = ''
+          if (keyWordUnfold != '') {
+            res = res + keyWordUnfold
+          }
+          if (res != '') {
+            res +=  ( defaultUnfold == '' ? '' : (','+ defaultUnfold) )
+          }
+          if (res == '') {
+            res += ( defaultUnfold == '' ? '' : defaultUnfold )
+          }
+          return res
+        }
+      }
+    },
+    watch: {
+      sk(val, oldVal) {
+        let cur = val.trim()
+        let old = oldVal.trim()
+        if (cur == '' && oldVal != '') {
+          return
+        }
+        // 搜索关键字变了，
+        // this.getUnfoldNodesBySearchKey() // 貌似多余
+      },
+      // v-model 的值从空 为 默认值 
+      // currentValue(val, oldVal){
+      //   // console.log(val, oldVal, 'shhhhht')
+      //   this.value = val
+      // }
+      value (val) {
+        this.currentValue = val
+      },
+    },
+    methods: {
+      uniqueArray(arr) {
+        return [...new Set(arr)]
+      },
+      // 1，根据搜索关键字，确定要展开的节点的名字
+      getUnfoldNodesBySearchKey() {
+        return this.getUnfoldNodes(this.sk)
+      },
+      // 2，因为v-model肯定要赋值，所以默认情况下，选中的值也必须要展开
+      getUnfoldNodesByDefaultVal() {
+        return this.getUnfoldNodes(this.value)
+      },
+      getUnfoldNodes(keyWord){
+        // 第一次加载的情况，如果v-model是给定了值的，默认应该展开所在的那一栏
+                // let keyWord = this.sk;
+        if (keyWord.trim() == '') 
+          return ''
+        let result = []
+
+        let innerFunc = (node, nameStrs) => {
+          if (node.name.includes(keyWord)) {
+            result.push(nameStrs)
+          }
+          if (node.children) {
+            nameStrs = (nameStrs == '' ? '' : nameStrs + ',')+ node.name
+            for (let item of node.children) {
+              innerFunc(item, nameStrs)
+            }
+          }
+        }
+
+        for (let node of this.list) {
+          innerFunc(node, "")
+        }
+        // console.log(result)
+        // console.log([...new Set(result)].join(','), '结果是什么什么什么')
+        return [...new Set(result)].join(',')
+      },
+      sendData() {
+        console.log('here')
+        // this.currentValue = this.temp
+        this.$emit('input', this.currentValue) //key code
+        // this.$emit('update:visible', false)
+        this.hideModal()
+        // console.log(this.currentValue, 'abcdef')
+        // this.value = this.currentValue
+      },
+      hideModal() {
+        this.$emit('update:visible', false)
+      },
+      clickShadow(event) {
+        let target = event.target || event.srcElement
+        let id = target.getAttribute('id')
+        if (id == 'SelectModal') {
+          // this.$emit('update:visible', false)
+          this.hideModal()
+        }
+      }
+    },
+    template: `
+    <div id="SelectModal"  @click="clickShadow($event)" :class="['select-domain-shade', visible?' ':'select-domain-shade__zero']">
+      <div  :class="['select-domain__modal', visible? ' ':'display-domain__modal__zero' ]">
+        <input type="text"  v-model="sk" >
+        <d-option v-for="item in list" :data="item" :sk="sk" :selected="currentValue"></d-option>
+        <div class="button-group">
+          <button @click="hideModal"> 取消 </button>
+          <button @click="sendData"> 确定 </button>
+        </div>
+      </div>
+    </div>
+    `,
+    created() {
+      console.log(this.display, 'displ?')
+      console.log(this.visible, 'visible?')
+      this.$root.eventHub.$on('SET_SELECTED', (name)=>{
+        this.currentValue = name
+        // this.temp = name
+      })
+    },
+    mounted() {
+      this.$nextTick(()=>{
+        // document.getElementById('SelectModal').addEventListener('click', (event) =>{
+        //   console.log(event.target)
+        //   event.stopPropagation();
+        //   event.preventDefault();
+        //   console.log('abcdefg---->>>>>>>')
+        //   // this.$emit('update:visible', false)
+        // }, true)
+      })
+    }
+  })
+</script>
+
+
+<!--主入口-->
+<script type="text/javascript">
+  new Vue({
+    el: '#app',
+    data : {
+      displayModal: false, 
+      eventHub: new Vue(),
+      // searchKey:'bravo', // 这个关键字传递下去
+      // sk: '',
+      // selected: '',
+      // name: '-',
+      domain: '',
+      list: [
+        {
+          name: '福建省',
+          level: 0,
+          children: [
+            {
+              name: '厦门市',
+              level: 1,
+              children: [
+                {
+                  name: 'bravo111',
+                  level: 2
+                },
+                {
+                  name: 'bravo2222',
+                  level: 2
+
+                }
+              ]
+            }
+          ]
+        },
+        {
+          name: '重庆市',
+          level: 0,
+          children: [
+            {
+              name: '渝中区',
+              level: 1,
+              children: [{
+                name: 'bravo',
+                level: 2
+              }]
+            },
+            {
+              name: '江北区',
+              level: 1,
+              children: [
+                {
+                  name: 'kevin',
+                  level: 2,
+                },
+                {
+                  name: 'katy',
+                  level: 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    // provide: function(){
+    //   return {
+    //     getDisplayNodes: ()=>this.getParentsNode()
+    //   }
+    // },
+    // watch: {
+    //   sk(val, oldVal) {
+    //     let cur = val.trim()
+    //     let old = oldVal.trim()
+    //     console.log(cur=='', old != '', 'abcdefggg------>>>>>>>')
+    //     if (cur == '' && oldVal != '') {
+    //       return
+    //     }
+    //     this.searchEvent()
+    //   }
+    // },
+    methods: {
+      displaySelectModal() {
+        this.displayModal = true
+        console.log('1111')
+      },
+      // searchEvent(){
+      //   //1, 找到所有要展开的节点
+
+      //   this.getParentsNode()
+
+      //   //2, 和子组件全部共享，如果是这个节点，那么调整collapse的值
+      // },
+      // getParentsNode() {
+      //   let keyWord = this.sk;
+      //   if (keyWord.trim() == '') 
+      //     return []
+      //   let result = []
+
+
+      //   let innerFunc = (node, nameStrs) => {
+      //     if (node.name.includes(keyWord)) {
+      //       result.push(nameStrs)
+      //     }
+      //     if (node.children) {
+      //       nameStrs = (nameStrs == '' ? '' : nameStrs + ',')+ node.name
+      //       for (let item of node.children) {
+      //         innerFunc(item, nameStrs)
+      //       }
+      //     }
+      //   }
+
+      //   for (let node of this.list) {
+      //     innerFunc(node, "")
+      //   }
+      //   // console.log(result)
+      //   return [...new Set(result)].join(',')
+      // }
+    },
+    mounted() {
+      // this.eventHub.$on('SET_SELECTED', (name)=>{
+      //   this.selected = name
+      // })
+      // this.selected = '福建省'
+      this.domain = '厦门市'
+    },
+    watch: {
+      domain(val, oldVal){
+        if (oldVal =='') {
+          console.log(this.domain, '设置默认值为厦门市');
+        } else {
+          console.log(val, '点击确认按钮之后的区域')
+        }
+
+      }
+    }
+    
+  })
+
+</script>
+</html>
