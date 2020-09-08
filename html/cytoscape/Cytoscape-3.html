@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>cytoscape-2</title>
+  <style type="text/css">
+    html, body {
+      height: 100%;
+    }
+    #cy {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #aaa;
+    }
+    /* node {
+  width: 'label'
+} */
+  </style>
+</head>
+<body>
+  
+
+
+    <div id="cy">
+    </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.9/cytoscape.min.js" ></script>
+  <script src="./cytoscape-node-html-label.js" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.2/dagre.min.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.2.1/cytoscape-dagre.js" ></script>
+  <!-- <script src="./Cytoscape-data.js" ></script> -->
+  <script type="text/javascript">
+
+var dataNodes = [
+    // IT 服务平台
+    {
+      data: {
+        id: 'itServicePlatForm',
+        name: 'IT服务平台',
+        healthyStatus: 'error',
+        isPureTitle: true, // 没有图标，但是需要添加背景颜色   【参考设计图】
+      },
+    },
+    // IT服务平台 - 签名服务
+    {
+      data: { 
+        id: 'signService',
+        name: '签名服务',
+        // isTitle: true,
+        healthyStatus: 'error',   
+        isPureTitle: true, // 没有图标，但是需要添加背景颜色   【参考设计图】
+      }
+    },
+    // IT服务平台 - 签名服务 - 物理机/虚拟机
+    {
+       data: {
+        id: 'machineWrapper',
+        name: '虚拟机/物理机-wrapper',
+        healthyStatus: 'normal',
+        isWrapper: true,
+       }
+    },
+    // IT服务平台 - 签名服务 - 物理机/虚拟机 - 容器
+    {
+      data: {
+        id: 'machine',
+        name: '虚拟机/物理机',
+        isTitle: true,
+        parent: 'machineWrapper',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'itwoke-log-01',
+        name: 'itwoke-log-01',
+        parent: 'machineWrapper',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'itwoke-log-02',
+        name: 'itwoke-log-02',
+        parent: 'machineWrapper',
+        healthyStatus: 'normal',
+        
+      }
+    },
+    {
+      data: {
+        id: 'k8s-iuhjlk-01',
+        name: 'k8s-iuhjlk-01',
+        parent: 'machineWrapper',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'k8s-iuhjlk-02',
+        name: 'k8s-iuhjlk-02',
+        parent: 'machineWrapper',
+        healthyStatus: 'normal',
+      }
+    },
+    // IT服务平台 - 签名服务 - 物理机/虚拟机 - 容器 - IP
+    // {
+    //   data: {
+    //     id: 'IP: 192.168.1.5',
+    //     name: 'IP: 192.168.1.5',
+    //   }
+    //   // parent: 'machineWrapper'
+    // },
+    {
+      data: {
+        id: 'IP: 192.168.3.8',
+        name: '192.168.3.8',
+        healthyStatus: 'normal',
+      }
+      // parent: 'machineWrapper'
+    },
+    {
+      data: {
+        id: 'IP: 28.23.3.1',
+        name: '28.23.3.1',
+        healthyStatus: 'normal',
+      }
+      // parent: 'machineWrapper'
+    },
+
+
+
+    // IT服务平台 - 签名服务 - K8S集群
+    {
+      data: {
+        id: 'signK8SWrapper',
+        name: 'K8S集群-wrapper',
+        healthyStatus: 'error',
+        isWrapper: true,
+      }
+    },
+    {
+      data: {
+        id: 'signK8S',
+        name: 'K8S集群',
+        isTitle: true,
+        parent: 'signK8SWrapper',
+        healthyStatus: 'error',
+      }
+    },        
+    // IT服务平台 - 签名服务 - K8S集群  - 容器    
+    {
+      data: {
+        id: 'signk8s1',
+        name: 'TKE-DEV',
+        parent: 'signK8SWrapper',
+        healthyStatus: 'error',
+        
+      }
+    },
+    {
+      data: {
+        id: 'signk8s2',
+        name: 'TKE-TEST',
+        parent: 'signK8SWrapper',
+        healthyStatus: 'error',
+      }
+    },
+    {
+      data: {
+        id: 'signk8s3',
+        name: 'TKE-PROD',
+        parent: 'signK8SWrapper',
+        healthyStatus: 'error',
+      }
+    },
+    // IT服务平台 - 签名服务 - K8S集群 - 容器  - IP
+    {
+      data: {
+        id: 'signk8s1m',
+        name: 'dev',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'signk8s2m',
+        name: 'test',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'signk8s3m',
+        name: 'prod',
+        healthyStatus: 'normal',
+      }
+    },        
+
+    // IT服务平台 - 签名服务 - ElasticSearch
+    {
+      data: {
+        id: 'signESWrpper',
+        name: 'ElasticSearchWrapper',
+        healthyStatus: 'healthy',
+        isWrapper: true,
+      }
+    },
+    {
+      data: {
+        id: 'signES',
+        name: 'ElasticSearch',
+        isTitle: true,
+        parent: 'signESWrpper',
+        healthyStatus: 'healthy',
+      }
+    },
+    {
+      data: {
+        id: 'signESpod1',
+        name: '集群一',
+        parent: 'signESWrpper',
+        healthyStatus: 'healthy',
+      }
+    },
+    {
+      data: {
+        id: 'signESpod2',
+        name: '集群二',
+        parent: 'signESWrpper',
+        healthyStatus: 'healthy',
+      }
+    },
+
+    // IT服务平台 - 签名服务 - MYSQL
+    {
+      data: {
+        id: 'signMYSQLWrpper',
+        name: 'MYSQLWrapper',
+        healthyStatus: 'normal',
+        isWrapper: true,
+      }
+    },
+    {
+      data: {
+        id: 'signMYSQL',
+        name: 'MYSQL',
+        isTitle: true,
+        parent: 'signMYSQLWrpper',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'signMYSQLpod1',
+        name: 'cluster-1',
+        parent: 'signMYSQLWrpper',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'signMYSQLpod2',
+        name: 'cluster-2',
+        parent: 'signMYSQLWrpper',
+        healthyStatus: 'normal',
+      }
+    },
+
+    
+    // IT服务平台 - 短信服务
+    {
+      data: {
+        id: 'signSMSService',
+        name: '短信服务',
+        // isTitle: true,
+        healthyStatus: 'warn',
+        isPureTitle: true, // 没有图标，但是需要添加背景颜色   【参考设计图】
+        
+      }
+    },
+    // IT服务平台 - 短信服务 - ElasticSearch
+    {
+      data: {
+        id: 'signSMSESWrpper',
+        name: 'SMSElasticSearchWrapper',
+        healthyStatus: 'warn',
+        isWrapper: true,      
+      }
+    },
+    {
+      data: {
+        id: 'signSMSES',
+        name: 'ElasticSearch',
+        isTitle: true,
+        parent: 'signSMSESWrpper',
+        healthyStatus: 'warn',
+      }
+    },
+    {
+      data: {
+        id: 'signSMSESpod1',
+        name: '集群一',
+        parent: 'signSMSESWrpper',
+        healthyStatus: 'warn',
+      }
+    },
+    {
+      data: {
+        id: 'signSMSESpod2',
+        name: '集群二',
+        parent: 'signSMSESWrpper',
+        healthyStatus: 'warn',
+      }
+    },
+
+    // IT服务平台 - 短信服务 - MYSQL
+    {
+      data: {
+        id: 'signSMSMYSQLWrpper',
+        name: 'MYSQLWrapper',
+        healthyStatus: 'normal',
+        isWrapper: true,
+      }
+    },
+    {
+      data: {
+        id: 'signSMSMYSQL',
+        name: 'MYSQL',
+        isTitle: true,
+        parent: 'signSMSMYSQLWrpper',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'signSMSMYSQLpod1',
+        name: 'cluster-1',
+        parent: 'signSMSMYSQLWrpper',
+        healthyStatus: 'normal',
+      }
+    },
+    {
+      data: {
+        id: 'signSMSMYSQLpod2',
+        name: 'cluster-2',
+        parent: 'signSMSMYSQLWrpper',
+        healthyStatus: 'normal',
+      }
+    },        
+
+    // IT服务平台 - 网关服务
+    {
+      data: {
+        id: 'signNetworkService',
+        name: '网关服务',
+        // isTitle: true,
+        healthyStatus: 'healthy',
+        isPureTitle: true, // 没有图标，但是需要添加背景颜色   【参考设计图】
+      }
+    },
+
+    // IT服务平台 - 网关服务 - K8S集群
+    {
+      data: {
+        id: 'signNETK8SWrapper',
+        name: 'signNETK8SWrapper',
+        healthyStatus: 'healthy',
+        isWrapper: true,
+      }
+    },
+    {
+      data: {
+        id: 'signNETK8S',
+        name: 'k8s集群',
+        isTitle: true,
+        parent: 'signNETK8SWrapper',
+        healthyStatus: 'healthy',
+      }
+    },    
+    {
+      data: {
+        id: 'signNETk8sPod1',
+        name: 'TKE-DEV',
+        parent: 'signNETK8SWrapper',
+        healthyStatus: 'healthy',
+      }
+    },
+    {
+      data: {
+        id: 'signNETk8sPod2',
+        name: 'TKE-TEST',
+        parent: 'signNETK8SWrapper',
+        healthyStatus: 'healthy',
+      }
+    },
+    {
+      data: {
+        id: 'signNETk8sPod3',
+        name: 'TKE-PROD',
+        parent: 'signNETK8SWrapper',
+        healthyStatus: 'healthy',
+      }
+    },                   
+
+    // IT服务平台 - 网关服务 - ElasticSearch
+    {
+      data: {
+        id: 'signNETESWrpper',
+        name: 'NETElasticSearchWrapper',
+        healthyStatus: 'healthy',
+        isWrapper: true,
+      }
+    },
+    {
+      data: {
+        id: 'signNETES',
+        name: 'ElasticSearch',
+        isTitle: true,
+        parent: 'signNETESWrpper',
+        healthyStatus: 'healthy',
+      }
+    },
+    {
+      data: {
+        id: 'signNETESpod1',
+        name: '集群一',
+        parent: 'signNETESWrpper',
+        healthyStatus: 'healthy',
+      }
+    },
+    {
+      data: {
+        id: 'signNETESpod2',
+        name: '集群二',
+        parent: 'signNETESWrpper',
+        healthyStatus: 'healthy',
+      }
+    },
+
+    // IT服务平台 - 网关服务 - MYSQL
+    {
+      data: {
+        id: 'signNETMYSQLWrpper',
+        name: 'MYSQLWrapper',
+        healthyStatus: 'healthy',
+        isWrapper: true,
+      }
+    },
+    {
+      data: {
+        id: 'signNETMYSQL',
+        name: 'MYSQL',
+        isTitle: true,
+        parent: 'signNETMYSQLWrpper',
+        healthyStatus: 'healthy',
+      }
+    },
+    {
+      data: {
+        id: 'signNETMYSQLpod1',
+        name: 'cluster-1',
+        parent: 'signNETMYSQLWrpper',
+        healthyStatus: 'healthy',
+      }
+    },
+    {
+      data: {
+        id: 'signNETMYSQLpod2',
+        name: 'cluster-2',
+        parent: 'signNETMYSQLWrpper',
+        healthyStatus: 'healthy',
+      }
+    },  
+    
+ ]
+
+
+ var dataEdges = 
+ [
+    {
+      data: {
+        source: 'itServicePlatForm',
+        target: 'signService',
+        healthyStatus: 'error'
+      }
+    },
+    // 签名服务-物理机/虚拟机
+    {
+      data: {
+        source: 'signService',
+        target: 'itwoke-log-01',
+        healthyStatus: 'normal'
+      }
+    },
+    {
+      data: {
+        source: 'signService',
+        target: 'itwoke-log-02',
+        healthyStatus: 'normal'
+      }
+    },
+    {
+      data: {
+        source: 'signService',
+        target: 'k8s-iuhjlk-01',
+        healthyStatus: 'normal'
+      }
+    },
+    {
+      data: {
+        source: 'signService',
+        target: 'k8s-iuhjlk-02',
+        healthyStatus: 'normal'
+      }
+    },
+    // // 签名服务-物理机/虚拟机 - IP
+    {
+      data: {
+        source: 'itwoke-log-02',
+        target: 'IP: 192.168.3.8',
+        healthyStatus: 'normal'
+      }
+    },  
+    {
+      data: {
+        source: 'k8s-iuhjlk-01',
+        target: 'IP: 28.23.3.1',
+        healthyStatus: 'normal'
+      }
+    },
+    {
+      data: {
+        source: 'k8s-iuhjlk-02',
+        target: 'IP: 28.23.3.1',
+        healthyStatus: 'normal'
+      }
+    },
+
+    // 签名服务 - k8s集群
+    
+    {
+      data: {
+        source: 'signService',
+        target: 'signk8s1',
+        healthyStatus: 'error'
+      }
+    },
+    {
+      data: {
+        source: 'signService',
+        target: 'signk8s2',
+        healthyStatus: 'error'
+      }
+    },
+    {
+      data: {
+        source: 'signService',
+        target: 'signk8s3',
+        healthyStatus: 'error'
+      }
+    },
+
+    // 签名服务 - k8s集群 - pod
+    {
+      data: {
+        source: 'signk8s1',
+        target: 'signk8s1m',
+        healthyStatus: 'error'
+      }
+    },
+    {
+      data: {
+        source: 'signk8s2',
+        target: 'signk8s2m',
+        healthyStatus: 'error'
+      }
+    },
+    {
+      data: {
+        source: 'signk8s3',
+        target: 'signk8s3m',
+        healthyStatus: 'error'
+      }
+    },
+
+
+    // 签名服务 - ElasticSearch
+    {
+      data: {
+        source: 'signService',
+        target: 'signESpod1',
+        healthyStatus: 'healthy'
+      }
+    },
+    {
+      data: {
+        source: 'signService',
+        target: 'signESpod2',
+        healthyStatus: 'healthy'
+      }
+    },  
+    
+    
+    // 签名服务 -  mysql
+    {
+      data: {
+        source: 'signService',
+        target: 'signMYSQLpod1',
+        healthyStatus: 'normal'
+      }
+    },
+    {
+      data: {
+        source: 'signService',
+        target: 'signMYSQLpod2',
+        healthyStatus: 'normal'
+      }
+    },
+
+
+
+    // 短信服务
+    {
+      data: {
+        source: 'itServicePlatForm',
+        target: 'signSMSService',
+        healthyStatus: 'warn'
+      }
+    },
+    // 短信服务 - Elastic Search
+    {
+      data: {
+        source: 'signSMSService',
+        target: 'signSMSESpod1',
+        healthyStatus: 'warn'
+      }
+    },
+    {
+      data: {
+        source: 'signSMSService',
+        target: 'signSMSESpod2',
+        healthyStatus: 'warn'
+      }
+    },     
+    // 短信服务 - MYSQL
+    {
+      data: {
+        source: 'signSMSService',
+        target: 'signSMSMYSQLpod1',
+        // healthyStatus: 'warn'
+        healthyStatus: 'normal'
+      }
+    },
+    {
+      data: {
+        source: 'signSMSService',
+        target: 'signSMSMYSQLpod2',
+        // healthyStatus: 'warn'
+        healthyStatus: 'normal'
+      }
+    },
+    
+    
+    // 网关服务
+    {
+      data: {
+        source: 'itServicePlatForm',
+        target: 'signNetworkService',
+        healthyStatus: 'healthy'
+      }
+    },
+
+    // 网关服务 - k8s集群 
+    {
+      data: {
+        source: 'signNetworkService',
+        target: 'signNETk8sPod1',
+        healthyStatus: 'healthy'
+      }
+    }, 
+    {
+      data: {
+        source: 'signNetworkService',
+        target: 'signNETk8sPod2',
+        healthyStatus: 'healthy'
+      }
+    }, 
+    {
+      data: {
+        source: 'signNetworkService',
+        target: 'signNETk8sPod3',
+        healthyStatus: 'healthy'
+      }
+    },
+    
+    // 网关服务 - ElasticSearch
+    {
+      data: {
+        source: 'signNetworkService',
+        target: 'signNETESpod1',
+        healthyStatus: 'healthy'
+      }
+    },
+    {
+      data: {
+        source: 'signNetworkService',
+        target: 'signNETESpod2',
+        healthyStatus: 'healthy'
+      }
+    },        
+    // 网关服务 - MYSQL
+    {
+      data: {
+        source: 'signNetworkService',
+        target: 'signNETMYSQLpod1',
+        healthyStatus: 'healthy'
+      }
+    },
+    {
+      data: {
+        source: 'signNetworkService',
+        target: 'signNETMYSQLpod2',
+        healthyStatus: 'healthy'
+      }
+    },  
+ ]
+
+    const colorMap = {
+      'error': '#FF5757',
+      'warn': '#FF8D29',
+      'normal': '#5B8FF9',
+      'healthy': '#06C290'
+    };
+
+    window.onload = function() {
+      var cy = window.cy = cytoscape({
+        container: document.getElementById('cy'),
+        boxSelectionEnabled: false,
+        autounselectify: true,
+        layout: {
+          name: 'dagre',
+          rankDir: 'LR',
+          minLen: 5,
+        },
+        style: [
+          // 非标题节点
+          {
+            selector: 'node[!isTitle]',
+            css: {
+              'content': 'data(name)',  // 因为node-html指定了返回的节点
+              'text-valign': 'center',
+              'text-halign': 'center',
+              'shape': 'rectangle',
+              // 'text-margin-x': 20, // 偏移量
+              'border-width': 1,
+              // 'border-color': 'red',
+              'padding-left': '5px',
+              'padding-right': '5px',
+
+              'padding-top': '3px',
+              'padding-bottom': '3px',
+              'border-color': ele => {
+                let color = colorMap[ele.data('healthyStatus')]
+                if (color) {
+                  return color;
+                } else {
+                  return 'transparent'
+                }
+              },
+              'border-style': 'solid',
+              // 'color': '#333333',
+              'color': ele => {
+                if (ele.data('isPureTitle')) {
+                  return 'white'
+                } else {
+                  return '#333333'
+                }
+              },
+              'width': '100%',
+              'background-color': ele => {
+                if (ele.data('isWrapper')) {
+                  return 'white';
+                } else if(ele.data('isPureTitle')) {
+                  return colorMap[ele.data('healthyStatus')]
+                }
+                return 'white'
+              } ,
+            }
+          },
+          // 标题节点, isTitle为true的节点
+          {
+            selector: 'node[?isTitle]',
+            css: {
+              // 'background-color': 'white',
+              // 'background-color': '#eeeeee',
+              'padding-left': '5px',
+              'padding-right': '5px',
+              'padding-top': '3px',
+              'padding-bottom': '3px',              
+              'background-color': ele => {
+                let color = colorMap[ele.data('healthyStatus')]
+                if (color) {
+                  return color;
+                } else {
+                  return 'transparent'
+                }
+              },              
+              'width': '150',
+              'shape': 'rectangle',  
+            }
+          },
+          // 父节点
+          {
+            selector: '$node > node',
+            css: {
+              'padding-top': '20px',
+              'padding-left': '10px',
+              'padding-bottom': '20px',
+              'padding-right': '10px',
+              'text-valign': 'top',
+              'text-halign': 'center',
+              /* 'background-color': 'skyblue', */
+              'border-width': 1,
+              'border-style': 'dashed',
+              // 'border-color': 'skyblue',
+              'border-color': ele => colorMap[ele.data('healthyStatus')],
+              'label': '', //  去掉parent在border外面的文本
+              // 'width': '100%',
+              'min-width': '100%',
+
+            }
+          }, 
+          {
+            selector: 'edge',
+            css: {
+               'target-arrow-shape': 'triangle',
+                'width': 1.5,
+                'line-color': ele => colorMap[ele.data('healthyStatus')],
+                'target-arrow-color': ele => colorMap[ele.data('healthyStatus')],
+                'target-arrow-shape': 'triangle',
+                'curve-style': 'bezier', 
+                
+              /* 			
+                  'curve-style': 'bezier',
+                  'control-point-step-size': 100,
+                  'target-arrow-shape': 'triangle',
+                  'arrow-scale': 1.2,
+                  'opacity': 0.666,
+                  'text-wrap': 'wrap',
+                  'text-rotation': 'autorotate', 
+              */
+              
+                
+                // curve
+                // 'width': 1,
+                // 'line-color': ele => colorMap[ele.data('healthyStatus')],
+                // 'target-arrow-color': ele => colorMap[ele.data('healthyStatus')],                
+                // 'target-arrow-shape': 'triangle',
+                // "curve-style": "unbundled-bezier",
+                // "control-point-distances": [5, -7],
+                // "control-point-weights": [0.350, 0.80]
+            }
+          },
+          {
+            selector: ':selected',
+            css: {
+              'background-color': 'black',
+              'line-color': 'black',
+              'target-arrow-color': 'black',
+              'source-arrow-color': 'black'
+            }
+          }
+        ],
+        elements: {
+          nodes: dataNodes,
+          edges: dataEdges,
+          // nodes: oldNodes,
+          // edges: oldEdges,
+        }/* ,
+        ready: function() {
+          //.
+          //
+          cy = this;
+          // sort child nodes with grid layout using 1 column
+          var parentNodes = cy.nodes(':parent');
+              parentNodes.descendants().layout({
+                name: 'grid',
+                cols: 1
+              }).run();
+          //
+          //
+        } */
+      });
+
+      // // node 节点 赋值HTML元素, 只是赋值父亲元素，query为node[isTitle]
+      // 如果其他节点也这样赋值，那么 'width:' label 将不会生效
+      cy.nodeHtmlLabel([
+        {
+          query: 'node[isTitle]', // cytoscape query selector
+          halign: 'center', // title vertical position. Can be 'left',''center, 'right'
+          valign: 'center', // title vertical position. Can be 'top',''center, 'bottom'
+          halignBox: 'center', // title vertical position. Can be 'left',''center, 'right'
+          valignBox: 'center', // title relative box vertical position. Can be 'top',''center, 'bottom'
+          cssClass: '', // any classes will be as attribute of <div> container for every title
+          tpl(data) {
+            console.log(data, 'data------->>>>.')
+            if (data.isTitle) {
+              return `<img width="20" src="./icon.png" /> <span style="color: white">${data.name}</span>`; // your html template here
+            } else {
+              // return `<span>${data.id}</span>`
+              return ''
+            }
+          }
+        }, 
+        // 父亲节点
+        {
+          query: '$node > node',
+          tpl(data) {
+            return ''
+          }
+        }
+      ]);
+
+      // cy.unbind('click')
+      // cy.bind('click', 'node', function(evt) {
+      //   console.log(evt.target, 'target------>>>>>>>>>');
+      //   var coll = cy.$(evt.target).successors();
+      //   console.log(coll, 'coll------------>>>>>>>>>>');
+      //   console.log(cy.$('#signSMSMYSQLWrpper'), 'kevinkang------------>>>>>>>>>>>>');
+      //   coll.add(cy.$('#signSMSMYSQLWrpper'))
+      //   cy.remove(coll);
+      // });
+
+
+      setTimeout(()=>{
+        cy.animate({
+          zoom: {
+            level: 0.8,
+            position: { x: 800, y: 0 }
+          }
+        })
+      }, 500)
+      
+    }
+
+  </script>
+</body>
+</html>

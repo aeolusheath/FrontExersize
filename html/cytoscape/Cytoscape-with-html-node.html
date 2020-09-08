@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Cytoscape Demo</title>
+  <style type="text/css">
+    #cy {
+      width: 100%;
+      height: 900px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+
+
+    <div id ="cy" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.15.2/cytoscape.min.js" integrity="sha512-PqivlaNWoXvHYlvku80fbWO/yBiRmGhISj5uVdAodyqsGprDcVZy6aecJDVNE0fIIE/YeiOzp5yJTR5ZjFlR4Q==" crossorigin="anonymous"></script>
+    <script src="./cytoscape-node-html-label.js" ></script>
+    <script type="text/javascript">
+
+
+    // 默认的排放顺序是按照nodes数组来排列
+    const nodes = [
+        {
+          data: { id: 'a', name: 'aaa' },
+        },  
+        {
+          data: { id: 'f' , name: 'ok'}
+        },
+        {
+          data: { id: 'o', name: 'ooo', parent: 'f' },
+        },
+        {
+          data: { id: 'b', name: 'bbb', parent: 'f' }
+        },          
+        {
+          data: { id: 'd', name: 'ddd', parent: 'f' }
+        },
+        {
+          data: { id: 'c', name: 'ccc' }
+        },
+ 
+      ]
+
+    const edges = [
+      // { data: { id: 'ab', source: 'a', target: 'b' } },
+      // { data: { id: 'ad', source: 'a', target: 'd' } },
+      // { data: { id: 'af', source: 'a', target: 'f' } },
+      { data: { id: 'ac', source: 'a', target: 'c' } },
+      { data: { id: 'ca', source: 'c', target: 'a' } },
+      { data: { id: 'ab', source: 'a', target: 'b' } },
+      { data: { id: 'ad', source: 'a', target: 'd' } },
+    ]
+
+    // 例子一
+
+
+    var cy = cytoscape({
+
+    container: document.getElementById('cy'), // container to render in
+
+    // elements: [ // list of graph elements to start with
+    //   { // node a
+    //     data: { id: 'a' }
+    //   },
+    //   { // node b
+    //     data: { id: 'b' }
+    //   },
+    //   { // edge ab
+    //     data: { id: 'ab', source: 'a', target: 'b' }
+    //   }
+    // ],
+    elements: {
+      nodes,
+      edges
+    },
+
+    style: [ // the stylesheet for the graph
+      {
+        selector: 'node',
+        style: {
+          'background-color': 'white',
+          // 'border': '1px solid skyblue',
+          'border-width': ele => ele.data('id') === 'a' ? 0 : 1,
+          'border-style': 'solid',
+          'border-color': 'skyblue',
+          color: 'black',
+          // 'content': 'data(name)',
+          // 'text-wrap': 'wrap',
+          shape: 'rectangle',
+          // 'text-valign': 'bottom',
+          // 下面这两个属性，让label 放在node的形状中间
+          // 'label': 'data(id)', // label 和 content 不一样
+          'label': '', // label 用了 node-html插件
+          'text-valign': 'center',
+          'text-halign': 'center',
+          'font-size': 12,
+          'background-color': ele => ele.data('id') === 'a' ? '#FF5757': '#FAFDFF'
+          // 'text-margin-y': -10,     // 通过这个来调整在node中的位置？？？
+        }
+      },
+      // 父亲节点
+      {
+        selector: '$node > node',
+        style: {
+          'border-style': 'solid',
+          'border-color': 'red',
+          'border-width': 1,
+          // 'padding-top': 50,
+          // 'label': 'data(id)', // label 和 content 不一样
+          // 'text-valign': 'center',
+          // 'text-halign': 'bottom',
+          // 'label': 'data(id)', // label 和 content 不一样
+          'label': '',
+          'color': 'skyblue'
+        }
+      },
+      // {
+      //   selector: ':parent',
+      //   style: {
+      //     // 'shape': 'round-rectangle'
+      //   }
+      // },
+      // 子节点
+      {
+        selector: 'node > node',
+        style: {
+          'margin-top': 10,
+          // 'background-color': 'black',
+          // 'background-image': ele=>'./icon.png',
+          'background-fit': 'contain'
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          'width': 1,
+          'line-color': 'lightgreen',
+          'target-arrow-color': 'lightgreen',
+          'target-arrow-shape': 'triangle',
+          'curve-style': 'bezier',
+          // 'curve-style': 'haystack'
+        }
+      },
+      {
+        selector: ':parent',
+        style: {
+        'text-valign': 'top',
+        'text-halign': 'center',
+        }
+      }
+    ],
+
+    layout: {
+      name: 'grid',
+      // rows: 1
+      // name: 'random',
+      // name: 'preset',
+
+      // name: 'circle',
+      // fit: true,
+    }
+
+    });
+
+
+
+    // // node 节点 赋值HTML元素
+    cy.nodeHtmlLabel([
+      {
+        query: 'node', // cytoscape query selector
+        halign: 'center', // title vertical position. Can be 'left',''center, 'right'
+        valign: 'center', // title vertical position. Can be 'top',''center, 'bottom'
+        halignBox: 'center', // title vertical position. Can be 'left',''center, 'right'
+        valignBox: 'center', // title relative box vertical position. Can be 'top',''center, 'bottom'
+        cssClass: '', // any classes will be as attribute of <div> container for every title
+        tpl(data) {
+          console.log(data, 'data------->>>>.')
+          return `<img width="20" src="./icon.png" /><span>${data.id}</span>`; // your html template here
+        }
+      }, 
+      // 父亲节点
+      {
+        query: '$node > node',
+        tpl(data) {
+          return ''
+        }
+      }
+    ]);
+
+    // 例子 二
+
+
+//     cytoscape({
+
+// container: document.getElementById('cy'),
+
+// elements: [ // flat array of nodes and edges
+//   { // node n1
+//     group: 'nodes', // 'nodes' for a node, 'edges' for an edge
+//     // NB the group field can be automatically inferred for you but specifying it
+//     // gives you nice debug messages if you mis-init elements
+
+
+//     data: { // element data (put json serialisable dev data here)
+//       id: 'n1', // mandatory (string) id for each element, assigned automatically on undefined
+//       parent: 'nparent', // indicates the compound node parent id; not defined => no parent
+//       // (`parent` can be effectively changed by `eles.move()`)
+//     },
+
+//     // scratchpad data (usually temp or nonserialisable data)
+//     scratch: {
+//       _foo: 'bar' // app fields prefixed by underscore; extension fields unprefixed
+//     },
+
+//     position: { // the model position of the node (optional on init, mandatory after)
+//       x: 100,
+//       y: 100
+//     },
+
+//     selected: false, // whether the element is selected (default false)
+
+//     selectable: true, // whether the selection state is mutable (default true)
+
+//     locked: false, // when locked a node's position is immutable (default false)
+
+//     grabbable: true, // whether the node can be grabbed and moved by the user
+
+//     pannable: false, // whether dragging the node causes panning instead of grabbing
+
+//     classes: ['foo', 'bar'] // an array (or a space separated string) of class names that the element has
+//   },
+
+//   { // node n2
+//     data: { id: 'n2' },
+//     renderedPosition: { x: 200, y: 200 } // can alternatively specify position in rendered on-screen pixels
+//   },
+
+//   { // node n3
+//     data: { id: 'n3', parent: 'nparent' },
+//     position: { x: 123, y: 234 }
+//   },
+
+//   { // node nparent
+//     data: { id: 'nparent' }
+//   },
+
+//   { // edge e1
+//     data: {
+//       id: 'e1',
+//       // inferred as an edge because `source` and `target` are specified:
+//       source: 'n1', // the source node id (edge comes from this node)
+//       target: 'n2'  // the target node id (edge goes to this node)
+//       // (`source` and `target` can be effectively changed by `eles.move()`)
+//     },
+
+//     pannable: true // whether dragging on the edge causes panning
+//   }
+// ],
+
+// layout: {
+//   name: 'preset'
+// },
+
+// // so we can see the ids
+// style: [
+//   {
+//     selector: 'node',
+//     style: {
+//       'label': 'data(id)'
+//     }
+//   }
+// ]
+
+// });
+
+
+
+
+    </script>
+</body>
+</html>
