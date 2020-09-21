@@ -1,1 +1,1 @@
-#### just practice demo repository
+#### just practice demo and some notes repository
