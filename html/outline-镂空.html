@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>outline 实现裁剪图片</title>
+  <style type="text/css">
+  .crop-box,
+  .preview-box {
+      display: inline-block;
+      vertical-align: top;
+  }
+  .crop,
+  .preview {
+      position: relative;
+      overflow: hidden;
+  }
+  .crop-area,
+  .preview {
+      width: 80px; height: 80px;
+  }
+  .crop-area {
+      position: absolute;
+      left: 88px; top: 56px;
+      outline: 256px solid #000;
+      outline: 256px solid rgba(0,0,0,.5);
+      background: url(about:blank);
+      background: linear-gradient(to top, transparent, transparent);
+      filter: alpha(opacity=50);
+      cursor: move;
+  }
+  :root .crop-area {
+      filter: none;
+  }
+  .crop img,
+  .preview img {
+      display: block;
+      width: 256px; height: 192px;
+  }
+  .preview img {
+      position: absolute;
+      left: -88px; top: -56px;
+  }
+
+  </style>
+
+</head>
+<body>
+   <div>
+     source:  <a href="https://demo.cssworld.cn/11/1-1.php" target="_blank"> source </a>
+   </div>
+
+    <div class="crop-box">
+        <h4>剪裁（仅演示移动）</h4>
+        <div class="crop">
+            <div id="cropArea" class="crop-area"></div>
+            <!-- <img src="1.jpg"> -->
+            <img src="background.jpg">
+
+        </div>
+    </div>
+    <div class="preview-box">
+        <h4>预览</h4>
+        <div class="preview">
+            <!-- <img id="previewImg" src="1.jpg"> -->
+            <img  id="previewImg"  src="background.jpg">
+
+        </div>
+    </div>
+
+
+    <script src="../css/littleDemo/jquery.js"> </script>
+    <script type="text/javascript">
+    var elCropArea = $('#cropArea');
+    // var elPreviewImg = $('#previewImg');
+    var elPreviewImg = $('#previewImg');
+
+
+    var data = {};
+
+    elCropArea.on('mousedown', function (event) {
+        data = {
+            moving: true,
+            left: elCropArea.position().left,
+            top: elCropArea.position().top,
+            x: event.pageX, // 最初鼠标的X坐标，离浏览器左上角（0，0）的X轴距离
+            y: event.pageY  // 最初鼠标的Y坐标，离浏览器左上角（0，0）的Y轴距离
+        };
+        console.log('moveDown', data.left, data.top, data.x, data.y)
+    });
+    $(document).on({
+        mousemove: function (event) {
+            if (data.moving) {
+                event.preventDefault();
+                // 移动距离
+                var moveX = event.pageX - data.x; // X轴移动的距离，距离最初的鼠标按下的X坐标
+                var moveY = event.pageY - data.y; // Y轴移动的距离，距离最初的鼠标按下的Y坐标
+
+                // 目标坐标
+                var left = data.left + moveX; // 最初的X坐标 + 移动的距离   ---->不能让裁剪框移动到外面去，所以有边界
+                var top = data.top + moveY;   // 最初的Y坐标 + 移动的距离   ---->不能让裁剪框移动到外面去，所以有边界
+
+                // 边界判断
+                if (left < 0) {
+                    left = 0;
+                } else if (left + 80 > 256) { // 裁剪框宽度 80 
+                    left = 176;
+                }
+                if (top < 0) {
+                    top = 0;
+                } else if (top + 80 > 192) { // 裁剪框宽度 80
+                    top = 112;
+                }
+
+                // 重定位
+                elCropArea.css({
+                    left: left,
+                    top: top
+                });
+                elPreviewImg.css({
+                    left: -1 * left,
+                    top: -1 * top
+                });
+            }
+        },
+        mouseup: function () {
+            data.moving = false;
+        }
+    });
+
+    </script>
+</body>
+</html>
