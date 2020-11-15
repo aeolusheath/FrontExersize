@@ -2,6 +2,10 @@
  * 现在的需求是 已知所有的路径，求这棵树
  */
 
+ // 需求： 根据给定的的路径还原一棵树
+ // getTreeByPaths
+ // getForestByPaths
+
 
 function formatFunc2() {
   // 已知所有的路径求一颗完整的树
