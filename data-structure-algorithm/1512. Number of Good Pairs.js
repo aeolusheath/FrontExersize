@@ -53,6 +53,8 @@ var numIdenticalPairs = function(nums) {
 var numIdenticalPairs = function(nums) {
   if (!nums || nums.length === 0) return 0
   let total = 0
+  // arr[100] 
+  // arr的索引是从0开始的，那么100对应的长度为101
   let arr = new Array(101) // 因为值可能为100， 所以这个数组的长度必须为101，防止越界
   arr.fill(0)
   // 找到每个数字重复的次数

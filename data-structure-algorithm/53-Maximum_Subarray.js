@@ -23,14 +23,17 @@ var maxSubArray = function (nums) {
   var sum = 0
   var max = 0
   for (let i = 0; i < nums.length; i++) {
-    if (sum + nums[i] < nums[i]) {
-      sum = nums[i]
-    } else
-    {
-      sum = sum + nums[i]
-    }
+    // 可以用下面的替代
+    // if (sum + nums[i] < nums[i]) {
+    //   sum = nums[i]
+    // } else
+    // {
+    //   sum = sum + nums[i]
+    // }
+    sum = Math.max(sum + nums[i], nums[i])
     max = Math.max(max, sum)
   }
+  return max
 }
 
 // 动态规划
