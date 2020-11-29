@@ -26,14 +26,17 @@ var search = function(nums, target) {
   while (left <= right) {
     let mid = Math.trunc((left + right) / 2)
     let val = nums[mid]
-    if (target === val) { return mid }
     if (target < val) {
       right = mid - 1
-    }
-    if (target > val) {
+    } else if (target > val) {
       left = mid + 1
+    } else {
+      return mid
     }
   }
+  // 如果到这里，没有找到对应的idx，那么 target的值 为于 r 到 r+1之间
+  // r 可能为-1，那么这时候是小于最小值
+  // r 可能为nums.length - 1, 那么这时候是大于最大值
   return -1
 }
 

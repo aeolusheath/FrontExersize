@@ -11,7 +11,7 @@
 
     Example 1:
 
-    Input: words = ["cat","bt","hat","tree"], chars = "atach"
+    Input: words = ["cat","bt","hat","tree"], chars = "atach" a c t h
     Output: 6
     Explanation: 
     The strings that can be formed are "cat" and "hat" so the answer is 3 + 3 = 6.
@@ -21,6 +21,13 @@
     Output: 10
     Explanation: 
     The strings that can be formed are "hello" and "world" so the answer is 5 + 5 = 10.
+
+
+    Note:
+
+    1 <= words.length <= 1000
+    1 <= words[i].length, chars.length <= 100
+    All strings contain lowercase English letters only.
  * 
  * 
  */
@@ -58,3 +65,39 @@ var countCharacters = function(words, chars) {
     }
     return sum
 };
+
+
+// 2020-11-27
+var countCharacters = function(words, chars) {
+  let map = {}
+  for (let char of chars) {
+    map[char] = map[char] ? ++map[char] : 1
+  }
+  let ret = 0
+  for (let word of words) {
+    let innerMap = {...map} // bad，but have no other idea
+    let flag = true
+    for (let i = 0; i < word.length; i++) {
+      // 超过了次数
+      // if (innerMap[word[i]] === 0) {
+      //   console.log('112222', word[i], word)
+      //   flag = false
+      //   break
+      // }
+      // 存在chars里面没有的字符
+      if (innerMap[word[i]] === undefined || innerMap[word[i]] === 0) {
+        flag = false
+        break
+      } else {
+        innerMap[word[i]]--
+      }
+    }
+    if (flag) {
+      ret+= word.length
+    }
+  }
+  return ret
+}
+
+console.log(countCharacters(["hello","world","leetcode"], "welldonehoneyr"))
+console.log(countCharacters(["cat","bt","hat","tree"], "atach"))
