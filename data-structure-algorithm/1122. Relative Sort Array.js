@@ -3,7 +3,9 @@
  * 
   Given two arrays arr1 and arr2, the elements of arr2 are distinct, and all elements in arr2 are also in arr1.
 
-  Sort the elements of arr1 such that the relative ordering of items in arr1 are the same as in arr2.  Elements that don't appear in arr2 should be placed at the end of arr1 in ascending order.
+  Sort the elements of arr1 such that the relative ordering of items in arr1 are the same as in arr2.  
+  
+  Elements that don't appear in arr2 should be placed at the end of arr1 in ascending order.
 
   
 
@@ -97,6 +99,7 @@ var relativeSortArray = (arr1, arr2) => {
 // Using a hashmap, we can map the values of arr2 to their position in arr2.
 // After, we can use a custom sorting function.
 // 修改排序方法的逻辑，so cooool！
+// 自定义排序
 var relativeSortArray = (arr1, arr2) => {
   let map = {}
   // for (let num of arr2) {
