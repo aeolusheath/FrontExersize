@@ -1,4 +1,4 @@
-// 冒泡排序 属于交换排序中的一种
+// 快速排序 属于交换排序中的一种
 var sort = (arr, low, high) => {
   if (!arr || arr.length === 1) return arr
   if (low > high) return 

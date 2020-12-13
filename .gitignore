@@ -18,3 +18,4 @@ npm-debug.log
 *.zip
 /pure-js-demo/ES-6/work/*
 /python/
+*/.idea/

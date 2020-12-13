@@ -107,3 +107,19 @@ moveZeroes2([1,0,2])
 //             }
 //     }
 // }
+
+
+
+var moveZeroes = function(nums) {
+  let i = 0, j = 0;
+  while(i < nums.length) { 
+      if(nums[i]!= 0) {
+          nums[j++] = nums[i]
+      }
+      i++
+  }
+  while(j < nums.length) {
+      nums[j++] = 0
+  }
+  return nums
+};
