@@ -79,5 +79,5 @@ var canThreePartsEqualSum2 = function(A) {
       count++
     }
   }
-  return count === 3
+  return count === 3 || (s === 0 && count >= 3)
 }
