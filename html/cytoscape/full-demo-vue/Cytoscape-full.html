@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>cytoscape-2</title>
+  <style type="text/css">
+    html, body, #app{
+      height: 100%;
+    }
+    #cy {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #aaa;
+    }
+    /* node {
+  width: 'label'
+} */
+  </style>
+</head>
+<body>
+  
+  <div id="app">
+    <div id="cy">
+    </div>
+  </div>
+
+
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.9/cytoscape.min.js" ></script>
+  <script src="../cytoscape-node-html-label.js" ></script> <!-- LABEL可以使用HTML节点替代  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.2/dagre.min.js" ></script> <!-- 特定的布局darge布局，这个布局从cytoscape这里找到 -->
+  <script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.2.1/cytoscape-dagre.js" ></script> 
+  <!-- <script src="./Cytoscape-data.js" ></script> -->
+  <script type="text/javascript">
+
+
+
+
+let _globalCyInstance = null;
+
+// 所有的静态数据
+const rawDataNodes = [
+	// IT 服务平台
+	{
+		data: {
+			id: "itServicePlatForm",
+			name: "IT服务平台",
+			healthyStatus: "error",
+			isPureTitle: true, // 没有图标，但是需要添加背景颜色   【参考设计图】
+		},
+	},
+	// IT服务平台 - 签名服务
+	{
+		data: {
+			id: "signService",
+			name: "签名服务",
+			healthyStatus: "error",
+			isPureTitle: true, // 没有图标，但是需要添加背景颜色   【参考设计图】
+		},
+	},
+	// IT服务平台 - 签名服务 - 物理机/虚拟机
+	{
+		data: {
+			id: "machineWrapper",
+			name: "虚拟机/物理机-wrapper",
+			healthyStatus: "normal",
+			isWrapper: true,
+		},
+	},
+	// IT服务平台 - 签名服务 - 物理机/虚拟机 - 容器
+	{
+		data: {
+			id: "machine",
+			name: "虚拟机/物理机",
+			isTitle: true,
+			parent: "machineWrapper",// 指定父亲元素
+			healthyStatus: "normal",
+			type: "machine",
+		},
+	},
+	{
+		data: {
+			id: "itwoke-log-01",
+			name: "itwoke-log-01",
+			parent: "machineWrapper",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			id: "itwoke-log-02",
+			name: "itwoke-log-02",
+			parent: "machineWrapper",
+			healthyStatus: "normal",
+
+		},
+	},
+	{
+		data: {
+			id: "k8s-iuhjlk-01",
+			name: "k8s-iuhjlk-01",
+			parent: "machineWrapper",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			id: "k8s-iuhjlk-02",
+			name: "k8s-iuhjlk-02",
+			parent: "machineWrapper",
+			healthyStatus: "normal",
+		},
+	},
+	// IT服务平台 - 签名服务 - 物理机/虚拟机 - 容器 - IP
+	// {
+	//   data: {
+	//     id: 'IP: 192.168.1.5',
+	//     name: 'IP: 192.168.1.5',
+	//   }
+	//   // parent: 'machineWrapper'
+	// },
+	{
+		data: {
+			id: "IP: 192.168.3.8",
+			name: "192.168.3.8",
+			healthyStatus: "normal",
+		},
+		// parent: 'machineWrapper'
+	},
+	{
+		data: {
+			id: "IP: 28.23.3.1",
+			name: "28.23.3.1",
+			healthyStatus: "normal",
+		},
+		// parent: 'machineWrapper'
+	},
+
+	// IT服务平台 - 签名服务 - K8S集群
+	{
+		data: {
+			id: "signK8SWrapper",
+			name: "K8S集群-wrapper",
+			healthyStatus: "error",
+			isWrapper: true,
+		},
+	},
+	{
+		data: {
+			id: "signK8S",
+			name: "K8S集群",
+			isTitle: true,
+			parent: "signK8SWrapper",
+			healthyStatus: "error",
+			type: "k8s",
+		},
+	},
+	// IT服务平台 - 签名服务 - K8S集群  - 容器
+	{
+		data: {
+			id: "signk8s1",
+			name: "TKE-DEV",
+			parent: "signK8SWrapper",
+			healthyStatus: "error",
+
+		},
+	},
+	{
+		data: {
+			id: "signk8s2",
+			name: "TKE-TEST",
+			parent: "signK8SWrapper",
+			healthyStatus: "error",
+		},
+	},
+	{
+		data: {
+			id: "signk8s3",
+			name: "TKE-PROD",
+			parent: "signK8SWrapper",
+			healthyStatus: "error",
+		},
+	},
+	// IT服务平台 - 签名服务 - K8S集群 - 容器  - IP
+	{
+		data: {
+			id: "signk8s1m",
+			name: "dev",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			id: "signk8s2m",
+			name: "test",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			id: "signk8s3m",
+			name: "prod",
+			healthyStatus: "normal",
+		},
+	},
+
+	// IT服务平台 - 签名服务 - ElasticSearch
+	{
+		data: {
+			id: "signESWrpper",
+			name: "ElasticSearchWrapper",
+			healthyStatus: "healthy",
+			isWrapper: true,
+		},
+	},
+	{
+		data: {
+			id: "signES",
+			name: "ElasticSearch",
+			isTitle: true,
+			parent: "signESWrpper",
+			healthyStatus: "healthy",
+			type: "es",
+		},
+	},
+	{
+		data: {
+			id: "signESpod1",
+			name: "集群一",
+			parent: "signESWrpper",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			id: "signESpod2",
+			name: "集群二",
+			parent: "signESWrpper",
+			healthyStatus: "healthy",
+		},
+	},
+
+	// IT服务平台 - 签名服务 - MYSQL
+	{
+		data: {
+			id: "signMYSQLWrpper",
+			name: "MYSQLWrapper",
+			healthyStatus: "normal",
+			isWrapper: true,
+		},
+	},
+	{
+		data: {
+			id: "signMYSQL",
+			name: "MYSQL",
+			isTitle: true,
+			parent: "signMYSQLWrpper",
+			healthyStatus: "normal",
+			type: "mysql",
+		},
+	},
+	{
+		data: {
+			id: "signMYSQLpod1",
+			name: "cluster-1",
+			parent: "signMYSQLWrpper",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			id: "signMYSQLpod2",
+			name: "cluster-2",
+			parent: "signMYSQLWrpper",
+			healthyStatus: "normal",
+		},
+	},
+
+	// IT服务平台 - 短信服务
+	{
+		data: {
+			id: "signSMSService",
+			name: "短信服务",
+			healthyStatus: "warn",
+			isPureTitle: true, // 没有图标，但是需要添加背景颜色   【参考设计图】
+
+		},
+	},
+	// IT服务平台 - 短信服务 - ElasticSearch
+	{
+		data: {
+			id: "signSMSESWrpper",
+			name: "SMSElasticSearchWrapper",
+			healthyStatus: "warn",
+			isWrapper: true,
+		},
+	},
+	{
+		data: {
+			id: "signSMSES",
+			name: "ElasticSearch",
+			isTitle: true,
+			parent: "signSMSESWrpper",
+			healthyStatus: "warn",
+			type: "es",
+		},
+	},
+	{
+		data: {
+			id: "signSMSESpod1",
+			name: "集群一",
+			parent: "signSMSESWrpper",
+			healthyStatus: "warn",
+		},
+	},
+	{
+		data: {
+			id: "signSMSESpod2",
+			name: "集群二",
+			parent: "signSMSESWrpper",
+			healthyStatus: "warn",
+		},
+	},
+
+	// IT服务平台 - 短信服务 - MYSQL
+	{
+		data: {
+			id: "signSMSMYSQLWrpper",
+			name: "MYSQLWrapper",
+			healthyStatus: "normal",
+			isWrapper: true,
+		},
+	},
+	{
+		data: {
+			id: "signSMSMYSQL",
+			name: "MYSQL",
+			isTitle: true,
+			parent: "signSMSMYSQLWrpper",
+			healthyStatus: "normal",
+			type: "mysql",
+		},
+	},
+	{
+		data: {
+			id: "signSMSMYSQLpod1",
+			name: "cluster-1",
+			parent: "signSMSMYSQLWrpper",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			id: "signSMSMYSQLpod2",
+			name: "cluster-2",
+			parent: "signSMSMYSQLWrpper",
+			healthyStatus: "normal",
+		},
+	},
+
+	// IT服务平台 - 网关服务
+	{
+		data: {
+			id: "signNetworkService",
+			name: "网关服务",
+			healthyStatus: "healthy",
+			isPureTitle: true, // 没有图标，但是需要添加背景颜色   【参考设计图】
+		},
+	},
+
+	// IT服务平台 - 网关服务 - K8S集群
+	{
+		data: {
+			id: "signNETK8SWrapper",
+			name: "signNETK8SWrapper",
+			healthyStatus: "healthy",
+			isWrapper: true,
+		},
+	},
+	{
+		data: {
+			id: "signNETK8S",
+			name: "k8s集群",
+			isTitle: true,
+			parent: "signNETK8SWrapper",
+			healthyStatus: "healthy",
+			type: "k8s",
+		},
+	},
+	{
+		data: {
+			id: "signNETk8sPod1",
+			name: "TKE-DEV",
+			parent: "signNETK8SWrapper",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			id: "signNETk8sPod2",
+			name: "TKE-TEST",
+			parent: "signNETK8SWrapper",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			id: "signNETk8sPod3",
+			name: "TKE-PROD",
+			parent: "signNETK8SWrapper",
+			healthyStatus: "healthy",
+		},
+	},
+
+	// IT服务平台 - 网关服务 - ElasticSearch
+	{
+		data: {
+			id: "signNETESWrpper",
+			name: "NETElasticSearchWrapper",
+			healthyStatus: "healthy",
+			isWrapper: true,
+		},
+	},
+	{
+		data: {
+			id: "signNETES",
+			name: "ElasticSearch",
+			isTitle: true,
+			parent: "signNETESWrpper",
+			healthyStatus: "healthy",
+			type: "es",
+		},
+	},
+	{
+		data: {
+			id: "signNETESpod1",
+			name: "集群一",
+			parent: "signNETESWrpper",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			id: "signNETESpod2",
+			name: "集群二",
+			parent: "signNETESWrpper",
+			healthyStatus: "healthy",
+		},
+	},
+
+	// IT服务平台 - 网关服务 - MYSQL
+	{
+		data: {
+			id: "signNETMYSQLWrpper",
+			name: "MYSQLWrapper",
+			healthyStatus: "healthy",
+			isWrapper: true,
+		},
+	},
+	{
+		data: {
+			id: "signNETMYSQL",
+			name: "MYSQL",
+			isTitle: true,
+			parent: "signNETMYSQLWrpper",
+			healthyStatus: "healthy",
+			type: "mysql",
+		},
+	},
+	{
+		data: {
+			id: "signNETMYSQLpod1",
+			name: "cluster-1",
+			parent: "signNETMYSQLWrpper",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			id: "signNETMYSQLpod2",
+			name: "cluster-2",
+			parent: "signNETMYSQLWrpper",
+			healthyStatus: "healthy",
+		},
+	},
+];
+
+const rawDataEdges = [
+	{
+		data: {
+			source: "itServicePlatForm",
+			target: "signService",
+			healthyStatus: "error",
+		},
+	},
+	// 签名服务-物理机/虚拟机
+	{
+		data: {
+			source: "signService",
+			target: "itwoke-log-01",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			source: "signService",
+			target: "itwoke-log-02",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			source: "signService",
+			target: "k8s-iuhjlk-01",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			source: "signService",
+			target: "k8s-iuhjlk-02",
+			healthyStatus: "normal",
+		},
+	},
+	// // 签名服务-物理机/虚拟机 - IP
+	{
+		data: {
+			source: "itwoke-log-02",
+			target: "IP: 192.168.3.8",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			source: "k8s-iuhjlk-01",
+			target: "IP: 28.23.3.1",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			source: "k8s-iuhjlk-02",
+			target: "IP: 28.23.3.1",
+			healthyStatus: "normal",
+		},
+	},
+
+	// 签名服务 - k8s集群
+
+	{
+		data: {
+			source: "signService",
+			target: "signk8s1",
+			healthyStatus: "error",
+		},
+	},
+	{
+		data: {
+			source: "signService",
+			target: "signk8s2",
+			healthyStatus: "error",
+		},
+	},
+	{
+		data: {
+			source: "signService",
+			target: "signk8s3",
+			healthyStatus: "error",
+		},
+	},
+
+	// 签名服务 - k8s集群 - pod
+	{
+		data: {
+			source: "signk8s1",
+			target: "signk8s1m",
+			healthyStatus: "error",
+		},
+	},
+	{
+		data: {
+			source: "signk8s2",
+			target: "signk8s2m",
+			healthyStatus: "error",
+		},
+	},
+	{
+		data: {
+			source: "signk8s3",
+			target: "signk8s3m",
+			healthyStatus: "error",
+		},
+	},
+
+	// 签名服务 - ElasticSearch
+	{
+		data: {
+			source: "signService",
+			target: "signESpod1",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			source: "signService",
+			target: "signESpod2",
+			healthyStatus: "healthy",
+		},
+	},
+
+	// 签名服务 -  mysql
+	{
+		data: {
+			source: "signService",
+			target: "signMYSQLpod1",
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			source: "signService",
+			target: "signMYSQLpod2",
+			healthyStatus: "normal",
+		},
+	},
+
+	// 短信服务
+	{
+		data: {
+			source: "itServicePlatForm",
+			target: "signSMSService",
+			healthyStatus: "warn",
+		},
+	},
+	// 短信服务 - Elastic Search
+	{
+		data: {
+			source: "signSMSService",
+			target: "signSMSESpod1",
+			healthyStatus: "warn",
+		},
+	},
+	{
+		data: {
+			source: "signSMSService",
+			target: "signSMSESpod2",
+			healthyStatus: "warn",
+		},
+	},
+	// 短信服务 - MYSQL
+	{
+		data: {
+			source: "signSMSService",
+			target: "signSMSMYSQLpod1",
+			// healthyStatus: 'warn'
+			healthyStatus: "normal",
+		},
+	},
+	{
+		data: {
+			source: "signSMSService",
+			target: "signSMSMYSQLpod2",
+			// healthyStatus: 'warn'
+			healthyStatus: "normal",
+		},
+	},
+
+	// 网关服务
+	{
+		data: {
+			source: "itServicePlatForm",
+			target: "signNetworkService",
+			healthyStatus: "healthy",
+		},
+	},
+
+	// 网关服务 - k8s集群
+	{
+		data: {
+			source: "signNetworkService",
+			target: "signNETk8sPod1",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			source: "signNetworkService",
+			target: "signNETk8sPod2",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			source: "signNetworkService",
+			target: "signNETk8sPod3",
+			healthyStatus: "healthy",
+		},
+	},
+
+	// 网关服务 - ElasticSearch
+	{
+		data: {
+			source: "signNetworkService",
+			target: "signNETESpod1",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			source: "signNetworkService",
+			target: "signNETESpod2",
+			healthyStatus: "healthy",
+		},
+	},
+	// 网关服务 - MYSQL
+	{
+		data: {
+			source: "signNetworkService",
+			target: "signNETMYSQLpod1",
+			healthyStatus: "healthy",
+		},
+	},
+	{
+		data: {
+			source: "signNetworkService",
+			target: "signNETMYSQLpod2",
+			healthyStatus: "healthy",
+		},
+	},
+];
+
+
+    new Vue({
+      el: "#app",
+      data: {
+        showLoading: false,
+        colorTips: [
+          { color: "#06C290", text: "100%" },
+          { color: "#5B8FF9", text: "80%~100%" },
+          { color: "#FF8D29", text: "60%~80%" },
+          { color: "#FF5757", text: "＜60%" },
+        ],
+        nodeChildrenMap: {},
+      },
+      props: {
+        selectedItemName: {
+          type: String,
+          default: "",
+        },
+        activeName: {
+          type: String,
+          default: "",
+        },
+      },      
+      watch: {
+        selectedItemName(val) {
+          if (_globalCyInstance && this.activeName === "zero") {
+            _globalCyInstance.destroy();
+            _globalCyInstance = null;
+          }
+          this.renderGraph(val);
+        },
+        activeName(val, oldVal) {
+          if (val === "zero" && oldVal !== "zero") {
+            if (_globalCyInstance) {
+              _globalCyInstance.destroy();
+              _globalCyInstance = null;
+            }
+            this.renderGraph(this.selectedItemName);
+          }
+        },
+      },
+      mounted() {
+        // this.renderGraph("");
+        // 默认加第一个
+        this.renderGraph("签名服务");
+      },
+      methods: {
+        // 根据关键字搜索到的nodes
+        getFilterNodes(key) {
+          const keyNode = rawDataNodes.find(item => item.data.name === key);
+          if (!keyNode) { return []; }
+          const keyId = keyNode.data.id;
+          const nodesArr = [];
+          const pushToNodesArr = (id) => {
+            const node = rawDataNodes.find(item => item.data.id === id);
+            if (!nodesArr.some(i => i.data.id === id)) {
+              nodesArr.push(node);
+            }
+          };
+
+          const helpFunc = (id) => {
+            const node = rawDataNodes.find(item => item.data.id === id);
+            // nodesArr.push(node);
+
+            // 如果有父亲节点 全部 加进去
+            // 如果有谁在父亲节点下面  全部也加进去
+            // 如果有target节点 全部加进去
+
+            // 1， 如果这个节点有父节点，将父节点加进来, layout依赖于顺序 所以必须这样做
+            if (node && node.data.parent) {
+              // const parentNode = rawDataNodes.find(item => item.id = node.parent);
+              pushToNodesArr(node.data.parent);
+
+              // 2, title节点也必须在 node之后
+              // title 节点的特性： parent 也是node.parent 但是 没有任何节点的target是这个  或者isTitle为true
+              const titleNode = rawDataNodes.find(item => item.data.parent === node.data.parent && item.data.isTitle === true);
+              if (titleNode) {
+                pushToNodesArr(titleNode.data.id);
+              }
+            }
+
+            // 3，将该节点添加到数组里面
+            pushToNodesArr(id);
+
+            // 通过这个node 找到所有以它为source的
+            const targets = rawDataEdges.filter(item => item.data.source === node.data.id);
+            targets.forEach(i => {
+              helpFunc(i.data.target);
+            });
+          };
+          helpFunc(keyId);
+          return nodesArr;
+        },
+        // 根据关键字搜索到的edges, edges只有单纯的source和target
+        getFilterEdges(key) {
+          const keyNode = rawDataNodes.find(item => item.data.name === key);
+          if (!keyNode) return [];
+          const keyId = keyNode.data.id;
+          const edgesArr = [];
+
+          const helpFunc = (id) => {
+            const edges = rawDataEdges.filter(item => item.data.source === id);
+            edgesArr.push(...edges);
+            edges.forEach(item => {
+              helpFunc(item.data.target);
+            });
+          };
+          helpFunc(keyId);
+          return edgesArr;
+        },
+        // node节点，如果含有子元素，需要添加一个标记,这个标记需要配合 data里面的对象查看添加一个 >> 标记
+        addHasChildrenTag(dataNodes, dataEdges) {
+          // 遍历所有的dataEdges, 然后给dataNodes里面包含 dataEdges key为 source的值的数据添加标记
+          const hasChildren = (key) => dataEdges.some(item => item.data.source === key);
+          dataNodes.forEach(item => {
+            if (hasChildren(item.data.id)) {
+              item.data.hasChildren = true;
+              item.data.collapse = false;
+            }
+          });
+          return dataNodes;
+        },
+        // 渲染图表
+        renderGraph(key) {
+          let dataNodes = [];
+          let dataEdges = [];
+          if (key === "") {
+            dataNodes = rawDataNodes;
+            dataEdges = rawDataEdges;
+          } else {
+            dataNodes = this.getFilterNodes(key);
+            dataEdges = this.getFilterEdges(key);
+            if (dataNodes.length === 0 && this.activeName === "zero") {
+              this.$message({
+                message: "     没有找到数据，请选择其他节点!",
+                type: "error",
+              });
+              return;
+            }
+          }
+          // 特定的图标
+          const iconMap = {
+            "machine": "iconfont icon-xuniji",
+            "k8s": "iconfont icon-bianzu18",
+            "es": "iconfont icon-icon_centos",
+            "mysql": "iconfont icon-mysql-",
+          };
+          // 特定的颜色
+          const colorMap = {
+            "error": "#FF5757",
+            "warn": "#FF8D29",
+            "normal": "#5B8FF9",
+            "healthy": "#06C290",
+          };
+          dataNodes = this.addHasChildrenTag(dataNodes, dataEdges);
+          this.showLoading = true;
+          setTimeout(() => {
+            const cy = cytoscape({
+              container: document.getElementById("cy"),
+              boxSelectionEnabled: true,
+              autounselectify: true,
+              autoungrabify: true,
+              zoom: 0.8,
+              minZoom: 0.2, // 能缩小到的最小限制
+              maxZoom: 1.4, // 能放大到的最大限制
+              // 布局指定
+              layout: {
+                name: "dagre",
+                rankDir: "LR",
+                minLen: 5,
+              },
+              // 指定节点的样式以及节点的label
+              style: [
+              // 非标题节点
+                {
+                  selector: "node[!isTitle]",
+                  css: {
+                    "content": "data(name)", // 因为node-html指定了返回的节点
+                    "text-valign": "center",
+                    "text-halign": "center",
+                    "shape": "rectangle",
+                    "border-width": 1,
+                    "padding-left": "5px",
+                    "padding-right": "5px",
+                    "padding-top": "3px",
+                    "padding-bottom": "3px",
+                    "border-color": ele => {
+                      const color = colorMap[ele.data("healthyStatus")];
+                      if (color) {
+                        return color;
+                      } else {
+                        return "transparent";
+                      }
+                    },
+                    "border-style": "solid",
+                    "color": ele => {
+                      if (ele.data("isPureTitle")) {
+                        return "white";
+                      } else {
+                        return "#333333";
+                      }
+                    },
+                    "width": "100%",
+                    "background-color": ele => {
+                      if (ele.data("isWrapper")) {
+                        return "white";
+                      } else if (ele.data("isPureTitle")) {
+                        return colorMap[ele.data("healthyStatus")];
+                      }
+                      return "white";
+                    },
+                    "text-background-padding": 20,
+                  },
+                },
+                {
+                  selector: "node",
+                  css: {
+                    "font-size": "16px",
+                    "width": "150",
+                  },
+                },
+                // 标题节点, isTitle为true的节点
+                {
+                  selector: "node[?isTitle]",
+                  css: {
+                    "padding-left": "5px",
+                    "padding-right": "5px",
+                    "padding-top": "3px",
+                    "padding-bottom": "3px",
+                    "background-color": ele => {
+                      const color = colorMap[ele.data("healthyStatus")];
+                      if (color) {
+                        return color;
+                      } else {
+                        return "transparent";
+                      }
+                    },
+                    "width": "180",
+                    "shape": "rectangle",
+                  },
+                },
+                {
+                  selector: "node[hasChildren]",
+                  css: {
+                    label: "",
+                  // label: ele => {
+                  // 	return ele.data("name") + "  >>";
+                  // },
+                  },
+                },
+                // 父节点
+                {
+                  selector: "$node > node",  // 父节点的选择器
+                  css: {
+                    "padding-top": "20px",
+                    "padding-left": "10px",
+                    "padding-bottom": "20px",
+                    "padding-right": "10px",
+                    "text-valign": "top",
+                    "text-halign": "center",
+                    "border-width": 1,
+                    "border-style": "dashed",
+                    "border-color": ele => colorMap[ele.data("healthyStatus")],
+                    "label": "", //  去掉parent在border外面的文本
+                    "min-width": "100%",
+                  },
+                },
+                {
+                  selector: "edge",
+                  css: {
+                    "width": 1.5,
+                    "line-color": ele => colorMap[ele.data("healthyStatus")],
+                    "target-arrow-color": ele => colorMap[ele.data("healthyStatus")],
+                    "target-arrow-shape": "triangle",
+                    "curve-style": "bezier",
+                  },
+                },
+                {
+                  selector: ":selected",
+                  css: {
+                    "background-color": "black",
+                    "line-color": "black",
+                    "target-arrow-color": "black",
+                    "source-arrow-color": "black",
+                  },
+                },
+              ],
+              elements: {
+                nodes: dataNodes,
+                edges: dataEdges,
+              },
+            });
+            // _globalCyInstance = cy;
+            // // node 节点 赋值HTML元素, 只是赋值父亲元素，query为node[isTitle]
+            // 如果其他节点也这样赋值，那么 'width:' label 将不会生效
+            cy.nodeHtmlLabel([
+              {
+                query: "node[isTitle]", // cytoscape query selector
+                halign: "center", // title vertical position. Can be 'left',''center, 'right'
+                valign: "center", // title vertical position. Can be 'top',''center, 'bottom'
+                halignBox: "center", // title vertical position. Can be 'left',''center, 'right'
+                valignBox: "center", // title relative box vertical position. Can be 'top',''center, 'bottom'
+                cssClass: "", // any classes will be as attribute of <div> container for every title
+                tpl(data) {
+                  if (data.isTitle) {
+                    return ` 
+                    <i style="color: white; margin-right: 3px; ${data.type === "mysql" ? "font-weight: bold" : ""} " class="${iconMap[data.type]}"></i><span style="color: white; font-size: 16px ">${data.name}</span>
+                  `;
+                  } else {
+                    return "";
+                  }
+                },
+              },
+              // 父亲节点
+              {
+                query: "$node > node", // 父节点的选择器
+                tpl() {
+                  return "";
+                },
+              },
+              {
+                query: "node[hasChildren]",
+                tpl(data) {
+                  return `
+                <div style="display:flex; align-items: center; padding: 7px; cursor: pointer;">
+                  <span style="font-size: 16px; font-weight: bold; margin-right: 5px;"> ${data.name} </span>
+                  <i class="el-icon-d-arrow-right" style="font-weight: bold; font-size: 16px;"></i>
+                </div>`;
+                },
+              },
+            ]);
+
+            cy.unbind("click", "node[hasChildren]");
+
+            // 给父亲节点绑定点击事件
+            cy.bind("click", "node[hasChildren]", (evt) => {
+              const currentNode = evt.target;
+              const currentNodeId = currentNode._private.data.id;
+              const successorNodes = cy.$(evt.target).successors();
+              if (successorNodes.length <= 0 && !this.nodeChildrenMap[currentNodeId]) {
+                return;
+              }
+              // 添加子节点到父节点里面
+              if (this.nodeChildrenMap[currentNodeId]) {
+                this.nodeChildrenMap[currentNodeId].restore();
+                // 异步删除，不然有问题
+                setTimeout(() => {
+                // PRD 环境会造成内存泄露 所以改用下面的方式
+                // this.nodeChildrenMap = Object.assign({
+                // 	...this.nodeChildrenMap,
+                // }, {
+                // 	[currentNodeId]: null,
+                // });
+                  this.nodeChildrenMap[currentNodeId] = null;
+                }, 0);
+              }
+
+              // 删除该节点的所有子节点
+              if (!this.nodeChildrenMap[currentNodeId]) {
+              // STEP 1 找到所有的后继节点
+                let coll = cy.$(evt.target).successors();
+                // 后继节点的Wrapper节点没有在successors里面
+                const parentNodes = new Set();
+                for (let i = 0; i < coll.length; i++) {
+                  if (coll[i].parent().length === 1) {
+                    parentNodes.add(coll[i].parent());
+                  }
+                }
+                // STEP 2 找到所有的Wrapper节点
+                const tempArr = [...parentNodes];
+                for (let j = 0; j < tempArr.length; j++) {
+                  const wrapperId = tempArr[j]._private.data.id;
+                  const newWrapper = cy.$(`#${wrapperId}`);
+                  coll = coll.union(newWrapper[0]);
+                }
+
+                // STEP 3 删掉所有的节点
+                const removes = cy.remove(coll);
+
+                // STEP 4 将删掉的节点存储，以便点击第二次还原
+                // PRD 环境会造成内存泄露 所以改用下面的方式
+                // this.nodeChildrenMap = Object.assign({
+                // 	...this.nodeChildrenMap,
+                // }, {
+                // 	[currentNodeId]: removes,
+                // });
+                this.nodeChildrenMap[currentNodeId] = removes;
+              }
+            });
+            this.showLoading = false;
+            const width = document.getElementById("cy").clientWidth;
+            const halfWidth = parseInt(width / 2);
+            setTimeout(() => {
+              if (key && key !== "IT服务平台") {
+                cy.animate({
+                  zoom: { level: 0.8 },
+                  pan: { x: 0, y: 0 },                   // 离左上角的坐标开始计算的
+                  pan: { x: (halfWidth - 400), y: 100 }, // 指定缩放之后 整个图所处的位置，缩放之后的定位
+                  // position: { x: 1100, y: 0 },        // 和pan指定是类似的，缩放之后所处的位置
+                });
+                return;
+              };
+              cy.animate({
+                zoom: {
+                  level: 0.8,
+                  position: { x: 1100, y: 0 },  // 和pan指定是类似的，缩放之后所处的位置，缩放之后的定位
+                },
+              });
+            }, 600);
+          }, 800);
+        },
+      },
+    })
+
+
+
+  </script>
+</body>
+</html>
