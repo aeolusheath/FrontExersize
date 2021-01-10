@@ -101,6 +101,7 @@ var isPalindrome = function (head) {
   return true
 }
 
+// 反转单链表 一
 function reverseLinkedList(head) {
   let prev = null
   while (head) {
@@ -111,3 +112,17 @@ function reverseLinkedList(head) {
   }
   return prev
 }
+// 反转单链表 二 【迭代】
+function reverseLinkedList(head) {
+  let x = null
+  let y = null
+  while (head) {
+    y = head.next
+    head.next = x
+    x = head
+    head = y
+  }
+  return x
+}
+
+// 反转单链表 三 

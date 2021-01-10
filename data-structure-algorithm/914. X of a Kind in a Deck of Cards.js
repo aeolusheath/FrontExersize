@@ -142,6 +142,7 @@ var hasGroupsSizeX = function(deck) {
 
 // 求两个数最大公约数，循环
 function getNum2(a, b) {
+  if (a * b < 0) return 1
   if (a ==0 || b == 0) return 0
   while( a % b != 0 ){
   　　var c = a % b;
@@ -157,10 +158,29 @@ function getNum2(a, b) {
 
 // 求两个数最大公约数，递归
 function getCd(a, b) {
-  // if (a == 0 || b == 0) return 0
-	return a == 0 ? b : getCd(b % a, a);
+  if (a == 0 || b == 0) return 0
+  if (a * b < 0) return 1
+  if( a % b ==0 ) {
+    return b;           //如果b能被a整除则b就是最大公约数
+  } else {
+    return getCd(b, a % b); 
+  }  
 }
 
 // 有细微区别，对于都是正数的情况结果是一致的
-console.log(getNum2(-3, 1)) 
-console.log(getCd(-3, 1))
+console.log(getNum2(-5, 4)) 
+console.log(getCd(-5, 4))
+
+
+
+var getGroupsCd = (arr) => {
+  if (!arr || arr.length < 1) return null
+  if (arr.length === 1) return arr[0]
+  let init = getCd(arr[0], arr[1]) 
+  for (let i = 2; i < arr.length; i++) {
+    init = getCd(init, arr[i])
+  }
+  return init
+}
+
+console.log(getGroupsCd([10,50,200]), "result")

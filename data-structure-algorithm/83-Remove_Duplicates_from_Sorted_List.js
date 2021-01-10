@@ -49,6 +49,7 @@ var deleteDuplicates = function(head) {
 
 
 // much better
+// 原地修改指针
 var deleteDuplicates = function(head) {
   let node = head
   while (node && node.next) {
@@ -59,4 +60,19 @@ var deleteDuplicates = function(head) {
     }
   }
   return head
+}
+
+// 前一个元素修改指针 2021-01-10
+var deleteDuplicates = function(head) {
+  if (!head) return null
+  let node = new ListNode()
+  node.next =head
+  pre = node
+  while(node.next != null && node.next.next!=nil) {
+    while(node.next != null && node.next.next!=nil && node.next.val == node.next.next.val) {
+      node.next = node.next.next
+    }
+    node = node.next
+  }
+  return pre.next
 }

@@ -11,42 +11,26 @@ A linked list can be reversed either iteratively or recursively. Could you imple
  *
  */
 
- // wrong - where is temp
-function reverseLinkedList(head) {
-  let prev = null
-  while (head) {
-    let temp = head.next
-    head.next = prev
-    prev = head
-    head = temp
-  }
-  return temp
+ // 循环
+var reverseLinkedList = (head) => {
+ let x 
+ let y
+ while (head) {
+    y = head.next
+    head.next = x
+    x = head
+    head = y
+ }
+ return x
 }
 
-
-var reverseList =  (head) => {
-  if (!head) return null
-  let prev = null
-  let node = head
-  while (node.next != null) {      
-      let temp = node.next
-      node.next = prev
-      prev = node
-      node = temp
+// 递归
+var reverseLinkedList = (head) => {
+  if (!head || !head.next) {
+    return head
   }
-  node.next = prev
-  return node
-}
-
-var reverseList = (head) => {
-  if (!head) return null
-  let prev = null
-  let node = head
-  while(node) {
-    let temp = node.next
-    node.next = prev
-    prev = node
-    node = temp
-  }
-  return prev // 这里是返回prev ，注意while的循环结束
-}
+  let newHead = reverseLinkedList(head.next)
+  head.next.next = head
+  head.next = null
+  return newHead
+ }

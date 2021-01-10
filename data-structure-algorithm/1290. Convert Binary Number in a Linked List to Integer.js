@@ -51,6 +51,7 @@
  * @return {number}
  */
 // 方法一
+// 二进制转换为十进制 可以逆向 也可以正向
 var getDecimalValue = function(head) {
   let arr = [] 
   let p = head
