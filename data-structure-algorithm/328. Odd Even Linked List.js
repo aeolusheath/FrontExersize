@@ -182,6 +182,52 @@ var oddEvenList = function(head) {
 }
 
 
+var oddEvenList = function(head) {
+  if (!head) return null
+  let i = 1
+  let node = head
+  // let oddHead = null
+  // let evenodd = oddHead
+  // let evenHead = null
+  // let even = evenHead
+
+  let odd = null
+  let even = null
+
+  while(node) {
+    // 奇数
+    if ( i & 1) {
+      if (odd== null) {
+        odd = node
+      } else {
+        odd.next = node
+        odd = odd.next
+      }
+      
+    // 偶数
+    } else {
+      if (even== null) {
+        even = node
+      } else {
+        even.next = node
+        even = even.next
+      }
+    }
+    node = node.next
+  }
+
+  // head.next = head.next ? head.next.next : null
+        // console.log(node, "node")
+  if (even) {
+      even.next = null        
+  }
+  if (odd) {
+      odd.next = null
+  }
+  odd.next = evenHead
+  return head
+}
+
 
 
 

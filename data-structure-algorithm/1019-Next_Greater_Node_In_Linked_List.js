@@ -72,28 +72,39 @@ var nextLargerNodes = function(head) {
   return allValues
 };
 
-// 用一个栈存储索引，如果存在大于的就设置值？
-var nextLargerNodes = function(head) {
-  let arr = []  
-  while(head) {
-    arr.push(head.val)
-    head = head.next
-  }
+// 用普通的栈去处理这个问题
+// 用一个栈存储索引，如果存在大于该索引位置的值那么就直接弹出
+var nextLargerNodes2 = function(head) {
+  // let arr = []  
+  // while(head) {
+  //   arr.push(head.val)
+  //   head = head.next
+  // }
+  let arr = [2,7,4,3,5]
   let stack = []
-  let ret
+  let ret = []
   for (let i = 0, len = arr.length; i<len; i++) {
-    // 比如 5,4,3,6 这种情况，用暴力法就会浪费很多时间
-    while(stack.length && arr[stack[stack.length - 1] < arr[i]]) {
+
+    while(stack.length && arr[stack[stack.length - 1]] < arr[i]) {
       ret[stack.pop()] = arr[i]
     }
+    console.log(stack, "stacckkkkkk-------->>>>>>>")
     stack.push(i)
   }
   while(stack.length) {
-    ret[stack.pop()] = 0
+    let i = stack.pop()
+    console.log(i, ret[i], '2')
+    ret[i] = 0
   }
+  console.log(ret, "ret------;;;-------")
 }
 
-
+/**
+ * 
+ * [2,1,5]
+ * 
+ * 
+ */
 // 或者用一个map存储索引
 var nextLargerNodes = function(head) {
   let arr = []
@@ -119,3 +130,49 @@ var nextLargerNodes = function(head) {
   }
   return ret
 }
+
+
+// 应用知识，单调栈
+// 单调递增或者单调递减
+// 这个题目实际上
+/**
+ * 
+ * @param {*} head 
+ * [2,3,9] 插入 4
+ * 
+ * [4,9] ,4是左边最大的,
+ * 
+ * 
+ * 
+ * 
+ * 
+ * [2,7,4,3,5]
+ * 
+ */
+var nextLargerNodes = function(head) {
+  let arr = []
+  while(head) {
+    arr.push(head.val)
+  }
+  // arr  = [2, 7, 4 ,3, 5]
+  let stack = []
+  let ret = []
+  for (let i = arr.length - 1; i >= 0; i--) {
+    while(stack.length != 0 && stack[stack.length -1 ] <= arr[i]) {
+      stack.pop()
+    }
+
+    // 到这里，每一次stack必然只有1个数字 或者0个数字
+    // 如果只有一个数字，那么这个数字是大于arr[i]的数字
+    // 如果没有   数字，那么大于arr[i]的数字为0
+    console.log("1111", stack)
+    ret[i] = stack.length === 0 ? 0 :stack[stack.length - 1]
+    stack.push(arr[i])
+  }
+  console.log(ret, "ret-------->>>>>")
+  return ret
+}
+
+nextLargerNodes()
+
+nextLargerNodes2()

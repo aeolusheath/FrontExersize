@@ -67,3 +67,58 @@ var numComponents = function(head, G) {
   }
   return count
 };
+
+
+// 用set存储,就用数组也可以，和以前的方法一样，不太好
+var numComponents = function(head, G) {
+  let set = new Set(G)
+  let flag = false
+  let node = head
+  let id = 0
+  while(node) {
+    if (set.has(node.val) && flag == false){
+      flag = true
+      id++
+    }
+    if (!set.has(node.val)) {
+      flag = false
+    }
+    node = node.next
+  }
+  return id
+
+
+// 为啥行不通
+//  while(head && head.next) {
+//   const val = head.val
+//   if (set.has(val)) {
+//     idx++
+//   }
+
+//   while(set.has(head.next.val)) {
+//     head = head.next
+//   }
+//   // head = head.next
+
+// 没有走下去的原因，while代码块 和  下面的head = head.next代码块是互斥的
+// 没有找到解决办法，可以用一个标记flag去做
+}
+
+
+// 用官方的方法，就根据题意来
+// 如果下一个不在G里面，那么i++
+var numComponents = function(head, G) {
+  let node = head
+  let count = 0
+  let set = new Set(G)
+
+  while (node) {
+   if(set.has(node.val) && 
+      (node.next == null || set.has(node.next.vala))) 
+   {
+    count++
+   }
+   node = node.next
+  }
+  return count
+}
