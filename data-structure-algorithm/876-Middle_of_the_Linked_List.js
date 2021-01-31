@@ -54,6 +54,7 @@ var middleNode = function(head) {
 
 
 // amazing solution why ???
+// 快慢指针的一个应用
 var middleNode = function(head) {
   let left = head;
   let right = head;
