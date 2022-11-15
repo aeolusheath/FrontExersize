@@ -48,20 +48,33 @@ var fib = function(N) {
 };
  
 // 两个变量存储，不用重复计算
-var fib2 = function(N) {
- if (N <= 1) return N
- let i = 1;
- let a = 0; let b = 1;
- // 也可以用数组去存储每一个位置的值
- while (i++ < N - 1) {
-  let t = b
-  b = a + b
-  a = t
-  // 简洁但是不用
-  // [a, b] = [b, a + b]
-  // i++
- }
- return a + b
+var fib2 = function (N) {
+    if (N <= 1) return N
+    let i = 1;
+    let a = 0; let b = 1;
+    // 也可以用数组去存储每一个位置的值
+    while (i++ < N - 1) {
+        let t = b
+        b = a + b
+        a = t
+        // 简洁但是不用
+        // [a, b] = [b, a + b]
+        // i++
+    }
+    return a + b
+}
+
+var fib3 = function (n) {
+    if (!fib3.memo) {
+        fib3.memo = {
+            0: 0,
+            1: 1
+        }
+    }
+    if (n <= 1) { return fib3.memo(n) }
+    if (fib3.memo[n]) { return fib3.memo[n] }
+    fib3.memo[n] = fib3.memo[n-1] + fib3.memo[n-2]
+    return fib3.memo[n] 
 }
 
 console.log(fib2(2), 'kev')
