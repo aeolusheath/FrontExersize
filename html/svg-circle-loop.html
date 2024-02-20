@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+	height: 100vh;
+	position: relative;
+	background-color: #f5f5f5;
+	transform: rotate(-90deg)
+}
+
+svg,
+.logo { 
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+
+svg { z-index: 1 } 
+.logo {
+	z-index: 0;
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+
+
+	animation: fadeIn 0.75s linear forwards;
+	animation-delay: 1s;
+	border: 40px solid yellow;
+}
+
+.r { z-index: 0 }
+
+.circle {
+  stroke: red;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  /* animation: stroke 2s infinite ease-out forwards; */
+  animation: stroke 2s ease-out forwards;
+}
+
+@keyframes stroke {
+  0% {
+    stroke-dashoffset: 500;
+    /* stroke-dasharray: 500; */
+
+  }
+  30% {
+    /* stroke-dasharray: 250; */
+    /* stroke-dashoffset: 250; */
+  }
+  100% {
+    /* stroke-dasharray: 100 0; */
+    stroke-dashoffset: 0;
+  }
+  /* to {
+    stroke-dashoffset: 0;
+  } */
+}
+
+@keyframes fadeIn {
+	to {
+		opacity: 1;
+	}
+}
+
+
+
+    .d {
+      width: 100px;
+      height: 100px;
+      /* border-radius: 50%; */
+      border: 10px solid #ddd;
+      position: relative;
+      /* transform: rotate(-45deg); */
+      border-radius: 50%;
+    }
+    .h {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      /* border-radius: 50%; */
+      border: 10px solid yellow;
+      left: -10px;
+      /* top: 0; */
+      /* right: 0; */
+      bottom: -10px;
+      border-radius: 50%;
+      border-top: none;
+      /* transform: rotate(-90deg); */
+
+    }
+    </style>
+</head>
+<body>
+    <div> abc\tadasd</div>
+    <!-- 	<circle class=" r" cx="100" cy="100" r="95" stroke="#ddd" stroke-width="10" fill-opacity="0" /> -->
+
+    <!-- <svg height="200" width="200">
+        <circle class="circle" cx="100" cy="100" r="70" stroke="#231f20" stroke-width="40" fill-opacity="0" />
+    </svg>
+    <div class="logo"></div>  -->
+    
+
+
+
+    <div class="d">
+      <div class="h"> </div>
+    </div>
+</body>
+</html>

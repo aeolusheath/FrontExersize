@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>沿圆形轨迹运动</title>
+    <style type="text/css">
+/* .oak-loading {
+    display: inline-block;
+    position: relative;
+    width: 38px;
+    height: 38px;
+    box-sizing: border-box;
+    vertical-align: middle;
+
+
+
+    div {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        margin: 4px;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        animation: loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border-top-color: #FD7622;
+    }
+
+    &.small {
+        width: 30px;
+        height: 30px;
+        div {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+	&.mid {
+		width: 54px;
+        height: 54px;
+        div {
+            width: 18px;
+            height: 18px;
+            border-width: 4px;
+        }
+	}
+
+
+    &.large {
+        width: 54px;
+        height: 54px;
+        div {
+            width: 44px;
+            height: 44px;
+            border-width: 4px;
+        }
+    }
+
+    .oak-loading-v1 {
+        animation-delay: -0.45s;
+    }
+
+    .oak-loading-v2 {
+        animation-delay: -0.3s;
+    }
+
+    .oak-loading-v3 {
+        animation-delay: -0.15s;
+    }
+
+    @keyframes loading {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+} */
+
+
+
+    .oak-loading {
+        display: inline-block;
+    position: relative;
+    width: 38px;
+    height: 38px;
+    box-sizing: border-box;
+    vertical-align: middle; 
+    }
+
+    .oak-loading.mid {
+        width: 54px;
+        height: 54px;
+    }
+
+    .oak-loading.mid .view{
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        margin: 4px;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        animation: loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border-top-color: #FD7622;
+
+        width: 18px;
+            height: 18px;
+            border-width: 2px;
+    }
+
+
+    .oak-loading-v1 {
+        animation-delay: -0.45s;
+    }
+
+    .oak-loading-v2 {
+        animation-delay: -0.3s;
+    }
+
+    .oak-loading-v3 {
+        animation-delay: -0.15s;
+    }
+
+
+    @keyframes loading {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    </style>
+</head>
+<body>
+
+
+    <div class="oak-loading mid">
+        <div class="view" style=" position: absolute; width: 18px; height:18px; border-color: #ddd; "> </div>
+        <div class='oak-loading-v1 view'
+            style="border-top-color: red"></div>
+        <div class='oak-loading-v2 view'
+            style="border-top-color: red"></div>
+        <div class='oak-loading-v3 view'
+            style="border-top-color: red"></div>
+        <div class='oak-loading-v4 view'
+            style="border-top-color: red"></div>
+    </div>  
+
+</body>
+</html>

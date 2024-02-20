@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+.test {
+  margin: 25px 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 12px solid transparent;
+  background-size: 100% 100%, 50% 50%, 50% 50%, 50% 50%, 50% 50%;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(#ddd, #ddd), 
+                    linear-gradient(30deg, red 36%, lightgrey 30%),
+                    linear-gradient(120deg, yellow 36%, lightgrey 30%),
+                    linear-gradient(300deg, blue 36%, lightgrey 30%),
+                    linear-gradient(210deg, green 36%, lightgrey 30%);
+  background-position: center center, left top, right top, left bottom, right bottom;
+  background-origin: content-box, border-box, border-box, border-box, border-box;
+  background-clip: content-box, border-box, border-box, border-box, border-box;
+  transform: rotate(30deg);
+}
+
+    </style>
+</head>
+<body>
+    
+    <div class="test"> </div>
+</body>
+</html>

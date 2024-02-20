@@ -84,3 +84,9 @@ console.log(fib2(5), 'kev')
 console.log(fib2(6), 'kev')
 
 
+
+
+var x = 'myyh://yhlife.com/start/qiyu?cityname=%E4%B8%8A%E6%B5%B7&groupid=398800947&note=%C2%A5284.64&picture=http%3A%2F%2Fimage.yonghuivip.com%2F%2Fyh-image-library%2F7f3f40a9-ccec-4c8e-9543-a7b375846ba4.jpg%3FimageMogr2%2Fthumbnail%2F100x100&sellername=%E6%B0%B8%E8%BE%89%E8%B6%85%E5%B8%82&shopname=%E6%BC%95%E5%AE%9D%E8%B7%AF%E5%AE%9D%E9%BE%99%E5%BA%97&title=%E5%9B%BD%E9%A3%8E%E5%BD%A9%E9%92%BB2%23%E5%9C%86%E5%8C%99%E7%AD%89%E5%A4%9A%E6%AC%BE&url=myyh%3A%2F%2Fyhlife.com%2Fshow%2Fnative%3Fname%3Dorderdetail%26orderid%3D6204670210090060'
+
+
+console.log(decodeURIComponent(x))

@@ -1,0 +1,87 @@
+<!--
+ * @Author: lemon
+ * @Date: 2020-09-13 18:39:32
+ * @LastEditTime: 2020-09-13 20:00:32
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \React前端准备\JS基础\跑马灯.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style type="text/css">
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "\5FAE\8F6F\96C5\9ED1", Helvetica, sans-serif;
+        font-size: 14px;
+        -webkit-user-select: none;
+      }
+      #box {
+        margin: 50px auto;
+        padding: 0 10px;
+        width: 1000px;
+        height: 35px;
+        line-height: 35px;
+        border: 5px soild lightgreen;
+        background-color: lightsalmon;
+        float: left;
+      }
+      #box {
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      #warp div {
+        display: inline-block;
+      }
+      #box div span {
+        color: red;
+        font-weight: bold;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <div id="warp">
+        <div id="conBegin">
+          <span>通知：</span>
+          要得到你必须要付出，要付出你还要学会坚持，如果你真的觉得很难，那你就放弃, august august august august august august august august august august august august august august august august 
+        </div>
+        <!-- <div id="conEnd">
+          <span>通知：</span>
+          要得到你必须要付出，要付出你还要学会坚持，如果你真的觉得很难，那你就放弃，但是你放弃了就不要抱怨，我觉得人生就是这样，世界是公平的，每个人都是通过自己的努力，去决定自己生活的样子
+        </div> -->
+      </div>
+    </div>
+  </body>
+<script type="text/javascript">
+    var box = document.getElementById("box");
+    var conBegin = document.getElementById("conBegin");
+    var warp = document.getElementById("warp");
+    function move() {
+      var curLeft = box.scrollLeft;
+      var conBegin_width = parseInt(
+        window.getComputedStyle(conBegin, null).width
+      );
+      box.scrollLeft = curLeft + 1;
+      lastLeft = box.scrollLeft;
+      if (curLeft > conBegin_width) {
+        console.log(curLeft);
+        box.scrollLeft = 0;
+      }
+    }
+
+
+    var timer = window.setInterval(move, 10);
+    box.onmouseover = function () {
+      window.clearInterval(timer);
+    };
+    box.onmouseout = function () {
+      timer = window.setInterval(move, 10);
+    };
+  </script>
+</html>

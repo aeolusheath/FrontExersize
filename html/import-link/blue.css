@@ -1,0 +1,6 @@
+/* blue.css */
+@import url("./green.css");
+
+div{
+    background-color: blue;
+}

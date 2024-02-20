@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    ul {
+      padding: 0;
+    }
+
+    li {
+      padding: 1em;
+      list-style: none;
+    }
+
+    li:nth-child(odd) {
+      background-color: papayawhip;
+    }
+
+    #julie {
+      outline: 3px solid darkblue;
+    }
+  </style>
+</head>
+
+<body>
+
+  <ul>
+    <li id="l1">1</li>
+    <li id="l2">2</li>
+    <li id="l3">3</li>
+    <li id="l4">4</li>
+    <li id="l5">5</li>
+    <li id="l6">6</li>
+    <li id="l7">7</li>
+    <li id="l8">8</li>
+    <li id="l9">9</li>
+    <li id="l10">10</li>
+    <li id="l11">11</li>
+    <li id="l12">12</li>
+    <li id="l13">13</li>
+    <li id="l14">14</li>
+    <li id="l15">15</li>
+    <li id="l16">16</li>
+    <li id="l17">17</li>
+    <li id="l18">18</li>
+    <li id="l19">19</li>
+    <li id="l20">20</li>
+    <li id="l21">21</li>
+    <li id="l22">22</li>
+    <li id="l23">23</li>
+    <li id="l24">24</li>
+    <li id="l25">25</li>
+    <li id="l26">26</li>
+    <li id="l27">27</li>
+    <li id="l28">28</li>
+    <li id="l29">29</li>
+    <li id="l30">30</li>
+  </ul>
+  <script>
+
+    function log() {
+      console.log(arguments, '1111')
+      console.log(arguments.length)
+      console.log.apply(console, arguments);
+    };
+
+
+    log('girl')
+
+
+    function log2(...args) {
+      console.log(args, '2222')
+      console.log(args.length)
+      console.log.apply(console, args);
+    };
+
+
+    log2('boy')
+
+    const initData = [{
+      id: '1',
+      name: 'test1',
+      children: [
+        {
+          id: '11',
+          name: 'test11',
+          children: [
+            {
+              id: '111',
+              name: 'test111'
+            },
+            {
+              id: '112',
+              name: 'test112'
+            }
+          ]
+
+        },
+        {
+          id: '12',
+          name: 'test12',
+          children: [
+            {
+              id: '121',
+              name: 'test121'
+            },
+            {
+              id: '122',
+              name: 'test122'
+            }
+          ]
+        }
+      ]
+    }];
+
+
+    var fn = (value) => {
+      var a = []
+      var help = (data, initStr)=>{
+          for (let i =0; i < data.length; i++) {
+            var s = initStr ? (initStr + ',' + data[i].id) : data[i].id
+            if(value === data[i].id ) {
+              a = s.split(',')   
+            } 
+            if (data[i].children) {
+              help(data[i].children, s)
+            } 
+          }
+      }
+      help(initData, '')
+      return a
+    }
+    fn('11')
+
+    
+
+
+    function testaynsc() {
+      console.log('main stack')
+      setTimeout(() => {
+        console.log("1 in task queue one")
+        setTimeout(() => {
+          console.log("11 in task queue two")
+        }, 0)
+      }, 0)
+
+    setTimeout(() => {
+        console.log("2 in task queue one")
+        setTimeout(() => {
+          console.log("22 in task queue two")
+        }, 0)
+      }, 0)
+    }
+    testaynsc()
+
+  </script>
+</body>
+
+</html>

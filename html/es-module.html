@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Marked in the browser</title>
+  <script src="https://cdn.bootcss.com/marked/0.3.17/marked.min.js"></script>
+</head>
+<body>
+  <div id="content"></div>
+  <script type="module">
+    import N from './es-module.js'
+    console.log(N, 'N------')
+
+
+    setTimeout(()=>{
+      import('./es-modlue-2.js').then((module)=>{
+        console.log(module.default, 'module.default')
+        console.log(module.age, 'module.age')
+      })
+
+    }, 2000)
+  </script>
+</body>
+</html>

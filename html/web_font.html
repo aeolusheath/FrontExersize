@@ -10,9 +10,32 @@
     body {
       font-family: 'Roboto Mono', monospace;
     }
+    .b1 {
+      display: block;
+      border: 1px solid green;
+      margin-top: 20px;
+    }
+    .i1  {
+      display: inline-block;
+      border: 1px solid green;
+      height: 80px;
+    }
+    .i2 {
+      display: inline-block;
+      height: 50px;
+      border: 1px solid red;
+      width: 2px;
+    }
   </style>
+
 </head>
 <body>
+  <p>
+    <pre> asd
+      animation-delay
+    adad </pre>
+  </p>
+  abc<br/>ddd
   <h4>
     下面这个段落的字体，来自web fonts from google. awesome English font. this page's font is loaded by link.
     you can load by @import or jsFunction.  Refered to <a href="https://css-tricks.com/snippets/css/basics-of-google-font-api/">quotes1</a>
@@ -33,5 +56,33 @@
 
     tips: border-width 的默认值是 medium border-style 的默认值是 none border-color的默认值没有，但是他如果不设置则是集成自父亲的默认前景色。比如父元素设置的color为red，这里border就是red
   </div>
+
+
+  <div class="b1">
+    <div class="i1"></div>
+    <div class="i2"></div>
+  </div>
+
+  <script>
+    console.log('--------------')
+    function creacteJSON(name, layerID, keyPath, keyPathValue, type, layers) {
+        const json = {
+            name,
+            id: layerID,
+            keyPath,
+            keyPathValue,
+            type,
+            layers,
+        }
+        return json
+    }
+    const childData = creacteJSON('动效页面2', 'DJF832', 'floors[0]{key:gallery}.value[0].imgurl', '时令鲜蔬', [])
+    console.log(childData, '001')
+    const fileData = creacteJSON('动效页面', 'DJF832', 'floors[0]{key:gallery}.value[0].imgurl', '时令鲜蔬', [childData])
+    console.log(fileData, '002')
+    // const x = fileData.layers
+    // console.log(fileData.layers)
+
+  </script>
 </body>
 </html>

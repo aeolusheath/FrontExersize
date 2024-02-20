@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- 实例4. link标签引入blue.css，blue.css中引入green.css -->
+    <!-- <link rel="stylesheet" href="blue.css"> -->
+    <style>
+        .p {
+            display: block;
+        }
+        .s1 {
+            font-size: 30px;
+            color: red;
+            display: inline;
+        }
+        .s2 {
+            font-size: 24px;
+            color: red;
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 50px; height: 50px;"></div>
+    <!-- 盒子为蓝色背景，红色边框，即green.css已生效，但背景色被blue.css层叠为蓝色 -->
+
+
+
+    <div class="p">
+        <div class="s1">99</div>
+        <div class="s2">.68%</div>
+    </div>
+
+    <script>
+
+let f
+let o = 10
+function a(o) {
+  if (!f) {
+    f = () =>{
+      console.log('console f', o)
+    }
+  } else {
+    console.log('f true', o)
+  }
+    o += 1
+    f()
+  }
+  a(1)
+
+//   a(5)
+
+
+var b = 1
+
+function c() {
+    // alert(b)
+    var b = 2
+    // alert(b)
+}
+c()
+
+
+var getPromise = ()=>{
+  return new Promise((resolve, reject)=>{
+    reject('???')
+  })
+}
+getPromise().then((res)=>{
+  console.log(res, '123')
+}).catch((err)=>{
+  console.error(err, '123')
+})
+
+    </script>
+</body>
+</html>
